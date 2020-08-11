@@ -19,6 +19,56 @@ body {
         right: 0;
         top: 0;
         bottom: 0;
+        #sider {
+            .sider-info {
+                color: #d5d5d5;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                font-size: 12px;
+                padding-top: 50px;
+                .greet {
+                    font-size: 14px;
+                    padding: 10px 0;
+                }
+                .career {
+                    padding: 20px 0;
+                }
+                .avatar {
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid #d5d5d5;
+                }
+                .menu {
+                    text-align: center;
+                    li {
+                        padding: 10px 0;
+                        a {
+                            font-size: 12px;
+                            color: #d5d5d5;
+                            padding: 5px 0;
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+                .contact {
+                    padding-top: 20px;
+                    a {
+                        color: #d5d5d5;
+                        padding: 0 5px;
+                        i {
+                            font-size: 24px;
+                        }
+                        &:hover {
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
         #header {
             background-color: #fff;
             padding: 0;

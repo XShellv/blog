@@ -32,7 +32,71 @@ export default function Home() {
           trigger={null}
           collapsed={close}
         >
-          Sider
+          <div className="sider-info">
+            <Avatar
+              className="avatar"
+              src="https://xshellv.com/static/images/avatar.jpg"
+            />
+            <p className="greet">Hi,I am Xshellv</p>
+            <p className="career">职业：设计师、前端开发工程师</p>
+            <ul className="menu">
+              <li>
+                <Link href="design">首页</Link>
+              </li>
+              <li>
+                <Link href="design">开发</Link>
+              </li>
+              <li>
+                <Link href="design">设计</Link>
+              </li>
+              <li>
+                <Link href="design">归档</Link>
+              </li>
+              <li>
+                <Link href="design">设计</Link>
+              </li>
+              <li>
+                <Link href="design">关于我</Link>
+              </li>
+            </ul>
+            <div className="contact">
+              <a
+                target="blank"
+                href="https://www.facebook.com/xiaowu.xu.90"
+                title="twitter"
+              >
+                <i className="iconfont">&#xe601;</i>
+              </a>
+              <a
+                target="blank"
+                href="https://blog.csdn.net/weixin_40774527"
+                title="CSDN"
+              >
+                <i className="iconfont">&#xeee4;</i>
+              </a>
+              <a
+                target="blank"
+                href="https://www.jianshu.com/u/dfed43ff08bc"
+                title="简书"
+              >
+                <i className="iconfont">&#xeee5;</i>
+              </a>
+              <a
+                target="blank"
+                href="https://www.zhihu.com/people/yu-zi-jiang-54-7/activities"
+                title="知乎"
+              >
+                <i className="iconfont">&#xe600;</i>
+              </a>
+              <a
+                target="blank"
+                href="https://github.com/xshellv"
+                title="github"
+              >
+                <i className="iconfont">&#xeee2;</i>
+              </a>
+            </div>
+          </div>
         </Sider>
         <Layout className="body-layout">
           <Header id="header">
