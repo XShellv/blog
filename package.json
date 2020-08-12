@@ -7,9 +7,11 @@
     "start": "cross-env NODE_ENV=production node dist/index.js"
   },
   "dependencies": {
+    "@koa/router": "^8.0.7",
     "antd": "^4.5.3",
     "babel-plugin-import": "^1.13.0",
     "cross-env": "^7.0.2",
+    "koa": "^2.13.0",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -41,22 +41,22 @@ export default function Home() {
             <p className="career">职业：设计师、前端开发工程师</p>
             <ul className="menu">
               <li>
-                <Link href="design">首页</Link>
+                <Link href="design"><a>首页</a></Link>
               </li>
               <li>
-                <Link href="design">开发</Link>
+                <Link href="design"><a>开发</a></Link>
               </li>
               <li>
-                <Link href="design">设计</Link>
+                <Link href="design"><a>设计</a></Link>
               </li>
               <li>
-                <Link href="design">归档</Link>
+                <Link href="design"><a>归档</a></Link>
               </li>
               <li>
-                <Link href="design">设计</Link>
+                <Link href="design"><a>设计</a></Link>
               </li>
               <li>
-                <Link href="design">关于我</Link>
+                <Link href="design"><a>关于我</a></Link>
               </li>
             </ul>
             <div className="contact">
