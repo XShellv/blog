@@ -48,7 +48,7 @@ const Achieve: NextPage<IAchieve> = () => {
                     );
                   }
                   return (
-                    <Timeline.Item key={s.id}>{i !== 0 && s.title}</Timeline.Item>
+                    <Timeline.Item color="gray" key={s.id}>{i !== 0 && s.title}</Timeline.Item>
                   );
                 });
               })}

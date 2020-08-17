@@ -3,36 +3,37 @@ import Link from "next/link";
 import { Layout, Menu } from "antd";
 const { Header, Footer, Content } = Layout;
 import moment from "moment";
+import { withRouter } from "next/router";
 
 const menuOptions = [
   {
     name: "首页",
     path: "/",
-    key: "首页",
+    key: "/",
     icon: <i className="iconfont">&#xe605;</i>,
   },
   {
     name: "开发",
     path: "/develop",
-    key: "开发",
+    key: "/develop",
     icon: <i className="iconfont">&#xe962;</i>,
   },
-//   {
-//     name: "设计",
-//     path: "/design",
-//     key: "设计",
-//     icon: <i className="iconfont">&#xe62a;</i>,
-//   },
+  //   {
+  //     name: "设计",
+  //     path: "/design",
+  //     key: "设计",
+  //     icon: <i className="iconfont">&#xe62a;</i>,
+  //   },
   {
     name: "归档",
     path: "/achieve",
-    key: "归档",
+    key: "/achieve",
     icon: <i className="iconfont">&#xe604;</i>,
   },
   {
     name: "关于我",
     path: "/about",
-    key: "关于我",
+    key: "/about",
     icon: <i className="iconfont">&#xe646;</i>,
   },
 ];
@@ -52,7 +53,7 @@ const gap = () => {
     D: D < 10 ? `0${D}` : D,
   };
 };
-const CustomLayout: React.FC = ({ children }) => {
+const CustomLayout: React.FC = ({ children, router }) => {
   return (
     <div id="layout">
       <Header id="header">
@@ -61,12 +62,19 @@ const CustomLayout: React.FC = ({ children }) => {
             <span className="iconfont">&#xe603;</span>Xshellv Blog
           </a>
         </Link>
-        <Menu mode="horizontal" className="menu" theme="dark">
+        <Menu
+          mode="horizontal"
+          className="menu"
+          theme="dark"
+          selectedKeys={[router.pathname]}
+        >
           {menuOptions.map((op) => {
             return (
-              <Menu.Item key={op.key} icon={op.icon}>
+              <Menu.Item key={op.key} className="menu-item">
                 <Link href={op.path}>
-                  <a>{op.name}</a>
+                  <a>
+                    {op.icon} {op.name}
+                  </a>
                 </Link>
               </Menu.Item>
             );
@@ -105,4 +113,4 @@ const CustomLayout: React.FC = ({ children }) => {
   );
 };
 
-export default CustomLayout;
+export default withRouter(CustomLayout);
