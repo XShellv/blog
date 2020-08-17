@@ -1,5 +1,8 @@
 import 'antd/dist/antd.css';
-import '../style/index.scss';
+import 'gitalk/dist/gitalk.css'
+import "github-markdown-css";
+import '../style/index.less';
+
 
 import type { AppProps /*, AppContext */ } from 'next/app'
 

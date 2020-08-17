@@ -16,7 +16,16 @@
       {
         "libraryName": "antd",
         "libraryDirectory": "lib",
-        "style": "index.css"
+        "style": true
+      }
+    ],
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@/components": "components",
+          "@/layout": "layout"
+        }
       }
     ]
   ]
