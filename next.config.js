@@ -16,7 +16,7 @@ module.exports = withCss(
   withLess({
     lessLoaderOptions: {
       javascriptEnabled: true,
-      modifyVars: themeVariables, // make your antd custom effective
+    //   modifyVars: themeVariables, // make your antd custom effective
     },
     webpack: (config, { isServer }) => {
       if (isServer) {

@@ -1,4 +1,3 @@
-import 'antd/dist/antd.less';
 import 'gitalk/dist/gitalk.css'
 import "github-markdown-css";
 import '../style/index.less';

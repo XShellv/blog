@@ -41,7 +41,6 @@ const Achieve: NextPage<IAchieve> = () => {
                       <Timeline.Item
                         key={s.id}
                         dot={<i className="iconfont">&#xe64b;</i>}
-                        color="red"
                       >
                         {s.updatedAt}
                       </Timeline.Item>
