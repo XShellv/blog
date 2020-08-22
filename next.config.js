@@ -16,7 +16,7 @@ module.exports = withCss(
   withLess({
     lessLoaderOptions: {
       javascriptEnabled: true,
-    //   modifyVars: themeVariables, // make your antd custom effective
+      //   modifyVars: themeVariables, // make your antd custom effective
     },
     webpack: (config, { isServer }) => {
       if (isServer) {
@@ -38,6 +38,20 @@ module.exports = withCss(
           use: "null-loader",
         });
       }
+      config.module.rules.push({
+        enforce: "pre",
+        test: /\.less$/,
+        use: [
+          {
+            loader: "sass-resources-loader",
+            options: {
+              resources: [
+                path.resolve("./style/abstracts/variables.less"),
+              ],
+            },
+          },
+        ],
+      });
       return config;
     },
   })

@@ -6,6 +6,7 @@ import CustomTag from "@/components/CustomTag";
 import api from "../lib/api";
 import { useEffect, useRef } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import moment from "moment";
 import { BackTop, Space, Timeline, Card } from "antd";
 import tags from "./tags.json";
@@ -47,7 +48,15 @@ const Achieve: NextPage<IAchieve> = () => {
                     );
                   }
                   return (
-                    <Timeline.Item color="gray" key={s.id}>{i !== 0 && s.title}</Timeline.Item>
+                    <Timeline.Item color="gray" key={s.id}>
+                      {i !== 0 && (
+                        <>
+                          <Link href="/article">{s.title}</Link>
+                          <br />
+                          <span className="time">2020年05月20日</span>
+                        </>
+                      )}
+                    </Timeline.Item>
                   );
                 });
               })}
