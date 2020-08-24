@@ -1,6 +1,8 @@
 import {useEffect} from "react";
+import {ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
 import 'gitalk/dist/gitalk.css'
-import "github-markdown-css";
+// import "github-markdown-css";
 import '../style/index.less';
 import type { AppProps /*, AppContext */ } from 'next/app'
 
@@ -15,7 +17,11 @@ useEffect(()=>{
     setRem()
     window && window.addEventListener('resize',setRem)
 })
-  return <Component {...pageProps} />
+  return(
+    <ConfigProvider locale={zhCN}>
+      <Component {...pageProps} />
+      </ConfigProvider>
+  )
 }
 
 export default MyApp

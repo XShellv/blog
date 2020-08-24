@@ -17,7 +17,7 @@ interface IAchieve {
 }
 const Achieve: NextPage<IAchieve> = () => {
   return (
-    <div>
+    <div id="achieve-wrapper">
       <Head>
         <title>归档</title>
         <meta property="og:title" content="My page title" key="about" />
@@ -27,7 +27,7 @@ const Achieve: NextPage<IAchieve> = () => {
           <div className="tags">
             {tags.map((t) => (
               <CustomTag key={t.tagName}>
-                {t.tagName} {t.count}
+                {t.tagName} ({t.count})
               </CustomTag>
             ))}
           </div>

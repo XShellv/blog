@@ -2,7 +2,7 @@ import { Tag } from "antd";
 
 const CustomTag: React.FC = ({ children }) => {
   return (
-    <Tag>
+    <Tag className="customTag" color="red">
       {children}
     </Tag>
   );

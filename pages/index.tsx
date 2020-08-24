@@ -59,6 +59,7 @@ const ArticleCard = () => {
         中的方法生成对应的位置的 notification component来实现的。
       </p>
       <CustomTag>React</CustomTag>
+      <CustomTag>阿里巴巴</CustomTag>
     </Card>
   );
 };
