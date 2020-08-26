@@ -1,14 +1,10 @@
-import { NextPage, NextPageContext } from "next";
-import MarkdownRenderer from "@/components/MarkdownRenderer";
-import Comment from "@/components/Comment";
+import { NextPage } from "next";
 import CustomLayout from "@/layout/Layout.tsx";
 import CustomTag from "@/components/CustomTag";
 import api from "../lib/api";
-import { useEffect, useRef } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import moment from "moment";
-import { BackTop, Space, Timeline, Card } from "antd";
+import { Timeline, Card } from "antd";
 import tags from "./tags.json";
 import time from "./time.json";
 
@@ -68,11 +64,11 @@ const Achieve: NextPage<IAchieve> = () => {
   );
 };
 
-interface Context extends NextPageContext {
-  // any modifications to the default context, e.g. query types
-}
+// interface Context extends NextPageContext {
+//   // any modifications to the default context, e.g. query types
+// }
 
-Achieve.getInitialProps = async (ctx: Context) => {
+Achieve.getInitialProps = async () => {
   const resp = await api.request({ url: `/ab` });
   return {
     markdownStr: resp.data,

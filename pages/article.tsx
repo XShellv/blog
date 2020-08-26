@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import Comment from "@/components/Comment";
 import CustomLayout from "@/layout/Layout.tsx";
@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import { useEffect, useRef } from "react";
 import Head from "next/head";
 import moment from "moment";
-import { BackTop, Avatar, Tag, Card } from "antd";
+import { BackTop, Avatar, Card } from "antd";
 
 interface IArticle {
   markdownStr: string;
@@ -95,11 +95,11 @@ const Article: NextPage<IArticle> = ({ markdownStr }) => {
   );
 };
 
-interface Context extends NextPageContext {
-  // any modifications to the default context, e.g. query types
-}
+// interface Context extends NextPageContext {
+//   // any modifications to the default context, e.g. query types
+// }
 
-Article.getInitialProps = async (ctx: Context) => {
+Article.getInitialProps = async () => {
   const resp = await api.request({ url: `/md` });
   return {
     markdownStr: resp.data,

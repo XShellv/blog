@@ -1,12 +1,10 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import CustomLayout from "@/layout/Layout.tsx";
 import Comment from "@/components/Comment";
 import api from "../lib/api";
-import { useEffect, useRef } from "react";
 import Head from "next/head";
-import moment from "moment";
-import { BackTop, Card } from "antd";
+import { Card } from "antd";
 
 interface IAbout {
   markdownStr: string;
@@ -31,11 +29,11 @@ const About: NextPage<IAbout> = ({ markdownStr }) => {
   );
 };
 
-interface Context extends NextPageContext {
-  // any modifications to the default context, e.g. query types
-}
+// interface Context extends NextPageContext {
+//   // any modifications to the default context, e.g. query types
+// }
 
-About.getInitialProps = async (ctx: Context) => {
+About.getInitialProps = async () => {
   const resp = await api.request({ url: `/ab` });
   return {
     markdownStr: resp.data,

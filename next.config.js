@@ -14,6 +14,7 @@ const themeVariables = lessToJS(
 
 module.exports = withCss(
   withLess({
+    cssModules: true,
     lessLoaderOptions: {
       javascriptEnabled: true,
       //   modifyVars: themeVariables, // make your antd custom effective

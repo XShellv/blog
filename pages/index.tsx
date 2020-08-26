@@ -1,13 +1,18 @@
-import { useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { Card, Avatar, Pagination } from "antd";
 import CustomLayout from "@/layout/Layout.tsx";
 import CustomTag from "@/components/CustomTag.tsx";
+import styles from "./index.module.less";
+console.log(styles);
 
 export default function Home() {
-  const [close, setClose] = useState(false);
+  // const [close, setClose] = useState(false);
   return (
     <div id="home-wrapper">
+      <Head>
+        <style dangerouslySetInnerHTML={{__html:styles.hello}}></style>
+      </Head>
       <CustomLayout>
         <div className="list">
           <ArticleCard />
@@ -35,7 +40,9 @@ const ArticleCard = () => {
   return (
     <Card bordered={false} className="list-item">
       <h1 className="home-card-title">
-        <Link href="/article"><a>Antd 是怎么使用 React 制作 notification 组件</a></Link>
+        <Link href="/article">
+          <a>Antd 是怎么使用 React 制作 notification 组件</a>
+        </Link>
       </h1>
       <div className="home-card-extra">
         <Avatar

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Tag } from "antd";
 
 const CustomTag: React.FC = ({ children }) => {

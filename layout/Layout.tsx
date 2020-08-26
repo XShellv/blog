@@ -53,7 +53,7 @@ const gap = () => {
     D: D < 10 ? `0${D}` : D,
   };
 };
-const CustomLayout: React.FC = ({ children, router }) => {
+const CustomLayout: React.FC<any> = ({ children, router }) => {
   return (
     <div id="layout">
       <Header id="header">

@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js"
+    "start": "cross-env NODE_ENV=production node dist/server/index.js"
   },
   "dependencies": {
     "@koa/router": "^8.0.7",
@@ -35,7 +35,6 @@
     "@types/node": "^12.0.12",
     "@types/react": "^16.9.44",
     "@types/react-dom": "^16.9.8",
-    "babel-plugin-module-resolver": "^4.0.0",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "3.8.3"
