@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { useState } from "react";
 const link_1 = __importDefault(require("next/link"));
 const antd_1 = require("antd");
 const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
@@ -30,7 +29,9 @@ exports.default = Home;
 const ArticleCard = () => {
     return (<antd_1.Card bordered={false} className="list-item">
       <h1 className="home-card-title">
-        <link_1.default href="/article"><a>Antd 是怎么使用 React 制作 notification 组件</a></link_1.default>
+        <link_1.default href="/article">
+          <a>Antd 是怎么使用 React 制作 notification 组件</a>
+        </link_1.default>
       </h1>
       <div className="home-card-extra">
         <antd_1.Avatar className="home-card-extra-avatar" src="https://xshellv.com/static/images/avatar.jpg"/>
