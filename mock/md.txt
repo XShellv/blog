@@ -2,14 +2,6 @@
 
 >通过了解 `antd` 的制作方法以及观看源码，完成组件的简单实现；
 
-## 目录
-1. [中心思想](https://juejin.im/post/5dfa551bf265da33e347f565#core-mind)
-2. [notification component](https://juejin.im/post/5dfa551bf265da33e347f565#notification-component)
-3. [notice component](https://juejin.im/post/5dfa551bf265da33e347f565#notice-component)
-4. [notification class](https://juejin.im/post/5dfa551bf265da33e347f565#notification-class)
-5. [message component](https://juejin.im/post/5dfa551bf265da33e347f565#notification-component)
-6. [参考资料](https://juejin.im/post/5dfa551bf265da33e347f565#reference)
-
 ## 一、以中心思想
 
 简单的来说就是使用 `notification component` 渲染出 `notice components`，然后使用 `notification class` 中的方法生成对应的位置的 `notification component`；
@@ -333,5 +325,5 @@ export default NotificationFactory;
 3.调用 `getNotificationInstance` 进行组件渲染，主要使用 `ReactDOM.render(<Notification {...props} ref={ref} />, div)` 将组件渲染到指定的 `DOM` 节点，这也是 `notification class` 的最主要的代码，为什么要使用 `ref`，因为还需要调用 `notification component` 的 `addNotice` 方法，但是因为使用了 `<Notification />` 的方式实例化了组件，所以如果需要获取到组件的实例，就需要用到 `ref`。
 
 ## 四、参考资料
-1. [antd-notification](https://github.com/ant-design/ant-design/blob/master/components/notification/index.tsx)
-2. [rc-notification](https://github.com/react-component/notification)
+1. [1. 阿里云网盘上线](https://github.com/ant-design/ant-design/blob/master/components/notification/index.tsx)
+2. [2. 对百度网盘的冲击](https://github.com/react-component/notification)

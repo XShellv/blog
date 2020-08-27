@@ -39,11 +39,13 @@ const ArticleCard = () => {
         </Link>
       </h1>
       <div className="home-card-extra">
-        <Avatar
+        {/* <Avatar
           className="home-card-extra-avatar"
           src="https://xshellv.com/static/images/avatar.jpg"
-        />
-        <span className="home-card-extra-time">2020年12月24日</span>
+        /> */}
+        <span 
+        className="home-card-extra-time"
+        >2020-12-24</span>
       </div>
 
       {/* <Link href={"/article?id=" + item.id} as={"/article/" + item.id}> */}

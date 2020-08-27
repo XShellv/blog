@@ -9,7 +9,6 @@ body {
     .list {
         .list-item {
             border-bottom: 1px solid #eee;
-            ;
         }
 
         .home-card-title {
@@ -21,7 +20,7 @@ body {
 
             .home-card-extra-time {
                 font-size   : @font-size-xs;
-                padding-left: 10px;
+                // padding-left: 10px;
             }
         }
 
@@ -39,5 +38,8 @@ body {
     .pagnization {
         display    : flex;
         align-items: center;
+        .ant-pagination-item-active a{
+            color: #fff;
+        }
     }
 }

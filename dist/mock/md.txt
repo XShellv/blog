@@ -2,14 +2,6 @@
 
 >通过了解 `antd` 的制作方法以及观看源码，完成组件的简单实现；
 
-## 目录
-1. [中心思想](https://juejin.im/post/5dfa551bf265da33e347f565#core-mind)
-2. [notification component](https://juejin.im/post/5dfa551bf265da33e347f565#notification-component)
-3. [notice component](https://juejin.im/post/5dfa551bf265da33e347f565#notice-component)
-4. [notification class](https://juejin.im/post/5dfa551bf265da33e347f565#notification-class)
-5. [message component](https://juejin.im/post/5dfa551bf265da33e347f565#notification-component)
-6. [参考资料](https://juejin.im/post/5dfa551bf265da33e347f565#reference)
-
 ## 一、以中心思想
 
 简单的来说就是使用 `notification component` 渲染出 `notice components`，然后使用 `notification class` 中的方法生成对应的位置的 `notification component`；

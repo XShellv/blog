@@ -57,29 +57,30 @@ const Article: NextPage<IArticle> = ({ markdownStr }) => {
 
       <CustomLayout>
         <Card bordered={false}>
-          <div
-            className="article-header"
-            style={{
-              backgroundImage: `url(https://prismjs.com/assets/img/spectrum.png)`,
-            }}
-          ></div>
-
-          <h1>Antd 是怎么使用 React 制作 notification 组件</h1>
-          <CustomTag>React</CustomTag>
-          <CustomTag>css</CustomTag>
-          <CustomTag>javascript</CustomTag>
+          <h1 className="article-title">Antd 是怎么使用 React 制作 notification 组件</h1>
+          <div>
+            <CustomTag>React</CustomTag>
+            <CustomTag>css</CustomTag>
+            <CustomTag>javascript</CustomTag>
+          </div>
           {/* <CustomTag>哈哈</CustomTag> */}
           <p className="article-info">
-            <span>
+            {/* <span>
               <Avatar
                 shape="circle"
                 className="avatar"
                 src="https://xshellv.com/static/images/avatar.jpg"
               />
               Xshellv
-            </span>
+            </span> */}
             <span className="time">{moment().format("YYYY年MM月DD日")}</span>
           </p>
+          <div
+            className="article-header"
+            style={{
+              backgroundImage: `url(https://prismjs.com/assets/img/spectrum.png)`,
+            }}
+          ></div>
 
           <div className="article-content">
             <MarkdownRenderer html={markdownStr} ref={articleRef} />
