@@ -6,7 +6,7 @@
 
 .markdown-body .anchor {
   float        : left;
-  line-height  : 1;
+  line-height  : @line-height-base;
   margin-left  : -20px;
   padding-right: 4px;
 }
@@ -58,13 +58,13 @@
 }
 
 .markdown-body {
+  text-align              : justify;
   -ms-text-size-adjust    : 100%;
   -webkit-text-size-adjust: 100%;
-  line-height             : 1.5;
+  line-height             : @line-height-base;
   color                   : #24292e;
   font-family             : -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
   font-size               : @font-size-bs;
-  line-height             : 1.5;
   word-wrap               : break-word;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .markdown-body h1 {
-  font-size: 2em;
+  font-size: @h1-font-size;
   margin   : .67em 0;
 }
 
@@ -103,7 +103,7 @@
 .markdown-body kbd,
 .markdown-body pre {
   font-family: monospace, monospace;
-  font-size  : 1em;
+  font-size  : @font-size-xs;
 }
 
 .markdown-body hr {
@@ -186,7 +186,7 @@
   display         : inline-block;
   padding         : 3px 5px;
   font            : 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-  line-height     : 10px;
+  line-height     : @line-height-base;
   color           : #444d56;
   vertical-align  : middle;
   background-color: #fafbfc;
@@ -206,7 +206,7 @@
 }
 
 .markdown-body h1 {
-  font-size: 32px;
+  font-size: @h1-font-size;
 }
 
 .markdown-body h1,
@@ -215,11 +215,11 @@
 }
 
 .markdown-body h2 {
-  font-size: 24px;
+  font-size: @h2-font-size;
 }
 
 .markdown-body h3 {
-  font-size: 20px;
+  font-size: @h3-font-size;
 }
 
 .markdown-body h3,
@@ -228,11 +228,11 @@
 }
 
 .markdown-body h4 {
-  font-size: 16px;
+  font-size: @h4-font-size;
 }
 
 .markdown-body h5 {
-  font-size: 14px;
+  font-size: @h5-font-size;
 }
 
 .markdown-body h5,
@@ -241,7 +241,7 @@
 }
 
 .markdown-body h6 {
-  font-size: 12px;
+  font-size: @h6-font-size;
 }
 
 .markdown-body p {
@@ -279,7 +279,7 @@
 .markdown-body code,
 .markdown-body pre {
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-  font-size  : 12px;
+  font-size  : @font-size-xs;
 }
 
 .markdown-body pre {
@@ -381,11 +381,11 @@
 }
 
 .markdown-body .f6 {
-  font-size: 12px !important;
+  font-size: @font-size-xs  !important;
 }
 
 .markdown-body .lh-condensed {
-  line-height: 1.25 !important;
+  line-height: @line-height-sm  !important;
 }
 
 .markdown-body .text-bold {
@@ -673,11 +673,11 @@
   margin-top   : 24px;
   margin-bottom: 16px;
   font-weight  : 600;
-  line-height  : 1.25;
+  line-height  : @line-height-sm;
 }
 
 .markdown-body h1 {
-  font-size: 2em;
+  font-size: @h1-font-size;
 }
 
 .markdown-body h1,
@@ -687,23 +687,23 @@
 }
 
 .markdown-body h2 {
-  font-size: 1.5em;
+  font-size: @h2-font-size;
 }
 
 .markdown-body h3 {
-  font-size: 1.25em;
+  font-size: @h3-font-size;
 }
 
 .markdown-body h4 {
-  font-size: 1em;
+  font-size: @h4-font-size;
 }
 
 .markdown-body h5 {
-  font-size: .875em;
+  font-size: @h5-font-size;
 }
 
 .markdown-body h6 {
-  font-size: .85em;
+  font-size: @h6-font-size;
   color    : #6a737d;
 }
 
@@ -824,7 +824,7 @@
   padding         : 16px;
   overflow        : auto;
   font-size       : 85%;
-  line-height     : 1.45;
+  line-height     : @line-height-sm;
   background-color: #f6f8fa;
   border-radius   : 3px;
 }
@@ -870,7 +870,7 @@
   padding-left       : 10px;
   font-family        : SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   font-size          : 12px;
-  line-height        : 20px;
+  line-height        : @line-height-lg;
   color              : rgba(27, 31, 35, .3);
   text-align         : right;
   white-space        : nowrap;
@@ -894,7 +894,7 @@
   position      : relative;
   padding-right : 10px;
   padding-left  : 10px;
-  line-height   : 20px;
+  line-height   : @line-height-lg;
   vertical-align: top;
 }
 

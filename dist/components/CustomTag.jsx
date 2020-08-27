@@ -10,9 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const antd_1 = require("antd");
 const CustomTag = ({ children }) => {
-    return (<antd_1.Tag className="customTag" color="red">
-      {children}
-    </antd_1.Tag>);
+    return <antd_1.Tag className="customTag">{children}</antd_1.Tag>;
 };
 exports.default = CustomTag;
 //# sourceMappingURL=CustomTag.jsx.map
