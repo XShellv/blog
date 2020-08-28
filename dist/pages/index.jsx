@@ -34,8 +34,8 @@ const ArticleCard = () => {
         </link_1.default>
       </h1>
       <div className="home-card-extra">
-        <antd_1.Avatar className="home-card-extra-avatar" src="https://xshellv.com/static/images/avatar.jpg"/>
-        <span className="home-card-extra-time">2020年12月24日</span>
+        
+        <span className="home-card-extra-time">2020-12-24</span>
       </div>
 
       

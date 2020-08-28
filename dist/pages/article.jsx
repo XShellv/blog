@@ -61,22 +61,20 @@ const Article = ({ markdownStr }) => {
 
       <Layout_tsx_1.default>
         <antd_1.Card bordered={false}>
+          <h1 className="article-title">Antd 是怎么使用 React 制作 notification 组件</h1>
+          <div>
+            <CustomTag_1.default>React</CustomTag_1.default>
+            <CustomTag_1.default>css</CustomTag_1.default>
+            <CustomTag_1.default>javascript</CustomTag_1.default>
+          </div>
+          
+          <p className="article-info">
+            
+            <span className="time">{moment_1.default().format("YYYY年MM月DD日")}</span>
+          </p>
           <div className="article-header" style={{
         backgroundImage: `url(https://prismjs.com/assets/img/spectrum.png)`,
     }}></div>
-
-          <h1>Antd 是怎么使用 React 制作 notification 组件</h1>
-          <CustomTag_1.default>React</CustomTag_1.default>
-          <CustomTag_1.default>css</CustomTag_1.default>
-          <CustomTag_1.default>javascript</CustomTag_1.default>
-          
-          <p className="article-info">
-            <span>
-              <antd_1.Avatar shape="circle" className="avatar" src="https://xshellv.com/static/images/avatar.jpg"/>
-              Xshellv
-            </span>
-            <span className="time">{moment_1.default().format("YYYY年MM月DD日")}</span>
-          </p>
 
           <div className="article-content">
             <MarkdownRenderer_1.default html={markdownStr} ref={articleRef}/>

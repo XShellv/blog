@@ -80,14 +80,14 @@ const CustomLayout = ({ children, router }) => {
       <Content id="body">{children}</Content>
       <Footer id="footer">
         <div className="footerInfo">
-          <p className="copyright">
-            ❤️ Copyright © 2019 Xshellv - designed by Xshellv
-          </p>
           <p className="time">
             {`🕑 创建于2020年08月16日、已运行${gap().Y}年${gap().M}月${gap().D}天`}
           </p>
           <p className="support">
             托管于腾讯云、使用Ant Design、next.js服务端框架
+          </p>
+          <p className="copyright">
+            ❤️ Copyright © 2020 developed by Xshellv
           </p>
           <p className="icp">
             <a target="blank" href="http://www.beian.miit.gov.cn/">
