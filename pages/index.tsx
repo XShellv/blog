@@ -43,9 +43,13 @@ const ArticleCard = () => {
           className="home-card-extra-avatar"
           src="https://xshellv.com/static/images/avatar.jpg"
         /> */}
-        <span 
-        className="home-card-extra-time"
-        >2020-12-24</span>
+        <div className="tags">
+          <CustomTag>React</CustomTag>
+          <CustomTag>阿里巴巴</CustomTag>
+        </div>
+        <div className="extra">
+          <span className="home-card-extra-time">发布于：2020-12-24</span>
+        </div>
       </div>
 
       {/* <Link href={"/article?id=" + item.id} as={"/article/" + item.id}> */}
@@ -61,8 +65,6 @@ const ArticleCard = () => {
         component 渲染出 notice components，然后使用 notification class
         中的方法生成对应的位置的 notification component来实现的。
       </p>
-      <CustomTag>React</CustomTag>
-      <CustomTag>阿里巴巴</CustomTag>
     </Card>
   );
 };

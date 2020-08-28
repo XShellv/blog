@@ -27,7 +27,6 @@ const fetchMd = (file) => {
 
 // 获取文章
 apiRouter.get("/md", async (ctx, next) => {
-    console.log("///////////////////////////////////*****************************")
     const md = await fetchMd("md");
     ctx.body = md;
 });

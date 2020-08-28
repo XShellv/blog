@@ -8,8 +8,9 @@ import api from "../lib/api";
 import ReactDOM from "react-dom";
 import { useEffect, useRef } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import moment from "moment";
-import { BackTop, Avatar, Card } from "antd";
+import { BackTop, Avatar, Card, Button } from "antd";
 
 interface IArticle {
   markdownStr: string;
@@ -57,24 +58,19 @@ const Article: NextPage<IArticle> = ({ markdownStr }) => {
 
       <CustomLayout>
         <Card bordered={false}>
-          <h1 className="article-title">Antd 是怎么使用 React 制作 notification 组件</h1>
-          <div>
-            <CustomTag>React</CustomTag>
-            <CustomTag>css</CustomTag>
-            <CustomTag>javascript</CustomTag>
+          <h1 className="article-title">
+            Antd 是怎么使用 React 制作 notification 组件
+          </h1>
+          <div className="article-info">
+            <div className="tags">
+              <CustomTag>React</CustomTag>
+              <CustomTag>css</CustomTag>
+              <CustomTag>javascript</CustomTag>
+            </div>
+            <div className="extra">
+              <span className="time">发布于：{moment().format("YYYY-MM-DD")}</span>
+            </div>
           </div>
-          {/* <CustomTag>哈哈</CustomTag> */}
-          <p className="article-info">
-            {/* <span>
-              <Avatar
-                shape="circle"
-                className="avatar"
-                src="https://xshellv.com/static/images/avatar.jpg"
-              />
-              Xshellv
-            </span> */}
-            <span className="time">{moment().format("YYYY年MM月DD日")}</span>
-          </p>
           <div
             className="article-header"
             style={{
@@ -85,6 +81,20 @@ const Article: NextPage<IArticle> = ({ markdownStr }) => {
           <div className="article-content">
             <MarkdownRenderer html={markdownStr} ref={articleRef} />
             <div className="article-toc"></div>
+          </div>
+          <div className="article-nav">
+            <Link href="#">
+              <a className="left">
+                <i className="iconfont">&#xe607;</i>
+                <span>钢铁是怎样炼成的</span>
+              </a>
+            </Link>
+            <Link href="#">
+              <a className="right">
+                <span>钢铁是怎样炼成的</span>
+                <i className="iconfont">&#xe606;</i>
+              </a>
+            </Link>
           </div>
         </Card>
         <Card bordered={false}>

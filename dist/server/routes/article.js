@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Router = require("@koa/router");
-const router = new Router();
+const apiRouter = new Router();
 const fs = require("fs");
 const path = require("path");
 const MarkdownIt = require("markdown-it");
@@ -23,14 +23,27 @@ const fetchMd = (file) => {
     });
 };
 // 获取文章
-router.get("/md", async (ctx, next) => {
+apiRouter.get("/md", async (ctx, next) => {
+    console.log("///////////////////////////////////*****************************");
     const md = await fetchMd("md");
     ctx.body = md;
 });
 // 获取自我介绍
-router.get("/ab", async (ctx, next) => {
+apiRouter.get("/ab", async (ctx, next) => {
     const md = await fetchMd("about");
     ctx.body = md;
 });
-exports.default = router;
+// 获取自我介绍
+apiRouter.get("/ab", async (ctx, next) => {
+    const md = await fetchMd("about");
+    ctx.body = md;
+});
+async function requestHtml(method, url, data) {
+    return await axios({
+        method,
+        url: `${github_base_url}${url}`,
+        data,
+    });
+}
+exports.default = apiRouter;
 //# sourceMappingURL=article.js.map

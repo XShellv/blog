@@ -16,10 +16,13 @@ body {
         }
 
         .home-card-extra {
-            padding-bottom: 8px;
+            display        : flex;
+            justify-content: space-between;
+            padding-bottom : 8px;
 
             .home-card-extra-time {
-                font-size   : @font-size-xs;
+                color          : @gray-500;
+                font-size      : @font-size-xs;
                 // padding-left: 10px;
             }
         }
@@ -38,7 +41,8 @@ body {
     .pagnization {
         display    : flex;
         align-items: center;
-        .ant-pagination-item-active a{
+
+        .ant-pagination-item-active a {
             color: #fff;
         }
     }
