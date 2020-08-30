@@ -13,7 +13,9 @@
 /out/
 
 # production
-/build
+/build/
+/dist/
+/bundles/
 
 # misc
 .DS_Store
@@ -32,3 +34,4 @@ yarn-error.log*
 
 # vercel
 .vercel
+.history

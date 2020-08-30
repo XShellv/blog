@@ -1,6 +1,5 @@
-import {useEffect} from "react";
-import 'gitalk/dist/gitalk.css'
-import "github-markdown-css";
+import {ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
 import '../style/index.less';
 import type { AppProps /*, AppContext */ } from 'next/app'
 
@@ -11,11 +10,15 @@ const setRem = async ()=>{
 
 function MyApp({ Component, pageProps }: AppProps) {
 
-useEffect(()=>{
-    setRem()
-    window && window.addEventListener('resize',setRem)
-})
-  return <Component {...pageProps} />
+// useEffect(()=>{
+//     setRem()
+//     window && window.addEventListener('resize',setRem)
+// })
+  return(
+    <ConfigProvider locale={zhCN}>
+      <Component {...pageProps} />
+      </ConfigProvider>
+  )
 }
 
 export default MyApp

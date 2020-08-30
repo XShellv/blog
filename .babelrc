@@ -18,15 +18,6 @@
         "libraryDirectory": "lib",
         // "style": true
       }
-    ],
-    [
-      "module-resolver",
-      {
-        "alias": {
-          "@/components": "components",
-          "@/layout": "layout"
-        }
-      }
     ]
   ]
 }
