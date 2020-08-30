@@ -13,8 +13,9 @@
 /out/
 
 # production
-/build
-/dist
+/build/
+/dist/
+/bundles/
 
 # misc
 .DS_Store
