@@ -4,7 +4,7 @@ const Router = require("koa-router");
 const apiRouter = new Router();
 const model = require("../mysql/models");
 const MarkdownIt = require("markdown-it");
-
+const Sequelize = require("sequelize");
 const md = new MarkdownIt({
   html: true,
   linkify: true,
@@ -58,14 +58,41 @@ apiRouter.post("/post", async (ctx, next) => {
  * 根据主键查找文章及关联的标签
  */
 apiRouter.get("/post/:id", async (ctx, next) => {
+  const { Op } = Sequelize;
   const id = ctx.params.id;
-  const ret = await model.Post.findByPk(id, {
-    include: [model.Tag],
+  const post = await model.Post.findByPk(id, {
+    include: [{ model: model.Tag, attributes: ["id", "name"] }],
   });
-  if (ret) {
+  if (post) {
+    const prev_post = await model.Post.findAll({
+      order: [["id", "DESC"]],
+      where: {
+        id: { [Op.lt]: id * 1 },
+      },
+      attributes: ["id"],
+      limit: 1,
+    });
+    const next_post = await model.Post.findAll({
+      order: [["id", "ASC"]],
+      where: {
+        id: { [Op.gt]: id * 1 },
+      },
+      attributes: ["id"],
+      limit: 1,
+    });
+    if (next_post && next_post[0]) {
+      post.setDataValue("next", next_post[0].id);
+    } else {
+      post.setDataValue("next", null);
+    }
+    if (prev_post && prev_post[0]) {
+      post.setDataValue("prev", prev_post[0].id);
+    } else {
+      post.setDataValue("prev", null);
+    }
     ctx.body = {
       success: true,
-      data: ret,
+      data: post,
     };
   } else {
     ctx.body = {
@@ -153,7 +180,13 @@ apiRouter.post("/post/:id", async (ctx, next) => {
  * 获取所有的标签
  */
 apiRouter.get("/tags", async (ctx, next) => {
+  const postTags = await model.PostTag.findAll({
+    attributes: ["tagId"],
+  });
   const ret = await model.Tag.findAll({
+    where: {
+      id: postTags.map((postTag) => postTag.tagId),
+    },
     include: [
       {
         model: model.Post,
@@ -170,6 +203,37 @@ apiRouter.get("/tags", async (ctx, next) => {
     ctx.body = {
       success: false,
       message: "query tags fail",
+    };
+  }
+});
+
+/**
+ * 分页查询
+ */
+apiRouter.get("/post", async (ctx, next) => {
+  const { pageSize, pageNo } = ctx.request.query;
+  if (isNaN(pageSize * 1) || isNaN(pageNo)) {
+    return (ctx.body = {
+      success: false,
+      message: "invalid query params",
+    });
+  }
+  const ret = await model.Post.findAndCountAll({
+    offset: (pageNo * 1 - 1) * pageSize * 1,
+    limit: pageSize * 1,
+    include: [{ model: model.Tag, attributes: ["id", "name"] }],
+    order: [["createdAt", "DESC"]],
+    distinct: true,
+  });
+  if (ret) {
+    ctx.body = {
+      success: true,
+      data: ret,
+    };
+  } else {
+    ctx.body = {
+      success: false,
+      message: "query exception",
     };
   }
 });

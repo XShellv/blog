@@ -16,14 +16,6 @@ const Post = sequelize.define("post", {
     type: Sequelize.STRING(100),
     allowNull: false,
   },
-  next: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-  },
-  prev: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-  },
   content: {
     type: Sequelize.TEXT,
     allowNull: false,

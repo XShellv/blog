@@ -3,6 +3,7 @@ module.exports = () => {
   const model = require("./models");
 
   model.Post.belongsToMany(model.Tag, {
+    onDelete: "cascade",
     through: model.PostTag,
   });
 
