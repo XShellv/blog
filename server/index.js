@@ -4,12 +4,16 @@ const Router = require("@koa/router");
 const combineRouters = require("koa-combine-routers");
 const bodyParser = require("koa-bodyparser");
 const initdb = require("./mysql");
-
-// server.use(require("koa-static")(__dirname + "/"));
+// const manageDist   = server.use(require("koa-static")(__dirname + "/public/dist"));
 const server = new Koa();
 
 server.use(bodyParser());
 const apiRouter = require("./routes/post");
+
+
+// app.get('*', function (request, response) {
+//     response.sendFile(path.resolve(__dirname, '../public/dist', 'index.html'))
+// })
 
 const github_base_url = "https://api.github.com";
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -49,6 +53,8 @@ app.prepare().then(() => {
 
 const router = combineRouters(apiRouter, pageRouter);
 server.use(router());
+// server.use(manageDist);
+
 
 initdb().then(async (result) => {
   if (result) {
