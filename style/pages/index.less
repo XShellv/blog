@@ -6,11 +6,8 @@ body {
 }
 
 #home-wrapper {
-    .list {
-        .list-item {
-            border-bottom: 1px solid #eee;
-        }
-
+    .list-item {
+        width: 100%;
         .home-card-title {
             font-size: @font-size-lg;
         }
@@ -37,13 +34,23 @@ body {
             font-size         : @font-size-bs;
         }
     }
+}
 
-    .pagnization {
-        display    : flex;
-        align-items: center;
+.ant-list-pagination {
+    display    : flex;
+    align-items: center;
 
-        .ant-pagination-item-active a {
+    .ant-pagination-item-active {
+        &>a {
             color: #fff;
         }
+
+        &:focus,
+        &:hover {
+            a {
+                color: #fff;
+            }
+        }
+
     }
 }

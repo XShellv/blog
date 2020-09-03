@@ -221,6 +221,7 @@ apiRouter.get("/post", async (ctx, next) => {
   const ret = await model.Post.findAndCountAll({
     offset: (pageNo * 1 - 1) * pageSize * 1,
     limit: pageSize * 1,
+    attributes:{exclude:["content"]},
     include: [{ model: model.Tag, attributes: ["id", "name"] }],
     order: [["createdAt", "DESC"]],
     distinct: true,
