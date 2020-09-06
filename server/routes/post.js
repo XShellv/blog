@@ -179,10 +179,8 @@ apiRouter.get("/tags", async (ctx, next) => {
       sequelize.where(sequelize.fn("COUNT", sequelize.col("name")), ">", 0),
     ],
   });
-  let total = 0;
-  ret.map((item) => {
-    total += item.count;
-  });
+
+  const total = await model.Post.count();
   if (ret) {
     ctx.body = {
       success: true,

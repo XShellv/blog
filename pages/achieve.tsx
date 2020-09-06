@@ -83,7 +83,7 @@ const Achieve: NextPage<{
                 ))}
               </div>
             }
-            footer={<div>Footer</div>}
+            // footer={<div>Footer</div>}
             bordered={false}
             dataSource={posts.rows}
             loading={loading}
@@ -120,6 +120,8 @@ const Achieve: NextPage<{
                 query.set("pageSize", pageSize + "");
                 jumpTo(query);
               },
+              hideOnSinglePage: true,
+              size: "small",
               showQuickJumper: true,
               showSizeChanger: true,
               pageSizeOptions: ["10", "20", "50"],
