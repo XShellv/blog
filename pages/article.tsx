@@ -11,11 +11,16 @@ import Head from "next/head";
 import Link from "next/link";
 import moment from "moment";
 import { BackTop, Avatar, Card, Button } from "antd";
+import { IPost, ITag, dateFormat } from "pages";
 
-interface IArticle {
-  markdownStr: string;
+interface IArticle extends IPost {
+  content: string;
+  prev: null | number;
+  next: null | number;
 }
-const Article: NextPage<IArticle> = ({ markdownStr }) => {
+const Article: NextPage<{
+  post: IArticle;
+}> = ({ post }) => {
   const articleRef = useRef(null);
   useEffect(() => {
     generateTagId();
@@ -51,50 +56,55 @@ const Article: NextPage<IArticle> = ({ markdownStr }) => {
   return (
     <div id="article-wrapper">
       <Head>
-        <title>Antd 是怎么使用 React 制作 notification 组件</title>
+        <title>{post.title}</title>
         <meta property="og:title" content="My page title" key="article" />
         <script src="/static/js/prism.js"></script>
       </Head>
 
       <CustomLayout>
         <Card bordered={false}>
-          <h1 className="article-title">
-            Antd 是怎么使用 React 制作 notification 组件
-          </h1>
+          <h1 className="article-title">{post.title}</h1>
           <div className="article-info">
             <div className="tags">
-              <CustomTag>React</CustomTag>
-              <CustomTag>css</CustomTag>
-              <CustomTag>javascript</CustomTag>
+              {post.tags.map((tag: ITag) => (
+                <CustomTag key={tag.name}>{tag.name}</CustomTag>
+              ))}
             </div>
             <div className="extra">
-              <span className="time">发布于：{moment().format("YYYY-MM-DD")}</span>
+              <span className="time">
+                发布于：
+                {moment(new Date(post.updatedAt).valueOf()).format(dateFormat)}
+              </span>
             </div>
           </div>
           <div
             className="article-header"
             style={{
-              backgroundImage: `url(https://prismjs.com/assets/img/spectrum.png)`,
+              backgroundImage: `url(${post.post})`,
             }}
           ></div>
 
           <div className="article-content">
-            <MarkdownRenderer html={markdownStr} ref={articleRef} />
+            <MarkdownRenderer html={post.content} ref={articleRef} />
             <div className="article-toc"></div>
           </div>
           <div className="article-nav">
-            <Link href="#">
-              <a className="left">
-                <i className="iconfont">&#xe607;</i>
-                <span>钢铁是怎样炼成的</span>
-              </a>
-            </Link>
-            <Link href="#">
-              <a className="right">
-                <span>钢铁是怎样炼成的</span>
-                <i className="iconfont">&#xe606;</i>
-              </a>
-            </Link>
+            {post.prev && (
+              <Link href={`/article/${post.prev}`}>
+                <a className="left">
+                  <i className="iconfont">&#xe607;</i>
+                  <span>{post.prev}</span>
+                </a>
+              </Link>
+            )}
+            {post.next && (
+              <Link href={`/article/${post.next}`}>
+                <a className="right">
+                  <span>{post.next}</span>
+                  <i className="iconfont">&#xe606;</i>
+                </a>
+              </Link>
+            )}
           </div>
         </Card>
         <Card bordered={false}>
@@ -110,10 +120,12 @@ const Article: NextPage<IArticle> = ({ markdownStr }) => {
 //   // any modifications to the default context, e.g. query types
 // }
 
-Article.getInitialProps = async () => {
-  const resp = await api.request({ url: `/md` });
+Article.getInitialProps = async (ctx) => {
+  const { req, query } = ctx;
+  const resp = await api.request({ url: `/post/${query.id}` });
+  console.log(resp);
   return {
-    markdownStr: resp.data,
+    post: resp.data.data,
   };
 };
 

@@ -8,6 +8,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/layout/*": ["layout/*"],
+      "@/hooks/*": ["hooks/*"],
     },
     "moduleResolution": "node",
     "strict": true,

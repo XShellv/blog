@@ -4,10 +4,16 @@ body {
     height: 100%;
     color : @body-color;
 }
+.time {
+    color          : @gray-500;
+    font-size      : @font-size-xs;
+    // padding-left: 10px;
+}
 
 #home-wrapper {
     .list-item {
         width: 100%;
+
         .home-card-title {
             font-size: @font-size-lg;
         }
@@ -16,12 +22,6 @@ body {
             display        : flex;
             justify-content: space-between;
             padding-bottom : 8px;
-
-            .home-card-extra-time {
-                color          : @gray-500;
-                font-size      : @font-size-xs;
-                // padding-left: 10px;
-            }
         }
 
         .home-card-abstract {
@@ -39,18 +39,4 @@ body {
 .ant-list-pagination {
     display    : flex;
     align-items: center;
-
-    .ant-pagination-item-active {
-        &>a {
-            color: #fff;
-        }
-
-        &:focus,
-        &:hover {
-            a {
-                color: #fff;
-            }
-        }
-
-    }
 }

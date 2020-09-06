@@ -10,7 +10,6 @@ const server = new Koa();
 server.use(bodyParser());
 const apiRouter = require("./routes/post");
 
-
 // app.get('*', function (request, response) {
 //     response.sendFile(path.resolve(__dirname, '../public/dist', 'index.html'))
 // })
@@ -28,12 +27,15 @@ app.prepare().then(() => {
     ctx.respond = false;
   });
 
-  pageRouter.get("/article", async (ctx) => {
+  pageRouter.get("/article/:id", async (ctx) => {
+    ctx.query = { id: ctx.params.id };
     await app.render(ctx.req, ctx.res, "/article", ctx.query);
     ctx.respond = false;
   });
 
   pageRouter.get("/achieve", async (ctx) => {
+    const { tag, pageNo, pageSize } = ctx.query;
+    ctx.query = { tag, pageNo, pageSize };
     await app.render(ctx.req, ctx.res, "/achieve", ctx.query);
     ctx.respond = false;
   });
@@ -54,7 +56,6 @@ app.prepare().then(() => {
 const router = combineRouters(apiRouter, pageRouter);
 server.use(router());
 // server.use(manageDist);
-
 
 initdb().then(async (result) => {
   if (result) {

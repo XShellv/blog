@@ -8,6 +8,7 @@ module.exports = () => {
   });
 
   model.Tag.belongsToMany(model.Post, {
+    onDelete: "cascade",
     through: model.PostTag,
   });
   return sequelize.sync({ force: false });
