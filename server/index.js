@@ -7,24 +7,24 @@ const initdb = require("./mysql");
 const koaStatic = require("koa-static");
 const server = new Koa();
 const path = require("path");
+const fs = require("fs");
 const views = require("koa-views");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 server.use(bodyParser());
-
 server.use(koaStatic(path.resolve(__dirname, "../public/dist")));
-server.use(
-  views(path.resolve(__dirname, "../public/dist"), { extension: "html" })
-);
-server.use(async (ctx, next) => {
-  await next();
-});
 
-const manageRouter = new Router();
-manageRouter.all(/\.js/i, koaStatic(path.resolve(__dirname, "../public/dist")));
-manageRouter.get("/manage/*", async (ctx) => {
-  console.log(ctx.path, "///////////////");
-  await ctx.render("index");
+server.use(async (ctx, next) => {
+  const reg = /^(\/manage)/;
+  if (reg.test(ctx.path)) {
+    console.log(ctx.path, "????????????????????????????");
+    ctx.response.type = "html";
+    ctx.response.body = fs.createReadStream(
+      path.resolve(__dirname, "../public/dist/manage.html")
+    );
+  } else {
+    await next();
+  }
 });
 
 const github_base_url = "https://api.github.com";
@@ -72,12 +72,7 @@ app
     process.exit(1);
   });
 
-const router = combineRouters(
-  postRouter,
-  aboutRouter,
-  pageRouter,
-  manageRouter
-);
+const router = combineRouters(postRouter, aboutRouter, pageRouter);
 server.use(router());
 
 initdb().then(async (result) => {
