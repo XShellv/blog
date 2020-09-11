@@ -5,6 +5,7 @@ const apiRouter = new Router();
 const model = require("../mysql/models");
 const MarkdownIt = require("markdown-it");
 const Sequelize = require("sequelize");
+const sequelize = require("../mysql/util/database");
 const md = new MarkdownIt({
   html: true,
   linkify: true,
@@ -114,34 +115,17 @@ apiRouter.delete("/post/:id", async (ctx, next) => {
       message: "the delete post was not found",
     });
   }
+  // 删除tags表中实例
+  const findTags = await findPost.getTags();
+  await Promise.all(findTags.map((tag) => tag.destroy()));
   await findPost.addTags([]);
+
   const ret = await findPost.destroy();
   if (ret) {
     ctx.body = {
       success: true,
     };
-  } else {
-    return (ctx.body = {
-      success: false,
-      message: "the delete post tags were not found",
-    });
   }
-  // const findTags = await findPost.getTags();
-  // if (findTags) {
-  //   const destroyPost = findPost.destroy();
-  //   const destroyTags = findTags.map((tag) => tag.destroy());
-  //   const ret = await Promise.all([...destroyTags, destroyPost]);
-  //   if (ret) {
-  //     ctx.body = {
-  //       success: true,
-  //     };
-  //   }
-  // } else {
-  //   return (ctx.body = {
-  //     success: false,
-  //     message: "the delete post tags were not found",
-  //   });
-  // }
 });
 
 /**
@@ -160,6 +144,10 @@ apiRouter.post("/post/:id", async (ctx, next) => {
   await findPost.update(body, {
     where: { id },
   });
+  // 删除tags表中实例
+  const findTags = await findPost.getTags();
+  await Promise.all(findTags.map((tag) => tag.destroy()));
+
   const tags = await Promise.all(
     await body.tags.map((tag) => model.Tag.create({ name: tag }))
   );
@@ -180,24 +168,24 @@ apiRouter.post("/post/:id", async (ctx, next) => {
  * 获取所有的标签
  */
 apiRouter.get("/tags", async (ctx, next) => {
-  const postTags = await model.PostTag.findAll({
-    attributes: ["tagId"],
-  });
+  // 从postTag中找出有效的tagId
+  // 分组查询并聚合count数
   const ret = await model.Tag.findAll({
-    where: {
-      id: postTags.map((postTag) => postTag.tagId),
-    },
-    include: [
-      {
-        model: model.Post,
-        // 这里可以对Post进行where
-      },
+    attributes: [[sequelize.fn("COUNT", "name"), "count"], "name"],
+    group: "name",
+    plain: false,
+    raw: true,
+    having: [
+      sequelize.where(sequelize.fn("COUNT", sequelize.col("name")), ">", 0),
     ],
   });
+
+  const total = await model.Post.count();
   if (ret) {
     ctx.body = {
       success: true,
       data: ret,
+      total,
     };
   } else {
     ctx.body = {
@@ -211,20 +199,36 @@ apiRouter.get("/tags", async (ctx, next) => {
  * 分页查询
  */
 apiRouter.get("/post", async (ctx, next) => {
-  const { pageSize, pageNo } = ctx.request.query;
-  if (isNaN(pageSize * 1) || isNaN(pageNo)) {
-    return (ctx.body = {
-      success: false,
-      message: "invalid query params",
-    });
-  }
-  const ret = await model.Post.findAndCountAll({
-    offset: (pageNo * 1 - 1) * pageSize * 1,
-    limit: pageSize * 1,
+  const { pageSize, pageNo, tag } = ctx.request.query;
+  let conditions = {
+    attributes: { exclude: ["content"] },
     include: [{ model: model.Tag, attributes: ["id", "name"] }],
     order: [["createdAt", "DESC"]],
     distinct: true,
-  });
+  };
+  if (tag && tag.trim()) {
+    const tags = await model.Tag.findAll({
+      where: {
+        name: tag,
+      },
+      attributes: ["id"],
+    });
+
+    const posts = await model.PostTag.findAll({
+      where: {
+        tagId: tags.map((tag) => tag.id),
+      },
+      attributes: ["postId"],
+    });
+    conditions.where = {
+      id: posts.map((post) => post.postId),
+    };
+  }
+  if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
+    conditions.offset = (pageNo * 1 - 1) * pageSize * 1;
+    conditions.limit = pageSize * 1;
+  }
+  const ret = await model.Post.findAndCountAll(conditions);
   if (ret) {
     ctx.body = {
       success: true,
@@ -236,12 +240,6 @@ apiRouter.get("/post", async (ctx, next) => {
       message: "query exception",
     };
   }
-});
-
-// 获取文章
-apiRouter.get("/md", async (ctx, next) => {
-  const md = await fetchMd("md");
-  ctx.body = md;
 });
 
 // 获取自我介绍

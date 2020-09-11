@@ -34,9 +34,9 @@ const About: NextPage<IAbout> = ({ markdownStr }) => {
 // }
 
 About.getInitialProps = async () => {
-  const resp = await api.request({ url: `/ab` });
+  const resp = await api.request({ url: `/me` });
   return {
-    markdownStr: resp.data,
+    markdownStr: resp.data.data.content,
   };
 };
 

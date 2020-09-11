@@ -91,11 +91,11 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
       <Content id="body">{children}</Content>
       <Footer id="footer">
         <div className="footerInfo">
-          <p className="time">
+          {/* <p className="time">
             {`🕑 创建于2020年08月16日、已运行${gap().Y}年${gap().M}月${
               gap().D
             }天`}
-          </p>
+          </p> */}
           <p className="support">
             托管于腾讯云、使用Ant Design、next.js服务端框架
           </p>

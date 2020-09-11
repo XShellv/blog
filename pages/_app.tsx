@@ -1,5 +1,6 @@
 import {ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
+import Head from 'next/head';
 import '../style/index.less';
 import type { AppProps /*, AppContext */ } from 'next/app'
 
@@ -14,10 +15,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 //     setRem()
 //     window && window.addEventListener('resize',setRem)
 // })
+
   return(
     <ConfigProvider locale={zhCN}>
       <Component {...pageProps} />
-      </ConfigProvider>
+    </ConfigProvider>
   )
 }
 

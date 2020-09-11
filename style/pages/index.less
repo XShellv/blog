@@ -4,12 +4,15 @@ body {
     height: 100%;
     color : @body-color;
 }
+.time {
+    color          : @gray-500;
+    font-size      : @font-size-xs;
+    // padding-left: 10px;
+}
 
 #home-wrapper {
-    .list {
-        .list-item {
-            border-bottom: 1px solid #eee;
-        }
+    .list-item {
+        width: 100%;
 
         .home-card-title {
             font-size: @font-size-lg;
@@ -19,12 +22,6 @@ body {
             display        : flex;
             justify-content: space-between;
             padding-bottom : 8px;
-
-            .home-card-extra-time {
-                color          : @gray-500;
-                font-size      : @font-size-xs;
-                // padding-left: 10px;
-            }
         }
 
         .home-card-abstract {
@@ -37,13 +34,9 @@ body {
             font-size         : @font-size-bs;
         }
     }
+}
 
-    .pagnization {
-        display    : flex;
-        align-items: center;
-
-        .ant-pagination-item-active a {
-            color: #fff;
-        }
-    }
+.ant-list-pagination {
+    display    : flex;
+    align-items: center;
 }

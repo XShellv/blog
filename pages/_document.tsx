@@ -17,6 +17,18 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" type="image/png" href="/static/favicon.png" />
+          {typeof window === "undefined" && (
+            <style
+              id="holderStyle"
+              dangerouslySetInnerHTML={{
+                __html: `
+                *, *::before, *::after {
+                  transition: none !important;
+                }
+                `,
+              }}
+            />
+          )}
         </Head>
         <body>
           <Main />
