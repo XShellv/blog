@@ -17,7 +17,7 @@ http.createServer(function (req, res) {
         res.end('no such location !')
     })
 }).listen(8080,()=>{
-    console.log("webhook listen at 8080 port xxw...")
+    console.log("webhook listen at 8080 port ...")
 })
  
 handler.on('error', function (err) {
@@ -25,6 +25,7 @@ handler.on('error', function (err) {
 })
  
 handler.on('push', function (event) {
+    console.log("hahahahah")
     switch(event.payload.repository.name)
     {
         case 'blog':
