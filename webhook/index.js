@@ -14,9 +14,11 @@ function run_cmd(cmd, args, callback) {
 http.createServer(function (req, res) {
     handler(req, res, function (err) {
         res.statusCode = 404
-        res.end('no such location')
+        res.end('no such location !')
     })
-}).listen(8080)
+}).listen(8080,()=>{
+    console.log("webhook listen at 8080 port!")
+})
  
 handler.on('error', function (err) {
     console.error('Error:', err.message);
