@@ -25,7 +25,6 @@ handler.on('error', function (err) {
 })
  
 handler.on('push', function (event) {
-    console.log("hahahahah")
     switch(event.payload.repository.name)
     {
         case 'blog':
