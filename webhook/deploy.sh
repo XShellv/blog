@@ -1,6 +1,6 @@
  #!/bin/bash
 
-WEB_PATH='/root/tools/'$1
+WEB_PATH='../'$1
 
 echo "Start deployment"
 cd $WEB_PATH
