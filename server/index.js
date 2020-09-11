@@ -8,7 +8,6 @@ const koaStatic = require("koa-static");
 const server = new Koa();
 const path = require("path");
 const fs = require("fs");
-const views = require("koa-views");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 server.use(bodyParser());
@@ -17,7 +16,6 @@ server.use(koaStatic(path.resolve(__dirname, "../public/dist")));
 server.use(async (ctx, next) => {
   const reg = /^(\/manage)/;
   if (reg.test(ctx.path)) {
-    console.log(ctx.path, "????????????????????????????");
     ctx.response.type = "html";
     ctx.response.body = fs.createReadStream(
       path.resolve(__dirname, "../public/dist/manage.html")
@@ -28,7 +26,7 @@ server.use(async (ctx, next) => {
 });
 
 const github_base_url = "https://api.github.com";
-const port = parseInt(process.env.PORT, 10) || 5000;
+const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();

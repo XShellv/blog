@@ -1,4 +1,4 @@
-const Router = require("koa-router");
+const Router = require("@koa/router");
 const koaStatic = require("koa-static");
 const path = require("path");
 
