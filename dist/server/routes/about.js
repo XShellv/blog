@@ -33,11 +33,12 @@ aboutRouter.post("/me", async (ctx, next) => {
  * 获取关于我
  */
 aboutRouter.get("/me", async (ctx, next) => {
-    const ret = await model.About.findByPk(1);
+    let ret = await model.About.findByPk(1);
     if (ret) {
         ret.content = md.render(ret.content);
     }
     else {
+        ret = {};
         ret.content = "";
         ret.motto = "";
     }
