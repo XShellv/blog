@@ -37,7 +37,12 @@ aboutRouter.post("/me", async (ctx, next) => {
  */
 aboutRouter.get("/me", async (ctx, next) => {
   const ret = await model.About.findByPk(1);
-  ret.content = ret ? md.render(ret.content) : "";
+  if (ret) {
+    ret.content = md.render(ret.content);
+  } else {
+    ret.content = "";
+    ret.motto = "";
+  }
   ctx.body = {
     success: true,
     data: ret,
