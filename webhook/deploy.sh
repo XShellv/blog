@@ -8,6 +8,4 @@ echo "pulling source code from blog repo..."
 git fetch --all
 git reset --hard origin/master
 git pull
-# 构建
-npm run build
 echo "Finished."
