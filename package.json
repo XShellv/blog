@@ -7,7 +7,7 @@
     "del": "rd /s/q .\\dist",
     "xcopy": "xcopy .\\server\\public .\\dist\\server\\public\\ /E/Y",
     "start": "cross-env NODE_ENV=production node dist/server/index.js",
-    "pm2": "cross-env NODE_ENV=production pm2 start dist/server/index.js",
+    "pm2": "cross-env NODE_ENV=production pm2 start dist/server/index.js --name next-blog",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
     "scp": "scp -r .\\dist xshellv@119.45.162.84:/Users/Administrator/xxw/blog"
   },
