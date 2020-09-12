@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon server/index.js",
-    "build": "npm run del && next build && tsc --project tsconfig.server.json && npm run xcopy",
+    "build": " next build && tsc --project tsconfig.server.json && npm run xcopy",
     "del": "rd /s/q .\\dist",
     "xcopy": "xcopy .\\server\\public .\\dist\\server\\public\\ /E/Y",
     "start": "cross-env NODE_ENV=production node dist/server/index.js",
