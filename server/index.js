@@ -11,14 +11,14 @@ const fs = require("fs");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 server.use(bodyParser());
-server.use(koaStatic(path.resolve(__dirname, "../public/dist")));
+server.use(koaStatic(path.resolve(__dirname, "./public/manage")));
 
 server.use(async (ctx, next) => {
   const reg = /^(\/manage)/;
   if (reg.test(ctx.path)) {
     ctx.response.type = "html";
     ctx.response.body = fs.createReadStream(
-      path.resolve(__dirname, "../public/dist/manage.html")
+      path.resolve(__dirname, "./public/manage/manage.html")
     );
   } else {
     await next();
