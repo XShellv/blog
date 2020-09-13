@@ -1,5 +1,5 @@
  #!/bin/bash
-DEPLOY_PATH=../
+DEPLOY_PATH=C:/xxw/blog
 echo "Start deployment"
 cd $DEPLOY_PATH
 echo "pulling source code from blog repo..."
