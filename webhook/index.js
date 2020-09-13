@@ -3,6 +3,8 @@ var createHandler = require("gitee-webhook-handler");
 var handler = createHandler({ path: "/push", secret: "199453xxw" });
 
 function run_cmd(cmd, args, callback) {
+  console.log(require("child_process"),'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  console.log(spawn,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
   var spawn = require("child_process").spawn;
   var child = spawn(cmd, args);
   var resp = "";
