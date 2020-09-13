@@ -22,7 +22,6 @@ handler.on("Push Hook", function (event) {
       //this push event is from my persional github account, as SAP github.tool's github hook do not work, so I use this one to test push event
       console.log("reveive a push event from blog");
       run_cmd("sh", ["./deploy.sh"], function (text) {
-          console.log(33333323)
         console.log(text);
       });
       break;
