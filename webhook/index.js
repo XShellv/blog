@@ -1,6 +1,4 @@
 var http = require("http");
-
-var http = require("http");
 var createHandler = require("gitee-webhook-handler");
 var handler = createHandler({ path: "/push", secret: "199453xxw" });
 
@@ -19,14 +17,15 @@ handler.on("error", function (err) {
   console.error("Error:", err.message);
 });
 handler.on("Push Hook", function (event) {
-  console.log(
-    "Received a push event for %s to %s",
-    event.payload.repository.name,
-    event.payload.ref
-  );
-  run_cmd("sh", ["./deploy.sh"], function (text) {
-    console.log(text);
-  });
+  switch (event.payload.repository.name) {
+    case "blog":
+      //this push event is from my persional github account, as SAP github.tool's github hook do not work, so I use this one to test push event
+      console.log("reveive a push event from blog");
+      run_cmd("sh", ["./deploy.sh"], function (text) {
+        console.log(text);
+      });
+      break;
+  }
 });
 try {
   http
