@@ -4,7 +4,7 @@ var handler = createHandler({ path: "/push", secret: "199453xxw" });
 
 function run_cmd(cmd, args, callback) {
   var spawn = require("child_process").spawn;
-  var child = spawn(cmd, args, { shell: true });
+  var child = spawn(cmd, args);
   var resp = "";
   child.stdout.on("data", function (buffer) {
     resp += buffer.toString();
