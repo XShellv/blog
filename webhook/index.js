@@ -1,6 +1,4 @@
 var http = require("http");
-var createHandler = require("github-webhook-handler");
-var handler = createHandler({ path: "/push", secret: "199453xxw" });
 
 var http = require("http");
 var createHandler = require("gitee-webhook-handler");
