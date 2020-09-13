@@ -8,6 +8,6 @@ git reset --hard origin/master
 git pull
 
 
-# ¹¹½¨dist½Å±¾
+# æž„å»ºdistè„šæœ¬
 npm run build
 echo "Finished."
