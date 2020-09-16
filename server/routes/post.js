@@ -16,7 +16,7 @@ const fetchMd = (file) => {
     fs.readFile(
       path.resolve(__dirname, `../../mock/${file}.txt`),
       "utf-8",
-      function(err, data) {
+      function (err, data) {
         if (err) {
           console.error(err);
           reject(err);
@@ -69,7 +69,7 @@ apiRouter.get("/post/:id", async (ctx, next) => {
       order: [["id", "DESC"]],
       where: {
         id: { [Op.lt]: id * 1 },
-        status:"post",
+        status: "post",
       },
       attributes: ["id"],
       limit: 1,
@@ -78,7 +78,7 @@ apiRouter.get("/post/:id", async (ctx, next) => {
       order: [["id", "ASC"]],
       where: {
         id: { [Op.gt]: id * 1 },
-        status:"post",
+        status: "post",
       },
       attributes: ["id"],
       limit: 1,
@@ -172,8 +172,26 @@ apiRouter.post("/post/:id", async (ctx, next) => {
 apiRouter.get("/tags", async (ctx, next) => {
   // 从postTag中找出有效的tagId
   // 分组查询并聚合count数
+  const posts = await model.Post.findAll({
+    where: {
+      status: "post"
+    },
+    include: [{ model: model.Tag }],
+  });
+  let tagIds = []
+  posts.map(post => {
+    tagIds = tagIds.concat(post.tags.map(tag => tag.id))
+  })
   const ret = await model.Tag.findAll({
     attributes: [[sequelize.fn("COUNT", "name"), "count"], "name"],
+    where: {
+      id: tagIds
+    },
+    // include: [{
+    //   model: model.Post, where: {
+    //     status: "post"
+    //   }
+    // }],
     group: "name",
     plain: false,
     raw: true,
@@ -182,7 +200,11 @@ apiRouter.get("/tags", async (ctx, next) => {
     ],
   });
 
-  const total = await model.Post.count();
+  const total = await model.Post.count({
+    where:{
+      status:"post"
+    }
+  });
   if (ret) {
     ctx.body = {
       success: true,
@@ -224,10 +246,13 @@ apiRouter.get("/post", async (ctx, next) => {
     });
     conditions.where = {
       id: posts.map((post) => post.postId),
-      status:"post",
+      status: "post",
     };
   }
   if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
+    conditions.where = {
+      status: "post",
+    };
     conditions.offset = (pageNo * 1 - 1) * pageSize * 1;
     conditions.limit = pageSize * 1;
   }
