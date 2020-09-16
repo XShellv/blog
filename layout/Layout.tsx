@@ -12,12 +12,12 @@ const menuOptions = [
     key: "/",
     icon: <i className="iconfont">&#xe605;</i>,
   },
-  {
-    name: "开发",
-    path: "/develop",
-    key: "/develop",
-    icon: <i className="iconfont">&#xe962;</i>,
-  },
+  // {
+  //   name: "开发",
+  //   path: "/develop",
+  //   key: "/develop",
+  //   icon: <i className="iconfont">&#xe962;</i>,
+  // },
   //   {
   //     name: "设计",
   //     path: "/design",

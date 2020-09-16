@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "github-webhook-handler": "^1.0.0",
+    "gitee-webhook-handler": "^0.1.2",
     "http": "^0.0.1-security"
   }
 }

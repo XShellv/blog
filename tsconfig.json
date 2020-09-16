@@ -33,6 +33,5 @@
     "**/*.tsx",
     "server/index.js",
     "server/server.js",
-    "server/server.js"
   ]
 }
