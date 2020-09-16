@@ -27,6 +27,12 @@ const Post = sequelize.define("post", {
   category: {
     type: Sequelize.STRING(10),
     allowNull: false,
+    defaultValue: "develop",
+  },
+  status: {
+    type: Sequelize.STRING(10),
+    allowNull: false,
+    defaultValue: "draft",
   },
   like: {
     type: Sequelize.INTEGER,

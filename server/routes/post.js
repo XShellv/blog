@@ -69,6 +69,7 @@ apiRouter.get("/post/:id", async (ctx, next) => {
       order: [["id", "DESC"]],
       where: {
         id: { [Op.lt]: id * 1 },
+        status:"post",
       },
       attributes: ["id"],
       limit: 1,
@@ -77,6 +78,7 @@ apiRouter.get("/post/:id", async (ctx, next) => {
       order: [["id", "ASC"]],
       where: {
         id: { [Op.gt]: id * 1 },
+        status:"post",
       },
       attributes: ["id"],
       limit: 1,
@@ -222,6 +224,7 @@ apiRouter.get("/post", async (ctx, next) => {
     });
     conditions.where = {
       id: posts.map((post) => post.postId),
+      status:"post",
     };
   }
   if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
