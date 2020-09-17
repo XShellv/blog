@@ -220,7 +220,7 @@ apiRouter.get("/tags", async (ctx, next) => {
 });
 
 /**
- * 分页查询
+ * 分页查询非草稿
  */
 apiRouter.get("/post", async (ctx, next) => {
   const { pageSize, pageNo, tag } = ctx.request.query;
@@ -252,6 +252,38 @@ apiRouter.get("/post", async (ctx, next) => {
   if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
     conditions.where = {
       status: "post",
+    };
+    conditions.offset = (pageNo * 1 - 1) * pageSize * 1;
+    conditions.limit = pageSize * 1;
+  }
+  const ret = await model.Post.findAndCountAll(conditions);
+  if (ret) {
+    ctx.body = {
+      success: true,
+      data: ret,
+    };
+  } else {
+    ctx.body = {
+      success: false,
+      message: "query exception",
+    };
+  }
+});
+
+/**
+ * 分页查询草稿
+ */
+apiRouter.get("/draft", async (ctx, next) => {
+  const { pageSize, pageNo } = ctx.request.query;
+  let conditions = {
+    attributes: { exclude: ["content"] },
+    include: [{ model: model.Tag, attributes: ["id", "name"] }],
+    order: [["createdAt", "DESC"]],
+    distinct: true,
+  };
+  if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
+    conditions.where = {
+      status: "draft",
     };
     conditions.offset = (pageNo * 1 - 1) * pageSize * 1;
     conditions.limit = pageSize * 1;
