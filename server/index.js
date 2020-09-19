@@ -11,19 +11,19 @@ const fs = require("fs");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 server.use(bodyParser());
-server.use(koaStatic(path.resolve(__dirname, "./public/manage")));
+// server.use(koaStatic(path.resolve(__dirname, "./public/manage")));
 
-server.use(async (ctx, next) => {
-  const reg = /^(\/manage)/;
-  if (reg.test(ctx.path)) {
-    ctx.response.type = "html";
-    ctx.response.body = fs.createReadStream(
-      path.resolve(__dirname, "./public/manage/manage.html")
-    );
-  } else {
-    await next();
-  }
-});
+// server.use(async (ctx, next) => {
+//   const reg = /^(\/manage)/;
+//   if (reg.test(ctx.path)) {
+//     ctx.response.type = "html";
+//     ctx.response.body = fs.createReadStream(
+//       path.resolve(__dirname, "./public/manage/manage.html")
+//     );
+//   } else {
+//     await next();
+//   }
+// });
 
 const github_base_url = "https://api.github.com";
 const port = parseInt(process.env.PORT, 10) || 3000;
