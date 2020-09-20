@@ -29,7 +29,7 @@ apiRouter.post("/post", async (ctx, next) => {
         await body.tags.map((tag) => model.Tag.create({ name: tag }))
       );
       await post.addTags(tags);
-      ctx.body = { success: true };
+      ctx.body = { success: true, data: post };
     }
   }
 });
@@ -136,6 +136,7 @@ apiRouter.post("/post/:id", async (ctx, next) => {
   if (ret) {
     ctx.body = {
       success: true,
+      data: findPost,
     };
   } else {
     ctx.body = {
@@ -153,18 +154,18 @@ apiRouter.get("/tags", async (ctx, next) => {
   // 分组查询并聚合count数
   const posts = await model.Post.findAll({
     where: {
-      status: "post"
+      status: "post",
     },
     include: [{ model: model.Tag }],
   });
-  let tagIds = []
-  posts.map(post => {
-    tagIds = tagIds.concat(post.tags.map(tag => tag.id))
-  })
+  let tagIds = [];
+  posts.map((post) => {
+    tagIds = tagIds.concat(post.tags.map((tag) => tag.id));
+  });
   const ret = await model.Tag.findAll({
     attributes: [[sequelize.fn("COUNT", "name"), "count"], "name"],
     where: {
-      id: tagIds
+      id: tagIds,
     },
     // include: [{
     //   model: model.Post, where: {
@@ -180,9 +181,9 @@ apiRouter.get("/tags", async (ctx, next) => {
   });
 
   const total = await model.Post.count({
-    where:{
-      status:"post"
-    }
+    where: {
+      status: "post",
+    },
   });
   if (ret) {
     ctx.body = {

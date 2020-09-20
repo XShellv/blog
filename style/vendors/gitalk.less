@@ -761,7 +761,7 @@
 .gt-container .gt-svg svg {
   width : 100%;
   height: 100%;
-  fill  : #6190e8;
+  fill  : @primary-color;
 }
 
 .gt-container .gt-ico {
@@ -802,7 +802,7 @@
   margin-left       : -0.375em;
   border-radius     : 50%;
   border            : 1px solid #fff;
-  border-top-color  : #6190e8;
+  border-top-color  : @primary-color;
   -webkit-animation : gt-kf-rotate 0.6s linear infinite;
   animation         : gt-kf-rotate 0.6s linear infinite;
 }
@@ -904,17 +904,17 @@
 
 .gt-container .gt-btn-preview {
   background-color: #fff;
-  color           : #6190e8;
+  color           : @primary-color;
 }
 
 .gt-container .gt-btn-preview:hover {
   background-color: #f2f2f2;
-  border-color    : #81a6ed;
+  border-color    : fade(@primary-color, 40%);
 }
 
 .gt-container .gt-btn-public:hover {
-  background-color: #81a6ed;
-  border-color    : #81a6ed;
+  background-color: fade(@primary-color, 40%);
+  border-color    : fade(@primary-color, 40%);
 }
 
 .gt-container .gt-error {
@@ -936,13 +936,14 @@
 .gt-container .gt-no-init {
   padding   : 1.25em 0;
   text-align: center;
-  p{
+
+  p {
     margin-bottom: 10px;
   }
 }
 
 .gt-container .gt-link {
-  border-bottom: 1px dotted #6190e8;
+  border-bottom: 1px dotted @primary-color;
 }
 
 .gt-container .gt-link-counts,
@@ -1001,7 +1002,7 @@
 }
 
 .gt-container .gt-user .is--poping .gt-ico svg {
-  fill: #6190e8;
+  fill: @primary-color;
 }
 
 .gt-container .gt-version {
@@ -1040,7 +1041,7 @@
   content   : '';
   width     : 0.25em;
   height    : 0.25em;
-  background: #6190e8;
+  background: @primary-color;
   position  : absolute;
   left      : 0.5em;
   top       : 0.4375em;
@@ -1119,7 +1120,7 @@
 
 .gt-container .gt-header-controls-tip {
   font-size      : 0.875em;
-  color          : #6190e8;
+  color          : @primary-color;
   text-decoration: none;
   vertical-align : sub;
 }
@@ -1240,7 +1241,7 @@
 
 .gt-container .gt-comment-username {
   font-weight    : 500;
-  color          : #6190e8;
+  color          : @primary-color;
   text-decoration: none;
 }
 
