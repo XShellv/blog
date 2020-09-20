@@ -1,20 +1,20 @@
 import { NextPage } from "next";
-import MarkdownRenderer from "@/components/MarkdownRenderer";
 import Comment from "@/components/Comment";
 import CustomLayout from "@/layout/Layout.tsx";
 import CustomTag from "@/components/CustomTag";
 import api from "../lib/api";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { BackTop, Avatar, Card, Button, Spin } from "antd";
 import { IPost, ITag, dateFormat } from "pages";
+import PageLoading from "@/components/PageLoading";
 
 const VditorMd = dynamic(() => import("@/components/VditorMd"), {
   ssr: false,
-  loading: () => <Spin />,
+  loading: () => <PageLoading />,
 });
 interface IArticle extends IPost {
   content: string;
@@ -24,37 +24,7 @@ interface IArticle extends IPost {
 const Article: NextPage<{
   post: IArticle;
 }> = ({ post }) => {
-  const articleRef = useRef(null);
-  useEffect(() => {
-    // generateTagId();
-    // tocbot.init({
-    //   tocSelector: ".article-toc",
-    //   contentSelector: "#vditor",
-    //   hasInnerContainers: true,
-    // });
-    // return () => {
-    //   tocbot.destroy();
-    // };
-    // tocbot.refresh();
-  }, []);
-
-  // const generateTagId = () => {
-  //   const articleNode: any = ReactDOM.findDOMNode(articleRef.current);
-  //   if (articleNode) {
-  //     let nodes = articleNode.children;
-  //     if (nodes.length) {
-  //       for (let i = 0; i < nodes.length; i++) {
-  //         let node = nodes[i];
-  //         let reg = /^H[1-6]{1}$/;
-  //         if (reg.exec(node.tagName)) {
-  //           if (!node.id) {
-  //             node.id = node.textContent;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
+  useEffect(() => {}, []);
   return (
     <div id="article-wrapper">
       <Head>
@@ -86,9 +56,8 @@ const Article: NextPage<{
             }}
           ></div>
 
-          <div className="article-content">
+          <div className="article-content" style={{ position: "relative" }}>
             <VditorMd content={post.content} />
-            {/* <MarkdownRenderer content={post.content}  /> */}
             <div className="article-toc"></div>
           </div>
           <div className="article-nav">

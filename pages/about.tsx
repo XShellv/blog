@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import MarkdownRenderer from "@/components/MarkdownRenderer";
 import CustomLayout from "@/layout/Layout.tsx";
 import Comment from "@/components/Comment";
 import api from "../lib/api";
@@ -7,9 +6,11 @@ import Head from "next/head";
 import { Card, Spin } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
+import PageLoading from "@/components/PageLoading";
+
 const VditorMd = dynamic(() => import("@/components/VditorMd"), {
   ssr: false,
-  loading: () => <Spin />,
+  loading: () => <PageLoading />,
 });
 interface IAbout {
   markdownStr: string;
@@ -23,8 +24,7 @@ const About: NextPage<IAbout> = ({ markdownStr }) => {
         <script src="/static/js/prism.js"></script>
       </Head>
       <CustomLayout>
-        <Card bordered={false}>
-          {/* <MarkdownRenderer content={markdownStr} /> */}
+        <Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
           <VditorMd content={markdownStr} />
         </Card>
         <Card bordered={false}>
