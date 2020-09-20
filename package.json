@@ -43,6 +43,7 @@
     "sass-resources-loader": "^2.1.0",
     "sequelize": "^6.3.4",
     "tocbot": "^4.11.2",
+    "vditor": "^3.5.3",
     "yarn": "^1.22.4"
   },
   "devDependencies": {

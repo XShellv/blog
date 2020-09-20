@@ -2,6 +2,7 @@ import {ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import Head from 'next/head';
 import '../style/index.less';
+import "vditor/dist/index.css"
 import type { AppProps /*, AppContext */ } from 'next/app'
 
 

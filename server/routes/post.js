@@ -3,30 +3,9 @@ const path = require("path");
 const Router = require("@koa/router");
 const apiRouter = new Router();
 const model = require("../mysql/models");
-const MarkdownIt = require("markdown-it");
+
 const Sequelize = require("sequelize");
 const sequelize = require("../mysql/util/database");
-const md = new MarkdownIt({
-  html: true,
-  linkify: true,
-});
-
-const fetchMd = (file) => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(
-      path.resolve(__dirname, `../../mock/${file}.txt`),
-      "utf-8",
-      function (err, data) {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(md.render(data));
-        }
-      }
-    );
-  });
-};
 
 /**
  * 创建文章
@@ -300,12 +279,6 @@ apiRouter.get("/draft", async (ctx, next) => {
       message: "query exception",
     };
   }
-});
-
-// 获取自我介绍
-apiRouter.get("/ab", async (ctx, next) => {
-  const md = await fetchMd("about");
-  ctx.body = md;
 });
 
 async function requestHtml(method, url, data) {

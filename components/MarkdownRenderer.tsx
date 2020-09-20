@@ -1,13 +1,19 @@
+import MyDocument from "pages/_document";
 import { forwardRef } from "react";
+const MarkdownIt = require("markdown-it");
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+});
 
 interface IMarkdownRenderer {
-  html: string;
+  content: string;
 }
 const MarkdownRenderer = forwardRef((props: IMarkdownRenderer, ref: any) => {
-  const { html } = props;
+  const { content } = props;
   return (
-    <div className="markdown-body">
-      <div ref={ref} dangerouslySetInnerHTML={{ __html: html }} />
+    <div className="vditor-reset">
+      <div ref={ref} dangerouslySetInnerHTML={{ __html: md.render(content) }} />
     </div>
   );
 });
