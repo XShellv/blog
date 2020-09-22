@@ -17,6 +17,10 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" type="image/png" href="/static/favicon.png" />
+          {/* <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css"
+          /> */}
           {typeof window === "undefined" && (
             <style
               id="holderStyle"

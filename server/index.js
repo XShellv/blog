@@ -11,6 +11,7 @@ const fs = require("fs");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 server.use(bodyParser());
+let index = 0;
 // server.use(koaStatic(path.resolve(__dirname, "./public/manage")));
 
 // server.use(async (ctx, next) => {
@@ -59,6 +60,8 @@ app
     });
 
     pageRouter.all("*", async (ctx) => {
+      ctx.cookies.set("id", index);
+      index += 1;
       await handle(ctx.req, ctx.res).catch((e) => {
         console.log(e);
       });
