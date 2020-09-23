@@ -8,7 +8,8 @@ const koaStatic = require("koa-static");
 const session = require("koa-session");
 const path = require("path");
 const fs = require("fs");
-const Store = require('./config/store')
+const auth = require("./auth");
+const Store = require("./config/store");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 let index = 0;
@@ -45,6 +46,8 @@ app
       store: new Store(),
     };
     server.use(session(SESSION_CONFIG, server));
+    // 配置处理github oauth登录
+    auth(server);
     server.use(async (ctx, next) => {
       await next();
     });
@@ -55,6 +58,11 @@ app
         age: 27,
       };
       ctx.body = "set session successfully!";
+    });
+
+    pageRouter.get("/delete/user", async (ctx, next) => {
+      ctx.session = null;
+      ctx.body = "delete session successfully!";
     });
 
     pageRouter.get("/", async (ctx) => {

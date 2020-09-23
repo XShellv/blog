@@ -27,6 +27,7 @@
     "dotenv": "^8.2.0",
     "gitalk": "^1.6.2",
     "github-markdown-css": "^4.0.0",
+    "ioredis": "^4.17.3",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-combine-routers": "^4.0.2",

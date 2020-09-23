@@ -4,8 +4,9 @@ import { Layout, Menu, Space, Tooltip } from "antd";
 const { Header, Footer, Content } = Layout;
 import moment from "moment";
 import { withRouter } from "next/router";
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+const config = require("../server/config/config");
 
 const menuOptions = [
   {
@@ -64,7 +65,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
             <span className="iconfont">&#xe603;</span>Xshellv Blog
           </a>
         </Link>
-        <div className="options" >
+        <div className="options">
           <Menu
             mode="horizontal"
             className="menu"
@@ -83,12 +84,23 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
               );
             })}
           </Menu>
-          {true ? <Tooltip title={<span style={{ fontSize: 12 }}>仅限管理员登录</span>}>
-            <Space style={{ color: "rgba(255, 255, 255, 0.7)", cursor: 'pointer' }}>
-              <Avatar size={30} icon={<UserOutlined />} />
-              未登录
-            </Space>
-          </Tooltip> : null}
+          {true ? (
+            <Tooltip
+              title={<span style={{ fontSize: 12 }}>仅限管理员登录</span>}
+            >
+              <a href={config.github.GET_OAUTH_URL()}>
+                <Space
+                  style={{
+                    color: "rgba(255, 255, 255, 0.7)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Avatar size={30} icon={<UserOutlined />} />
+                  未登录
+                </Space>
+              </a>
+            </Tooltip>
+          ) : null}
         </div>
         {/* <div className="search">
           <Input
@@ -109,9 +121,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           <p className="support">
             托管于腾讯云、使用Ant Design、next.js服务端框架
           </p>
-          <p className="copyright">
-            ❤️ Copyright © 2020 developed by Xshellv
-          </p>
+          <p className="copyright">❤️ Copyright © 2020 developed by Xshellv</p>
           <p className="icp">
             <a target="blank" href="http://www.beian.miit.gov.cn/">
               苏ICP备19014278号
