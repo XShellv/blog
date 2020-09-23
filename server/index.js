@@ -8,6 +8,7 @@ const koaStatic = require("koa-static");
 const session = require("koa-session");
 const path = require("path");
 const fs = require("fs");
+const Store = require('./config/store')
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 let index = 0;
@@ -41,11 +42,10 @@ app
     server.keys = ["xshellv is a programmer"];
     const SESSION_CONFIG = {
       key: "user",
-      // store: {},
+      store: new Store(),
     };
     server.use(session(SESSION_CONFIG, server));
     server.use(async (ctx, next) => {
-      console.log("sessions is", ctx.session);
       await next();
     });
 
@@ -54,7 +54,6 @@ app
         name: "xshellv",
         age: 27,
       };
-      console.log(ctx.session.user);
       ctx.body = "set session successfully!";
     });
 

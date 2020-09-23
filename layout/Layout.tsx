@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Space, Tooltip } from "antd";
 const { Header, Footer, Content } = Layout;
 import moment from "moment";
 import { withRouter } from "next/router";
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const menuOptions = [
   {
@@ -62,24 +64,32 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
             <span className="iconfont">&#xe603;</span>Xshellv Blog
           </a>
         </Link>
-        <Menu
-          mode="horizontal"
-          className="menu"
-          theme="dark"
-          selectedKeys={[router.pathname]}
-        >
-          {menuOptions.map((op) => {
-            return (
-              <Menu.Item key={op.key} className="menu-item">
-                <Link href={op.path}>
-                  <a>
-                    {op.icon} {op.name}
-                  </a>
-                </Link>
-              </Menu.Item>
-            );
-          })}
-        </Menu>
+        <div className="options" >
+          <Menu
+            mode="horizontal"
+            className="menu"
+            theme="dark"
+            selectedKeys={[router.pathname]}
+          >
+            {menuOptions.map((op) => {
+              return (
+                <Menu.Item key={op.key} className="menu-item">
+                  <Link href={op.path}>
+                    <a>
+                      {op.icon} {op.name}
+                    </a>
+                  </Link>
+                </Menu.Item>
+              );
+            })}
+          </Menu>
+          {true ? <Tooltip title={<span style={{ fontSize: 12 }}>仅限管理员登录</span>}>
+            <Space style={{ color: "rgba(255, 255, 255, 0.7)", cursor: 'pointer' }}>
+              <Avatar size={30} icon={<UserOutlined />} />
+              未登录
+            </Space>
+          </Tooltip> : null}
+        </div>
         {/* <div className="search">
           <Input
             style={{ width: 250 }}

@@ -12,6 +12,7 @@
     "scp": "scp -r .\\dist xshellv@119.45.162.84:/xxw/blog"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.2",
     "@koa/router": "^8.0.7",
     "@types/classnames": "^2.2.10",
     "@types/markdown-it": "^10.0.2",
