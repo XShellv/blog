@@ -23,9 +23,9 @@ class RedisStore {
     try {
       const sessStr = JSON.stringify(sess);
       if (ttl) {
-        await this.redis.setex(key, ttl, sessStr);
+        await this.redis.setex(`ssid:${key}`, ttl, sessStr);
       } else {
-        await this.redis.set(key, sessStr);
+        await this.redis.set(`ssid:${key}`, sessStr);
       }
     } catch (err) {
       console.error(err);

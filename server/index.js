@@ -12,7 +12,6 @@ const auth = require("./auth");
 const Store = require("./config/store");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
-let index = 0;
 // server.use(koaStatic(path.resolve(__dirname, "./public/manage")));
 
 // server.use(async (ctx, next) => {
@@ -48,16 +47,16 @@ app
     server.use(session(SESSION_CONFIG, server));
     // 配置处理github oauth登录
     auth(server);
-    server.use(async (ctx, next) => {
-      await next();
-    });
 
-    pageRouter.get("/set/user", async (ctx, next) => {
-      ctx.session.user = {
-        name: "xshellv",
-        age: 27,
-      };
-      ctx.body = "set session successfully!";
+    pageRouter.get("/user/info", async (ctx, next) => {
+      const user = ctx.session.userInfo;
+      if (!user) {
+        ctx.status = 401
+        ctx.body = 'Need Login'
+      } else {
+        ctx.body = user
+        ctx.set('Content-Type', 'application/json')
+      }
     });
 
     pageRouter.get("/delete/user", async (ctx, next) => {
@@ -89,8 +88,6 @@ app
     });
 
     pageRouter.all("*", async (ctx) => {
-      ctx.cookies.set("id", index);
-      index += 1;
       await handle(ctx.req, ctx.res).catch((e) => {
         console.log(e);
       });
