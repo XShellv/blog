@@ -9,6 +9,10 @@ const antd_1 = require("antd");
 const { Header, Footer, Content } = antd_1.Layout;
 const moment_1 = __importDefault(require("moment"));
 const router_1 = require("next/router");
+const antd_2 = require("antd");
+const icons_1 = require("@ant-design/icons");
+const react_redux_1 = require("react-redux");
+const config = require("../server/config/config");
 const menuOptions = [
     {
         name: "首页",
@@ -16,18 +20,18 @@ const menuOptions = [
         key: "/",
         icon: <i className="iconfont">&#xe605;</i>,
     },
-    // {
-    //   name: "开发",
-    //   path: "/develop",
-    //   key: "/develop",
-    //   icon: <i className="iconfont">&#xe962;</i>,
-    // },
-    //   {
-    //     name: "设计",
-    //     path: "/design",
-    //     key: "设计",
-    //     icon: <i className="iconfont">&#xe62a;</i>,
-    //   },
+    {
+        name: "开发",
+        path: "/develop",
+        key: "/develop",
+        icon: <i className="iconfont">&#xe962;</i>,
+    },
+    {
+        name: "笔记",
+        path: "/notes",
+        key: "笔记",
+        icon: <i className="iconfont">&#xe62a;</i>,
+    },
     {
         name: "归档",
         path: "/achieve",
@@ -57,6 +61,35 @@ const gap = () => {
     };
 };
 const CustomLayout = ({ children, router }) => {
+    const userInfo = react_redux_1.useSelector((state) => state.userInfo);
+    const menu = (<antd_1.Menu>
+      <antd_1.Menu.Item>
+        <a href="/logout" style={{
+        textDecoration: "none",
+    }}>
+          退出登录
+        </a>
+      </antd_1.Menu.Item>
+    </antd_1.Menu>);
+    let renderLog = null;
+    if (userInfo) {
+        renderLog = (<antd_1.Dropdown overlay={menu}>
+        <antd_1.Space>
+          <antd_2.Avatar src={userInfo["avatar_url"]}/>
+          <span className="login-name">{userInfo["name"]}</span>
+        </antd_1.Space>
+      </antd_1.Dropdown>);
+    }
+    else {
+        renderLog = (<antd_1.Tooltip title={<span style={{ fontSize: 12 }}>仅限管理员登录</span>}>
+        <a className="login-link" href={config.github.GET_OAUTH_URL()}>
+          <antd_1.Space>
+            <antd_2.Avatar size={30} icon={<icons_1.UserOutlined />}/>
+            <span className="logout-name">未登录</span>
+          </antd_1.Space>
+        </a>
+      </antd_1.Tooltip>);
+    }
     return (<div id="layout">
       <Header id="header">
         <link_1.default href="/">
@@ -64,17 +97,20 @@ const CustomLayout = ({ children, router }) => {
             <span className="iconfont">&#xe603;</span>Xshellv Blog
           </a>
         </link_1.default>
-        <antd_1.Menu mode="horizontal" className="menu" theme="dark" selectedKeys={[router.pathname]}>
-          {menuOptions.map((op) => {
+        <div className="options">
+          <antd_1.Menu mode="horizontal" className="menu" theme="dark" selectedKeys={[router.pathname]}>
+            {menuOptions.map((op) => {
         return (<antd_1.Menu.Item key={op.key} className="menu-item">
-                <link_1.default href={op.path}>
-                  <a>
-                    {op.icon} {op.name}
-                  </a>
-                </link_1.default>
-              </antd_1.Menu.Item>);
+                  <link_1.default href={op.path}>
+                    <a>
+                      {op.icon} {op.name}
+                    </a>
+                  </link_1.default>
+                </antd_1.Menu.Item>);
     })}
-        </antd_1.Menu>
+          </antd_1.Menu>
+          <div className="log-options">{renderLog}</div>
+        </div>
         
       </Header>
       <Content id="body">{children}</Content>
@@ -84,9 +120,7 @@ const CustomLayout = ({ children, router }) => {
           <p className="support">
             托管于腾讯云、使用Ant Design、next.js服务端框架
           </p>
-          <p className="copyright">
-            ❤️ Copyright © 2020 developed by Xshellv
-          </p>
+          <p className="copyright">❤️ Copyright © 2020 developed by Xshellv</p>
           <p className="icp">
             <a target="blank" href="http://www.beian.miit.gov.cn/">
               苏ICP备19014278号

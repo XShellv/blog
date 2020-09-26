@@ -4,26 +4,8 @@ const path = require("path");
 const Router = require("@koa/router");
 const apiRouter = new Router();
 const model = require("../mysql/models");
-const MarkdownIt = require("markdown-it");
 const Sequelize = require("sequelize");
 const sequelize = require("../mysql/util/database");
-const md = new MarkdownIt({
-    html: true,
-    linkify: true,
-});
-const fetchMd = (file) => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path.resolve(__dirname, `../../mock/${file}.txt`), "utf-8", function (err, data) {
-            if (err) {
-                console.error(err);
-                reject(err);
-            }
-            else {
-                resolve(md.render(data));
-            }
-        });
-    });
-};
 /**
  * 创建文章
  */
@@ -45,7 +27,7 @@ apiRouter.post("/post", async (ctx, next) => {
         if (post) {
             const tags = await Promise.all(await body.tags.map((tag) => model.Tag.create({ name: tag })));
             await post.addTags(tags);
-            ctx.body = { success: true };
+            ctx.body = { success: true, data: post };
         }
     }
 });
@@ -63,6 +45,7 @@ apiRouter.get("/post/:id", async (ctx, next) => {
             order: [["id", "DESC"]],
             where: {
                 id: { [Op.lt]: id * 1 },
+                status: "post",
             },
             attributes: ["id"],
             limit: 1,
@@ -71,6 +54,7 @@ apiRouter.get("/post/:id", async (ctx, next) => {
             order: [["id", "ASC"]],
             where: {
                 id: { [Op.gt]: id * 1 },
+                status: "post",
             },
             attributes: ["id"],
             limit: 1,
@@ -146,6 +130,7 @@ apiRouter.post("/post/:id", async (ctx, next) => {
     if (ret) {
         ctx.body = {
             success: true,
+            data: findPost,
         };
     }
     else {
@@ -161,8 +146,26 @@ apiRouter.post("/post/:id", async (ctx, next) => {
 apiRouter.get("/tags", async (ctx, next) => {
     // 从postTag中找出有效的tagId
     // 分组查询并聚合count数
+    const posts = await model.Post.findAll({
+        where: {
+            status: "post",
+        },
+        include: [{ model: model.Tag }],
+    });
+    let tagIds = [];
+    posts.map((post) => {
+        tagIds = tagIds.concat(post.tags.map((tag) => tag.id));
+    });
     const ret = await model.Tag.findAll({
         attributes: [[sequelize.fn("COUNT", "name"), "count"], "name"],
+        where: {
+            id: tagIds,
+        },
+        // include: [{
+        //   model: model.Post, where: {
+        //     status: "post"
+        //   }
+        // }],
         group: "name",
         plain: false,
         raw: true,
@@ -170,7 +173,11 @@ apiRouter.get("/tags", async (ctx, next) => {
             sequelize.where(sequelize.fn("COUNT", sequelize.col("name")), ">", 0),
         ],
     });
-    const total = await model.Post.count();
+    const total = await model.Post.count({
+        where: {
+            status: "post",
+        },
+    });
     if (ret) {
         ctx.body = {
             success: true,
@@ -186,7 +193,7 @@ apiRouter.get("/tags", async (ctx, next) => {
     }
 });
 /**
- * 分页查询
+ * 分页查询非草稿
  */
 apiRouter.get("/post", async (ctx, next) => {
     const { pageSize, pageNo, tag } = ctx.request.query;
@@ -211,9 +218,13 @@ apiRouter.get("/post", async (ctx, next) => {
         });
         conditions.where = {
             id: posts.map((post) => post.postId),
+            status: "post",
         };
     }
     if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
+        conditions.where = {
+            status: "post",
+        };
         conditions.offset = (pageNo * 1 - 1) * pageSize * 1;
         conditions.limit = pageSize * 1;
     }
@@ -231,10 +242,37 @@ apiRouter.get("/post", async (ctx, next) => {
         };
     }
 });
-// 获取自我介绍
-apiRouter.get("/ab", async (ctx, next) => {
-    const md = await fetchMd("about");
-    ctx.body = md;
+/**
+ * 分页查询草稿
+ */
+apiRouter.get("/draft", async (ctx, next) => {
+    const { pageSize, pageNo } = ctx.request.query;
+    let conditions = {
+        attributes: { exclude: ["content"] },
+        include: [{ model: model.Tag, attributes: ["id", "name"] }],
+        order: [["createdAt", "DESC"]],
+        distinct: true,
+    };
+    if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
+        conditions.where = {
+            status: "draft",
+        };
+        conditions.offset = (pageNo * 1 - 1) * pageSize * 1;
+        conditions.limit = pageSize * 1;
+    }
+    const ret = await model.Post.findAndCountAll(conditions);
+    if (ret) {
+        ctx.body = {
+            success: true,
+            data: ret,
+        };
+    }
+    else {
+        ctx.body = {
+            success: false,
+            message: "query exception",
+        };
+    }
 });
 async function requestHtml(method, url, data) {
     return await axios({

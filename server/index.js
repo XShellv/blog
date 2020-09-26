@@ -1,6 +1,6 @@
 const Koa = require("koa");
 const next = require("next");
-const Router = require("@koa/router");
+const Router = require("koa-router");
 const combineRouters = require("koa-combine-routers");
 const bodyParser = require("koa-bodyparser");
 const initdb = require("./mysql");
@@ -12,26 +12,12 @@ const auth = require("./auth");
 const Store = require("./config/store");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
-// server.use(koaStatic(path.resolve(__dirname, "./public/manage")));
-
-// server.use(async (ctx, next) => {
-//   const reg = /^(\/manage)/;
-//   if (reg.test(ctx.path)) {
-//     ctx.response.type = "html";
-//     ctx.response.body = fs.createReadStream(
-//       path.resolve(__dirname, "./public/manage/manage.html")
-//     );
-//   } else {
-//     await next();
-//   }
-// });
-
+const pageRouter = new Router();
 const github_base_url = "https://api.github.com";
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const pageRouter = new Router();
 
 app
   .prepare()
@@ -51,17 +37,16 @@ app
     pageRouter.get("/user/info", async (ctx, next) => {
       const user = ctx.session.userInfo;
       if (!user) {
-        ctx.status = 401
-        ctx.body = 'Need Login'
+        // 未登录默认不携带管理员信息
+        ctx.body = null;
       } else {
-        ctx.body = user
-        ctx.set('Content-Type', 'application/json')
+        ctx.set("Content-Type", "application/json");
+        ctx.body = user;
       }
     });
 
-    pageRouter.get("/delete/user", async (ctx, next) => {
-      ctx.session = null;
-      ctx.body = "delete session successfully!";
+    pageRouter.get("/favicon.ico", async (ctx, next) => {
+      ctx.body = null;
     });
 
     pageRouter.get("/", async (ctx) => {
@@ -88,14 +73,19 @@ app
     });
 
     pageRouter.all("*", async (ctx) => {
-      await handle(ctx.req, ctx.res).catch((e) => {
-        console.log(e);
-      });
+      await handle(ctx.req, ctx.res);
       ctx.respond = false;
     });
 
     const router = combineRouters(postRouter, aboutRouter, pageRouter);
     server.use(router());
+
+    // pageRouter.use(async (ctx, next) => {
+    //   await handle(ctx.req, ctx.res).catch((e) => {
+    //     console.log(e, ">>>>>");
+    //   });
+    //   ctx.respond = false;
+    // });
 
     initdb().then(async (result) => {
       if (result) {

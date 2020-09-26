@@ -4,13 +4,8 @@ const path = require("path");
 const Router = require("@koa/router");
 const aboutRouter = new Router();
 const model = require("../mysql/models");
-const MarkdownIt = require("markdown-it");
 const Sequelize = require("sequelize");
 const sequelize = require("../mysql/util/database");
-const md = new MarkdownIt({
-    html: true,
-    linkify: true,
-});
 /**
  * 创建或更新关于我
  */
@@ -34,10 +29,7 @@ aboutRouter.post("/me", async (ctx, next) => {
  */
 aboutRouter.get("/me", async (ctx, next) => {
     let ret = await model.About.findByPk(1);
-    if (ret) {
-        ret.content = md.render(ret.content);
-    }
-    else {
+    if (!ret) {
         ret = {};
         ret.content = "";
         ret.motto = "";

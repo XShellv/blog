@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
-import { Layout, Menu, Space, Tooltip } from "antd";
+import { Dropdown, Layout, Menu, Space, Tooltip } from "antd";
 const { Header, Footer, Content } = Layout;
 import moment from "moment";
 import { withRouter } from "next/router";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { IState } from "redux/reducer";
+import { login, logout } from "redux/actions";
+import axios from "axios";
 const config = require("../server/config/config");
 
 const menuOptions = [
@@ -15,18 +19,18 @@ const menuOptions = [
     key: "/",
     icon: <i className="iconfont">&#xe605;</i>,
   },
-  // {
-  //   name: "开发",
-  //   path: "/develop",
-  //   key: "/develop",
-  //   icon: <i className="iconfont">&#xe962;</i>,
-  // },
-  //   {
-  //     name: "设计",
-  //     path: "/design",
-  //     key: "设计",
-  //     icon: <i className="iconfont">&#xe62a;</i>,
-  //   },
+  {
+    name: "开发",
+    path: "/develop",
+    key: "/develop",
+    icon: <i className="iconfont">&#xe962;</i>,
+  },
+  {
+    name: "笔记",
+    path: "/notes",
+    key: "笔记",
+    icon: <i className="iconfont">&#xe62a;</i>,
+  },
   {
     name: "归档",
     path: "/achieve",
@@ -57,6 +61,50 @@ const gap = () => {
   };
 };
 const CustomLayout: React.FC<any> = ({ children, router }) => {
+  const userInfo = useSelector((state: IState) => state.userInfo);
+  const dispatch = useDispatch();
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(logout());
+          }}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          退出登录
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+
+  let renderLog = null;
+  if (userInfo) {
+    renderLog = (
+      <Dropdown overlay={menu}>
+        <Space>
+          <Avatar size={30} src={userInfo["avatar_url"]} />
+          <span className="login-name">{userInfo["name"]}</span>
+        </Space>
+      </Dropdown>
+    );
+  } else {
+    renderLog = (
+      <Tooltip title={<span style={{ fontSize: 12 }}>点击进行管理员登录</span>}>
+        <a className="login-link" href={`/preapre-auth?url=${router.asPath}`}>
+          <Space>
+            <Avatar size={30} icon={<UserOutlined />} />
+            <span className="logout-name">未登录</span>
+          </Space>
+        </a>
+      </Tooltip>
+    );
+  }
   return (
     <div id="layout">
       <Header id="header">
@@ -84,23 +132,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
               );
             })}
           </Menu>
-          {true ? (
-            <Tooltip
-              title={<span style={{ fontSize: 12 }}>仅限管理员登录</span>}
-            >
-              <a href={config.github.GET_OAUTH_URL()}>
-                <Space
-                  style={{
-                    color: "rgba(255, 255, 255, 0.7)",
-                    cursor: "pointer",
-                  }}
-                >
-                  <Avatar size={30} icon={<UserOutlined />} />
-                  未登录
-                </Space>
-              </a>
-            </Tooltip>
-          ) : null}
+          <div className="log-options">{renderLog}</div>
         </div>
         {/* <div className="search">
           <Input

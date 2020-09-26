@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const Router = require("@koa/router");
+const Router = require("koa-router");
 const apiRouter = new Router();
 const model = require("../mysql/models");
 
