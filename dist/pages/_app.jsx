@@ -22,9 +22,6 @@ function MyApp({ Component, pageProps }) {
     //     window && window.addEventListener('resize',setRem)
     // })
     react_1.useEffect(() => {
-        // dispatch(startClock());
-    }, [dispatch]);
-    react_1.useEffect(() => {
         fetchUser();
     }, []);
     const fetchUser = async () => {

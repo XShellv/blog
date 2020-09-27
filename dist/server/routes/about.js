@@ -1,7 +1,7 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
-const Router = require("@koa/router");
+const Router = require("koa-router");
 const aboutRouter = new Router();
 const model = require("../mysql/models");
 const Sequelize = require("sequelize");

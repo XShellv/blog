@@ -43,21 +43,4 @@ aboutRouter.get("/me", async (ctx, next) => {
   };
 });
 
-// const fetchMd = (file) => {
-//     return new Promise((resolve, reject) => {
-//       fs.readFile(
-//         path.resolve(__dirname, `../../mock/${file}.txt`),
-//         "utf-8",
-//         function(err, data) {
-//           if (err) {
-//             console.error(err);
-//             reject(err);
-//           } else {
-//             resolve();
-//           }
-//         }
-//       );
-//     });
-//   };
-
 module.exports = aboutRouter;

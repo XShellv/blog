@@ -12,6 +12,7 @@ const router_1 = require("next/router");
 const antd_2 = require("antd");
 const icons_1 = require("@ant-design/icons");
 const react_redux_1 = require("react-redux");
+const actions_1 = require("redux/actions");
 const config = require("../server/config/config");
 const menuOptions = [
     {
@@ -62,10 +63,17 @@ const gap = () => {
 };
 const CustomLayout = ({ children, router }) => {
     const userInfo = react_redux_1.useSelector((state) => state.userInfo);
-    const menu = (<antd_1.Menu>
+    const dispatch = react_redux_1.useDispatch();
+    const menu = (<antd_1.Menu className="login-menu">
       <antd_1.Menu.Item>
-        <a href="/logout" style={{
-        textDecoration: "none",
+        <a href="https://www.xshellv.com/manage" target="_blank">
+          管理后台
+        </a>
+      </antd_1.Menu.Item>
+      <antd_1.Menu.Item>
+        <a href="#" onClick={(e) => {
+        e.preventDefault();
+        dispatch(actions_1.logout());
     }}>
           退出登录
         </a>
@@ -75,14 +83,14 @@ const CustomLayout = ({ children, router }) => {
     if (userInfo) {
         renderLog = (<antd_1.Dropdown overlay={menu}>
         <antd_1.Space>
-          <antd_2.Avatar src={userInfo["avatar_url"]}/>
+          <antd_2.Avatar size={30} src={userInfo["avatar_url"]}/>
           <span className="login-name">{userInfo["name"]}</span>
         </antd_1.Space>
       </antd_1.Dropdown>);
     }
     else {
-        renderLog = (<antd_1.Tooltip title={<span style={{ fontSize: 12 }}>仅限管理员登录</span>}>
-        <a className="login-link" href={config.github.GET_OAUTH_URL()}>
+        renderLog = (<antd_1.Tooltip title={<span style={{ fontSize: 12 }}>点击进行管理员登录</span>}>
+        <a className="login-link" href={`/preapre-auth?url=${router.asPath}`}>
           <antd_1.Space>
             <antd_2.Avatar size={30} icon={<icons_1.UserOutlined />}/>
             <span className="logout-name">未登录</span>
