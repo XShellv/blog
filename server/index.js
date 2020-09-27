@@ -53,6 +53,11 @@ app
       ctx.respond = false;
     });
 
+    pageRouter.get("/notes", async (ctx) => {
+      await app.render(ctx.req, ctx.res, "/notes", ctx.query);
+      ctx.respond = false;
+    });
+
     pageRouter.get("/about", async (ctx) => {
       await app.render(ctx.req, ctx.res, "/about", ctx.query);
       ctx.respond = false;
