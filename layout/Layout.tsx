@@ -65,16 +65,21 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
   const dispatch = useDispatch();
 
   const menu = (
-    <Menu>
+    <Menu className="login-menu">
+      <Menu.Item>
+        <a
+          href="https://www.xshellv.com/manage"
+          target="_blank"
+        >
+          管理后台
+        </a>
+      </Menu.Item>
       <Menu.Item>
         <a
           href="#"
           onClick={(e) => {
             e.preventDefault();
             dispatch(logout());
-          }}
-          style={{
-            textDecoration: "none",
           }}
         >
           退出登录

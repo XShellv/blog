@@ -96,7 +96,7 @@ app
       }
     });
   })
-  .catch((ex) => {
-    console.error(ex.stack);
-    process.exit(1);
-  });
+  // .catch((ex) => {
+  //   console.error(ex.stack,">>>>>>>>>>>>>>>>>>");
+  //   // process.exit(1);
+  // });
