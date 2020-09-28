@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { Card, List, Pagination } from "antd";
+import { Card, List, Row, Col, Avatar, Button } from "antd";
 import CustomLayout from "@/layout/Layout.tsx";
 import CustomTag from "@/components/CustomTag.tsx";
 import { useQuery } from "@/hooks/useQuery";
 import api from "lib/api";
-import { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { NextPageContext, NextPage } from "next";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -53,38 +53,92 @@ const Home: NextPage<{
   return (
     <div id="home-wrapper">
       <CustomLayout>
-        <List
-          bordered={false}
-          size="small"
-          loading={loading}
-          dataSource={list.rows}
-          renderItem={(row) => (
-            <List.Item key={row.title}>
-              <ArticleCard key={row.title} {...row} />
-            </List.Item>
-          )}
-          pagination={{
-            total: list.count,
-            showTotal: (total) => `共 ${total} 篇`,
-            pageSize: pageSize,
-            current: pageNo,
-            hideOnSinglePage: true,
-            size:"small",
-            onChange: (pageNo, pageSize) => {
-              query.set("pageNo", pageNo + "");
-              query.set("pageSize", pageSize + "");
-              jumpTo(query);
-            },
-            onShowSizeChange: (pageNo, pageSize) => {
-              query.set("pageNo", pageNo + "");
-              query.set("pageSize", pageSize + "");
-              jumpTo(query);
-            },
-            showQuickJumper: true,
-            showSizeChanger: true,
-            pageSizeOptions: ["10", "20", "50"],
-          }}
-        />
+        <Row gutter={[24, 24]}>
+          <Col xs={0} md={8} lg={6}>
+            <Card className="brief-info">
+              <div className="avatar">
+                <Avatar
+                  size={100}
+                  src="https://static.ddhigh.com/blog/2019-09-18-094336.jpg"
+                />
+              </div>
+              <div className="me">
+                <span>徐小武</span>
+                <span>xshellv</span>
+                <span>
+                  <span></span>上海长宁区
+                </span>
+              </div>
+              <Button type="primary" block>
+                关注我
+              </Button>
+              <div className="options">
+                <a
+                  target="blank"
+                  href="https://blog.csdn.net/weixin_40774527"
+                  title="CSDN"
+                >
+                  <i className="iconfont">&#xeee4;</i>
+                </a>
+                <a
+                  target="blank"
+                  href="https://www.jianshu.com/u/dfed43ff08bc"
+                  title="简书"
+                >
+                  <i className="iconfont">&#xeee5;</i>
+                </a>
+                <a
+                  target="blank"
+                  href="https://www.zhihu.com/people/yu-zi-jiang-54-7/activities"
+                  title="知乎"
+                >
+                  <i className="iconfont">&#xe600;</i>
+                </a>
+                <a
+                  target="blank"
+                  href="https://github.com/xshellv"
+                  title="github"
+                >
+                  <i className="iconfont">&#xeee2;</i>
+                </a>
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} md={16} lg={18}>
+            <List
+              bordered={false}
+              size="small"
+              loading={loading}
+              dataSource={list.rows}
+              renderItem={(row) => (
+                <List.Item key={row.title}>
+                  <ArticleCard key={row.title} {...row} />
+                </List.Item>
+              )}
+              pagination={{
+                total: list.count,
+                showTotal: (total) => `共 ${total} 篇`,
+                pageSize: pageSize,
+                current: pageNo,
+                hideOnSinglePage: true,
+                size: "small",
+                onChange: (pageNo, pageSize) => {
+                  query.set("pageNo", pageNo + "");
+                  query.set("pageSize", pageSize + "");
+                  jumpTo(query);
+                },
+                onShowSizeChange: (pageNo, pageSize) => {
+                  query.set("pageNo", pageNo + "");
+                  query.set("pageSize", pageSize + "");
+                  jumpTo(query);
+                },
+                showQuickJumper: true,
+                showSizeChanger: true,
+                pageSizeOptions: ["10", "20", "50"],
+              }}
+            />
+          </Col>
+        </Row>
       </CustomLayout>
     </div>
   );
