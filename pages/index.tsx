@@ -54,7 +54,7 @@ const Home: NextPage<{
     <div id="home-wrapper">
       <CustomLayout>
         <Row gutter={[24, 24]}>
-          <Col xs={0} md={8} lg={6}>
+          <Col xs={0} md={0} lg={8} xl={6}>
             <Card className="brief-info">
               <div className="avatar">
                 <Avatar
@@ -104,7 +104,7 @@ const Home: NextPage<{
               </div>
             </Card>
           </Col>
-          <Col xs={24} md={16} lg={18}>
+          <Col xs={24} md={24} lg={16} xl={18}>
             <List
               bordered={false}
               size="small"

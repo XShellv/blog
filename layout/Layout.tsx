@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Link from "next/link";
-import { Dropdown, Layout, Menu, Space, Tooltip } from "antd";
+import { Col, Dropdown, Layout, Menu, Row, Space, Tooltip } from "antd";
 const { Header, Footer, Content } = Layout;
 import moment from "moment";
 import { withRouter } from "next/router";
@@ -147,7 +147,11 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           />
         </div> */}
       </Header>
-      <Content id="body">{children}</Content>
+      <Row gutter={[{ md: 12, lg: 30, xl: 100, xxl: 400 }, 24]}>
+        <Col span={24}>
+          <Content id="body">{children}</Content>
+        </Col>
+      </Row>
       <Footer id="footer">
         <div className="footerInfo">
           {/* <p className="time">
