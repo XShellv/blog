@@ -10,9 +10,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Comment_1 = __importDefault(require("@/components/Comment"));
+const comment_1 = __importDefault(require("@/components/comment"));
 const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
-const CustomTag_1 = __importDefault(require("@/components/CustomTag"));
+const customTag_1 = __importDefault(require("@/components/customTag"));
 const api_1 = __importDefault(require("../lib/api"));
 const react_1 = __importStar(require("react"));
 const head_1 = __importDefault(require("next/head"));
@@ -20,11 +20,11 @@ const link_1 = __importDefault(require("next/link"));
 const moment_1 = __importDefault(require("moment"));
 const dynamic_1 = __importDefault(require("next/dynamic"));
 const antd_1 = require("antd");
-const pages_1 = require("pages");
-const PageLoading_1 = __importDefault(require("@/components/PageLoading"));
-const VditorMd = dynamic_1.default(() => Promise.resolve().then(() => __importStar(require("@/components/VditorMd"))), {
+const _slug_1 = require("./[slug]");
+const pageLoading_1 = __importDefault(require("@/components/pageLoading"));
+const VditorMd = dynamic_1.default(() => Promise.resolve().then(() => __importStar(require("@/components/vditorMd"))), {
     ssr: false,
-    loading: () => <PageLoading_1.default />,
+    loading: () => <pageLoading_1.default />,
 });
 const Article = ({ post }) => {
     react_1.useEffect(() => { }, []);
@@ -40,12 +40,12 @@ const Article = ({ post }) => {
           <h1 className="article-title">{post.title}</h1>
           <div className="article-info">
             <div className="tags">
-              {post.tags.map((tag) => (<CustomTag_1.default key={tag.name}>{tag.name}</CustomTag_1.default>))}
+              {post.tags.map((tag) => (<customTag_1.default key={tag.name}>{tag.name}</customTag_1.default>))}
             </div>
             <div className="extra">
               <span className="time">
                 发布于：
-                {moment_1.default(new Date(post.updatedAt).valueOf()).format(pages_1.dateFormat)}
+                {moment_1.default(new Date(post.updatedAt).valueOf()).format(_slug_1.dateFormat)}
               </span>
             </div>
           </div>
@@ -73,7 +73,7 @@ const Article = ({ post }) => {
           </div>
         </antd_1.Card>
         <antd_1.Card bordered={false}>
-          <Comment_1.default />
+          <comment_1.default />
         </antd_1.Card>
         <antd_1.BackTop />
       </Layout_tsx_1.default>

@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import VditorPreview from "vditor/dist/method.min";
 import * as tocbot from "tocbot";
 
-const VditorMd = (props: any) => {
+const VditorMd: React.FC<{ content: string }> = (props: any) => {
   useEffect(() => {
     VditorPreview.preview(document.getElementById("vditor"), props.content, {
-      paragraphBeginningSpace:true,
-      hljs:{
-        style:"monokai"
+      paragraphBeginningSpace: true,
+      hljs: {
+        style: "monokai",
       },
       after: () => {
         tocbot.refresh();

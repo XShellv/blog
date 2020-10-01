@@ -13,6 +13,7 @@ const antd_2 = require("antd");
 const icons_1 = require("@ant-design/icons");
 const react_redux_1 = require("react-redux");
 const actions_1 = require("redux/actions");
+const besideInfo_1 = __importDefault(require("@/components/besideInfo"));
 const config = require("../server/config/config");
 const menuOptions = [
     {
@@ -21,16 +22,16 @@ const menuOptions = [
         key: "/",
         icon: <i className="iconfont">&#xe605;</i>,
     },
-    {
-        name: "开发",
-        path: "/develop",
-        key: "/develop",
-        icon: <i className="iconfont">&#xe962;</i>,
-    },
+    // {
+    //   name: "开发",
+    //   path: "/develop",
+    //   key: "/develop",
+    //   icon: <i className="iconfont">&#xe962;</i>,
+    // },
     {
         name: "笔记",
         path: "/notes",
-        key: "笔记",
+        key: "/notes",
         icon: <i className="iconfont">&#xe62a;</i>,
     },
     {
@@ -106,12 +107,13 @@ const CustomLayout = ({ children, router }) => {
           </a>
         </link_1.default>
         <div className="options">
-          <antd_1.Menu mode="horizontal" className="menu" theme="dark" selectedKeys={[router.pathname]}>
+          <antd_1.Menu mode="horizontal" className="menu" theme="light" selectedKeys={[router.pathname]}>
             {menuOptions.map((op) => {
         return (<antd_1.Menu.Item key={op.key} className="menu-item">
                   <link_1.default href={op.path}>
                     <a>
-                      {op.icon} {op.name}
+                      {op.icon}
+                      {op.name}
                     </a>
                   </link_1.default>
                 </antd_1.Menu.Item>);
@@ -121,7 +123,20 @@ const CustomLayout = ({ children, router }) => {
         </div>
         
       </Header>
-      <Content id="body">{children}</Content>
+      <antd_1.Row gutter={[{ md: 12, lg: 30, xl: 100, xxl: 400 }, 24]}>
+        <antd_1.Col span={24}>
+          <Content id="body">
+            <antd_1.Row gutter={[24, 24]}>
+              <antd_1.Col xs={0} md={0} lg={8} xl={6}>
+                {<besideInfo_1.default />}
+              </antd_1.Col>
+              <antd_1.Col xs={24} md={24} lg={16} xl={18}>
+                {children}
+              </antd_1.Col>
+            </antd_1.Row>
+          </Content>
+        </antd_1.Col>
+      </antd_1.Row>
       <Footer id="footer">
         <div className="footerInfo">
           

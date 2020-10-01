@@ -31,4 +31,4 @@ const CustomTag = (_a) => {
     </antd_1.Tag>);
 };
 exports.default = CustomTag;
-//# sourceMappingURL=CustomTag.jsx.map
+//# sourceMappingURL=customTag.jsx.map

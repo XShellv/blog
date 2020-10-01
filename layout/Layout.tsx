@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IState } from "redux/reducer";
 import { login, logout } from "redux/actions";
 import axios from "axios";
+import BesideInfo from "@/components/besideInfo";
 const config = require("../server/config/config");
 
 const menuOptions = [
@@ -19,16 +20,16 @@ const menuOptions = [
     key: "/",
     icon: <i className="iconfont">&#xe605;</i>,
   },
-  {
-    name: "开发",
-    path: "/develop",
-    key: "/develop",
-    icon: <i className="iconfont">&#xe962;</i>,
-  },
+  // {
+  //   name: "开发",
+  //   path: "/develop",
+  //   key: "/develop",
+  //   icon: <i className="iconfont">&#xe962;</i>,
+  // },
   {
     name: "笔记",
     path: "/notes",
-    key: "笔记",
+    key: "/notes",
     icon: <i className="iconfont">&#xe62a;</i>,
   },
   {
@@ -67,10 +68,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
   const menu = (
     <Menu className="login-menu">
       <Menu.Item>
-        <a
-          href="https://www.xshellv.com/manage"
-          target="_blank"
-        >
+        <a href="https://www.xshellv.com/manage" target="_blank">
           管理后台
         </a>
       </Menu.Item>
@@ -122,7 +120,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           <Menu
             mode="horizontal"
             className="menu"
-            theme="dark"
+            theme="light"
             selectedKeys={[router.pathname]}
           >
             {menuOptions.map((op) => {
@@ -130,7 +128,8 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
                 <Menu.Item key={op.key} className="menu-item">
                   <Link href={op.path}>
                     <a>
-                      {op.icon} {op.name}
+                      {op.icon}
+                      {op.name}
                     </a>
                   </Link>
                 </Menu.Item>
@@ -149,7 +148,16 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
       </Header>
       <Row gutter={[{ md: 12, lg: 30, xl: 100, xxl: 400 }, 24]}>
         <Col span={24}>
-          <Content id="body">{children}</Content>
+          <Content id="body">
+            <Row gutter={[24, 24]}>
+              <Col xs={0} md={0} lg={8} xl={6}>
+                {<BesideInfo />}
+              </Col>
+              <Col xs={24} md={24} lg={16} xl={18}>
+                {children}
+              </Col>
+            </Row>
+          </Content>
         </Col>
       </Row>
       <Footer id="footer">

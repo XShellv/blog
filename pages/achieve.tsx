@@ -1,14 +1,14 @@
 import { NextPage } from "next";
 import CustomLayout from "@/layout/Layout.tsx";
-import CustomTag from "@/components/CustomTag";
+import CustomTag from "@/components/customTag";
 import api from "../lib/api";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Timeline, Card, List, Space } from "antd";
+import { Timeline, Card, List, Space, Row, Col } from "antd";
 import classNames from "classnames";
-import { IPosts, dateFormat } from "pages";
-import { useState, useEffect } from "react";
+import { IPosts, dateFormat } from "./[path]";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@/hooks/useQuery";
 import moment from "moment";
 interface ITag {
@@ -138,8 +138,9 @@ Achieve.getInitialProps = async (ctx) => {
   const resp = await Promise.all([
     api.request({ url: `/tags` }),
     api.request({
-      url: `/post?pageSize=${query.pageSize || 10}&pageNo=${query.pageNo ||
-        1}&tag=${encodeURI((query.tag as string) || "")}`,
+      url: `/post?pageSize=${query.pageSize || 10}&pageNo=${
+        query.pageNo || 1
+      }&tag=${encodeURI((query.tag as string) || "")}`,
     }),
   ]);
   return {

@@ -9,12 +9,11 @@ const koaStatic = require("koa-static");
 const session = require("koa-session");
 const path = require("path");
 const fs = require("fs");
-const auth = require("./auth");
 const Store = require("./config/store");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
+const authRouter = require("./routes/auth");
 const pageRouter = new Router();
-const github_base_url = "https://api.github.com";
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -30,19 +29,6 @@ app
         store: new Store(),
     };
     server.use(session(SESSION_CONFIG, server));
-    // 配置处理github oauth登录
-    auth(server);
-    pageRouter.get("/user/info", async (ctx, next) => {
-        const user = ctx.session.userInfo;
-        if (!user) {
-            // 未登录默认不携带管理员信息
-            ctx.body = null;
-        }
-        else {
-            ctx.set("Content-Type", "application/json");
-            ctx.body = user;
-        }
-    });
     pageRouter.get("/favicon.ico", async (ctx, next) => {
         ctx.body = null;
     });
@@ -61,6 +47,16 @@ app
         await app.render(ctx.req, ctx.res, "/achieve", ctx.query);
         ctx.respond = false;
     });
+    // pageRouter.get("/notes", async (ctx) => {
+    //   const { tag, pageNo, pageSize } = ctx.query;
+    //   ctx.query = { tag, pageNo, pageSize };
+    //   await app.render(ctx.req, ctx.res, "/", ctx.query);
+    //   ctx.respond = false;
+    // });
+    // pageRouter.get("/notes", async (ctx) => {
+    //   await app.render(ctx.req, ctx.res, "/notes", ctx.query);
+    //   ctx.respond = false;
+    // });
     pageRouter.get("/about", async (ctx) => {
         await app.render(ctx.req, ctx.res, "/about", ctx.query);
         ctx.respond = false;
@@ -69,25 +65,20 @@ app
         await handle(ctx.req, ctx.res);
         ctx.respond = false;
     });
-    const router = combineRouters(postRouter, aboutRouter, pageRouter);
+    const router = combineRouters(authRouter, postRouter, aboutRouter, pageRouter);
     server.use(router());
-    // pageRouter.use(async (ctx, next) => {
-    //   await handle(ctx.req, ctx.res).catch((e) => {
-    //     console.log(e, ">>>>>");
-    //   });
-    //   ctx.respond = false;
-    // });
     initdb().then(async (result) => {
-        if (result) {
-            console.log("> sync models successfully...");
-            server.listen(port, () => {
-                console.log(`> Ready on http://localhost:${port}`);
-            });
-        }
+        console.log("> sync models successfully...");
+        server.listen(port, () => {
+            console.log(`> Ready on http://localhost:${port}`);
+        });
+        server.on("error", function (err) {
+            console.log(err);
+        });
     });
+})
+    .catch((ex) => {
+    console.error(ex.stack);
+    process.exit(1);
 });
-// .catch((ex) => {
-//   console.error(ex.stack,">>>>>>>>>>>>>>>>>>");
-//   // process.exit(1);
-// });
 //# sourceMappingURL=index.js.map

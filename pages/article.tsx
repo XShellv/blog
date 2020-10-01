@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import Comment from "@/components/Comment";
+import Comment from "@/components/comment";
 import CustomLayout from "@/layout/Layout.tsx";
-import CustomTag from "@/components/CustomTag";
+import CustomTag from "@/components/customTag";
 import api from "../lib/api";
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
@@ -9,10 +9,10 @@ import Link from "next/link";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { BackTop, Avatar, Card, Button, Spin } from "antd";
-import { IPost, ITag, dateFormat } from "pages";
-import PageLoading from "@/components/PageLoading";
+import { IPost, ITag, dateFormat } from "./[path]";
+import PageLoading from "@/components/pageLoading";
 
-const VditorMd = dynamic(() => import("@/components/VditorMd"), {
+const VditorMd = dynamic(() => import("@/components/vditorMd"), {
   ssr: false,
   loading: () => <PageLoading />,
 });

@@ -11,16 +11,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
-const Comment_1 = __importDefault(require("@/components/Comment"));
+const comment_1 = __importDefault(require("@/components/comment"));
 const api_1 = __importDefault(require("../lib/api"));
 const head_1 = __importDefault(require("next/head"));
 const antd_1 = require("antd");
 const react_1 = __importDefault(require("react"));
 const dynamic_1 = __importDefault(require("next/dynamic"));
-const PageLoading_1 = __importDefault(require("@/components/PageLoading"));
-const VditorMd = dynamic_1.default(() => Promise.resolve().then(() => __importStar(require("@/components/VditorMd"))), {
+const pageLoading_1 = __importDefault(require("@/components/pageLoading"));
+const VditorMd = dynamic_1.default(() => Promise.resolve().then(() => __importStar(require("@/components/vditorMd"))), {
     ssr: false,
-    loading: () => <PageLoading_1.default />,
+    loading: () => <pageLoading_1.default />,
 });
 const About = ({ markdownStr }) => {
     return (<div>
@@ -34,7 +34,7 @@ const About = ({ markdownStr }) => {
           <VditorMd content={markdownStr}/>
         </antd_1.Card>
         <antd_1.Card bordered={false}>
-          <Comment_1.default />
+          <comment_1.default />
         </antd_1.Card>
       </Layout_tsx_1.default>
     </div>);

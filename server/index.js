@@ -36,7 +36,13 @@ app
     });
 
     pageRouter.get("/", async (ctx) => {
-      await app.render(ctx.req, ctx.res, "/", ctx.query);
+      ctx.status = 301;
+      ctx.redirect("/home");
+    });
+
+    pageRouter.get("/home", async (ctx) => {
+      ctx.query = { path: ctx.params.path };
+      await app.render(ctx.req, ctx.res, "/home", ctx.query);
       ctx.respond = false;
     });
 
@@ -46,22 +52,29 @@ app
       ctx.respond = false;
     });
 
-    pageRouter.get("/achieve", async (ctx) => {
-      const { tag, pageNo, pageSize } = ctx.query;
-      ctx.query = { tag, pageNo, pageSize };
-      await app.render(ctx.req, ctx.res, "/achieve", ctx.query);
-      ctx.respond = false;
-    });
+    // pageRouter.get("/achieve", async (ctx) => {
+    //   const { tag, pageNo, pageSize } = ctx.query;
+    //   ctx.query = { tag, pageNo, pageSize };
+    //   await app.render(ctx.req, ctx.res, "/achieve", ctx.query);
+    //   ctx.respond = false;
+    // });
 
-    pageRouter.get("/notes", async (ctx) => {
-      await app.render(ctx.req, ctx.res, "/notes", ctx.query);
-      ctx.respond = false;
-    });
+    // pageRouter.get("/notes", async (ctx) => {
+    //   const { tag, pageNo, pageSize } = ctx.query;
+    //   ctx.query = { tag, pageNo, pageSize };
+    //   await app.render(ctx.req, ctx.res, "/", ctx.query);
+    //   ctx.respond = false;
+    // });
 
-    pageRouter.get("/about", async (ctx) => {
-      await app.render(ctx.req, ctx.res, "/about", ctx.query);
-      ctx.respond = false;
-    });
+    // pageRouter.get("/notes", async (ctx) => {
+    //   await app.render(ctx.req, ctx.res, "/notes", ctx.query);
+    //   ctx.respond = false;
+    // });
+
+    // pageRouter.get("/about", async (ctx) => {
+    //   await app.render(ctx.req, ctx.res, "/about", ctx.query);
+    //   ctx.respond = false;
+    // });
 
     pageRouter.all("*", async (ctx) => {
       await handle(ctx.req, ctx.res);
