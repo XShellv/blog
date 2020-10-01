@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
-const CustomTag_1 = __importDefault(require("@/components/CustomTag"));
+const customTag_1 = __importDefault(require("@/components/customTag"));
 const api_1 = __importDefault(require("../lib/api"));
 const head_1 = __importDefault(require("next/head"));
 const link_1 = __importDefault(require("next/link"));
@@ -41,20 +41,20 @@ const Achieve = ({ tags, posts: initPosts }) => {
       <Layout_tsx_1.default>
         <antd_1.Card bordered={false}>
           <antd_1.List size="small" header={<div className="tags">
-                <CustomTag_1.default key="total" className={classnames_1.default({ active: tag === "" })} handleClick={() => {
+                <customTag_1.default key="total" className={classnames_1.default({ active: tag === "" })} handleClick={() => {
         query.set("tag", "");
         query.set("pageNo", "1");
         jumpTo(query);
     }}>
                   全部 ({tags.total})
-                </CustomTag_1.default>
-                {tags.data.map((t) => (<CustomTag_1.default key={t.name} className={classnames_1.default({ active: tag === t.name })} handleClick={() => {
+                </customTag_1.default>
+                {tags.data.map((t) => (<customTag_1.default key={t.name} className={classnames_1.default({ active: tag === t.name })} handleClick={() => {
         query.set("tag", t.name);
         query.set("pageNo", "1");
         jumpTo(query);
     }}>
                     {t.name} ({t.count})
-                  </CustomTag_1.default>))}
+                  </customTag_1.default>))}
               </div>} 
     // footer={<div>Footer</div>}
     bordered={false} dataSource={posts.rows} loading={loading} renderItem={(item) => (<antd_1.List.Item extra={<antd_1.Space>

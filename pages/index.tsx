@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card, List, Pagination } from "antd";
 import CustomLayout from "@/layout/Layout.tsx";
-import CustomTag from "@/components/CustomTag.tsx";
+import CustomTag from "@/components/customTag.tsx";
 import { useQuery } from "@/hooks/useQuery";
 import api from "lib/api";
 import { useState, useCallback, useEffect } from "react";

@@ -1,14 +1,14 @@
 import { NextPage } from "next";
 import CustomLayout from "@/layout/Layout.tsx";
-import Comment from "@/components/Comment";
+import Comment from "@/components/comment";
 import api from "../lib/api";
 import Head from "next/head";
 import { Card, Spin } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
-import PageLoading from "@/components/PageLoading";
+import PageLoading from "@/components/pageLoading";
 
-const VditorMd = dynamic(() => import("@/components/VditorMd"), {
+const VditorMd = dynamic(() => import("@/components/vditorMd"), {
   ssr: false,
   loading: () => <PageLoading />,
 });

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const antd_1 = require("antd");
 const zh_CN_1 = __importDefault(require("antd/lib/locale/zh_CN"));
 require("../style/index.less");
+require("vditor/dist/index.css");
 const setRem = async () => {
     await require('../public/static/js/flexible');
 };

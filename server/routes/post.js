@@ -50,7 +50,7 @@ apiRouter.get("/post/:id", async (ctx, next) => {
         id: { [Op.lt]: id * 1 },
         status: "post",
       },
-      attributes: ["id"],
+      attributes: ["id", "title"],
       limit: 1,
     });
     const next_post = await model.Post.findAll({
@@ -59,16 +59,22 @@ apiRouter.get("/post/:id", async (ctx, next) => {
         id: { [Op.gt]: id * 1 },
         status: "post",
       },
-      attributes: ["id"],
+      attributes: ["id", "title"],
       limit: 1,
     });
     if (next_post && next_post[0]) {
-      post.setDataValue("next", next_post[0].id);
+      post.setDataValue("next", {
+        id: next_post[0].id,
+        title: next_post[0].title,
+      });
     } else {
       post.setDataValue("next", null);
     }
     if (prev_post && prev_post[0]) {
-      post.setDataValue("prev", prev_post[0].id);
+      post.setDataValue("prev", {
+        id: prev_post[0].id,
+        title: prev_post[0].title,
+      });
     } else {
       post.setDataValue("prev", null);
     }

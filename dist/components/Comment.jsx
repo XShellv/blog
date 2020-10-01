@@ -22,4 +22,4 @@ const Comment = () => {
     return <div id="gitalk-container"></div>;
 };
 exports.default = router_1.withRouter(Comment);
-//# sourceMappingURL=Comment.jsx.map
+//# sourceMappingURL=comment.jsx.map

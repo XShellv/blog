@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import CustomLayout from "@/layout/Layout.tsx";
-import CustomTag from "@/components/CustomTag";
+import CustomTag from "@/components/customTag";
 import api from "../lib/api";
 import Head from "next/head";
 import Link from "next/link";

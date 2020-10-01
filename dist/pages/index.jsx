@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const link_1 = __importDefault(require("next/link"));
 const antd_1 = require("antd");
 const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
-const CustomTag_tsx_1 = __importDefault(require("@/components/CustomTag.tsx"));
+const customTag_tsx_1 = __importDefault(require("@/components/customTag.tsx"));
 const useQuery_1 = require("@/hooks/useQuery");
 const api_1 = __importDefault(require("lib/api"));
 const react_1 = require("react");
@@ -78,12 +78,12 @@ const ArticleCard = (props) => {
       <div className="home-card-extra">
         
         <div className="tags">
-          {tags.map((tag) => (<CustomTag_tsx_1.default key={tag.name} handleClick={() => router.push({
+          {tags.map((tag) => (<customTag_tsx_1.default key={tag.name} handleClick={() => router.push({
         pathname: "/achieve",
         query: { tag: tag.name },
     })}>
               {tag.name}
-            </CustomTag_tsx_1.default>))}
+            </customTag_tsx_1.default>))}
         </div>
         <div className="extra">
           <span className="time">

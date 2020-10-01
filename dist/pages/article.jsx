@@ -10,50 +10,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const MarkdownRenderer_1 = __importDefault(require("@/components/MarkdownRenderer"));
-const Comment_1 = __importDefault(require("@/components/Comment"));
+const comment_1 = __importDefault(require("@/components/comment"));
 const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
-const CustomTag_1 = __importDefault(require("@/components/CustomTag"));
-const tocbot = __importStar(require("tocbot"));
+const customTag_1 = __importDefault(require("@/components/customTag"));
 const api_1 = __importDefault(require("../lib/api"));
-const react_dom_1 = __importDefault(require("react-dom"));
-const react_1 = require("react");
+const react_1 = __importStar(require("react"));
 const head_1 = __importDefault(require("next/head"));
 const link_1 = __importDefault(require("next/link"));
 const moment_1 = __importDefault(require("moment"));
+const dynamic_1 = __importDefault(require("next/dynamic"));
 const antd_1 = require("antd");
 const pages_1 = require("pages");
+const pageLoading_1 = __importDefault(require("@/components/pageLoading"));
+const VditorMd = dynamic_1.default(() => Promise.resolve().then(() => __importStar(require("@/components/vditorMd"))), {
+    ssr: false,
+    loading: () => <pageLoading_1.default />,
+});
 const Article = ({ post }) => {
-    const articleRef = react_1.useRef(null);
-    react_1.useEffect(() => {
-        generateTagId();
-        tocbot.init({
-            tocSelector: ".article-toc",
-            contentSelector: ".markdown-body",
-            hasInnerContainers: true,
-        });
-        return () => {
-            tocbot.destroy();
-        };
-        // tocbot.refresh();
-    }, []);
-    const generateTagId = () => {
-        const articleNode = react_dom_1.default.findDOMNode(articleRef.current);
-        if (articleNode) {
-            let nodes = articleNode.children;
-            if (nodes.length) {
-                for (let i = 0; i < nodes.length; i++) {
-                    let node = nodes[i];
-                    let reg = /^H[1-6]{1}$/;
-                    if (reg.exec(node.tagName)) {
-                        if (!node.id) {
-                            node.id = node.textContent;
-                        }
-                    }
-                }
-            }
-        }
-    };
+    react_1.useEffect(() => { }, []);
     return (<div id="article-wrapper">
       <head_1.default>
         <title>{post.title}</title>
@@ -66,7 +40,7 @@ const Article = ({ post }) => {
           <h1 className="article-title">{post.title}</h1>
           <div className="article-info">
             <div className="tags">
-              {post.tags.map((tag) => (<CustomTag_1.default key={tag.name}>{tag.name}</CustomTag_1.default>))}
+              {post.tags.map((tag) => (<customTag_1.default key={tag.name}>{tag.name}</customTag_1.default>))}
             </div>
             <div className="extra">
               <span className="time">
@@ -79,27 +53,27 @@ const Article = ({ post }) => {
         backgroundImage: `url(${post.post})`,
     }}></div>
 
-          <div className="article-content">
-            <MarkdownRenderer_1.default html={post.content} ref={articleRef}/>
+          <div className="article-content" style={{ position: "relative" }}>
+            <VditorMd content={post.content}/>
             <div className="article-toc"></div>
           </div>
           <div className="article-nav">
-            {post.prev && (<link_1.default href={`/article/${post.prev}`}>
+            {post.prev ? (<link_1.default href={`/article/${post.prev.id}`}>
                 <a className="left">
                   <i className="iconfont">&#xe607;</i>
-                  <span>{post.prev}</span>
+                  <span>{post.prev.title}</span>
                 </a>
-              </link_1.default>)}
-            {post.next && (<link_1.default href={`/article/${post.next}`}>
+              </link_1.default>) : (<span></span>)}
+            {post.next ? (<link_1.default href={`/article/${post.next.id}`}>
                 <a className="right">
-                  <span>{post.next}</span>
+                  <span>{post.next.title}</span>
                   <i className="iconfont">&#xe606;</i>
                 </a>
-              </link_1.default>)}
+              </link_1.default>) : (<span></span>)}
           </div>
         </antd_1.Card>
         <antd_1.Card bordered={false}>
-          <Comment_1.default />
+          <comment_1.default />
         </antd_1.Card>
         <antd_1.BackTop />
       </Layout_tsx_1.default>
@@ -111,7 +85,6 @@ const Article = ({ post }) => {
 Article.getInitialProps = async (ctx) => {
     const { req, query } = ctx;
     const resp = await api_1.default.request({ url: `/post/${query.id}` });
-    console.log(resp);
     return {
         post: resp.data.data,
     };

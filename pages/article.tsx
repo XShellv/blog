@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import Comment from "@/components/Comment";
+import Comment from "@/components/comment";
 import CustomLayout from "@/layout/Layout.tsx";
-import CustomTag from "@/components/CustomTag";
+import CustomTag from "@/components/customTag";
 import api from "../lib/api";
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
@@ -10,16 +10,22 @@ import moment from "moment";
 import dynamic from "next/dynamic";
 import { BackTop, Avatar, Card, Button, Spin } from "antd";
 import { IPost, ITag, dateFormat } from "pages";
-import PageLoading from "@/components/PageLoading";
+import PageLoading from "@/components/pageLoading";
 
-const VditorMd = dynamic(() => import("@/components/VditorMd"), {
+const VditorMd = dynamic(() => import("@/components/vditorMd"), {
   ssr: false,
   loading: () => <PageLoading />,
 });
 interface IArticle extends IPost {
   content: string;
-  prev: null | number;
-  next: null | number;
+  prev: null | {
+    title: string;
+    id: number;
+  };
+  next: null | {
+    title: string;
+    id: number;
+  };
 }
 const Article: NextPage<{
   post: IArticle;
@@ -61,21 +67,25 @@ const Article: NextPage<{
             <div className="article-toc"></div>
           </div>
           <div className="article-nav">
-            {post.prev && (
-              <Link href={`/article/${post.prev}`}>
+            {post.prev ? (
+              <Link href={`/article/${post.prev.id}`}>
                 <a className="left">
                   <i className="iconfont">&#xe607;</i>
-                  <span>{post.prev}</span>
+                  <span>{post.prev.title}</span>
                 </a>
               </Link>
+            ) : (
+              <span></span>
             )}
-            {post.next && (
-              <Link href={`/article/${post.next}`}>
+            {post.next ? (
+              <Link href={`/article/${post.next.id}`}>
                 <a className="right">
-                  <span>{post.next}</span>
+                  <span>{post.next.title}</span>
                   <i className="iconfont">&#xe606;</i>
                 </a>
               </Link>
+            ) : (
+              <span></span>
             )}
           </div>
         </Card>
