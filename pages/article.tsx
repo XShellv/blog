@@ -9,7 +9,7 @@ import Link from "next/link";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { BackTop, Avatar, Card, Button, Spin } from "antd";
-import { IPost, ITag, dateFormat } from "./[path]";
+import { IPost, ITag, dateFormat } from "@/components/customList";
 import PageLoading from "@/components/pageLoading";
 
 const VditorMd = dynamic(() => import("@/components/vditorMd"), {
@@ -24,7 +24,6 @@ interface IArticle extends IPost {
 const Article: NextPage<{
   post: IArticle;
 }> = ({ post }) => {
-  useEffect(() => {}, []);
   return (
     <div id="article-wrapper">
       <Head>

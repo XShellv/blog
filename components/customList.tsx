@@ -3,13 +3,12 @@ import { Card, List, Row, Col, Avatar, Button } from "antd";
 import CustomLayout from "@/layout/Layout.tsx";
 import CustomTag from "@/components/customTag.tsx";
 import { useQuery } from "@/hooks/useQuery";
-import api from "lib/api";
-import React, { useState, useCallback, useEffect } from "react";
-import { NextPageContext, NextPage } from "next";
+import React from "react";
 import moment from "moment";
 import { useRouter } from "next/router";
-import withPrivateRoute from "@/components/withPrivateRoute";
-import Custom404 from "./404";
+import PageLoading from "./pageLoading";
+import { useSelector } from "react-redux";
+import { IState } from "redux/reducer";
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
 export interface ITag {
@@ -32,30 +31,21 @@ export interface IPosts {
   count: number;
   rows: IPost[];
 }
-const Slug: NextPage<{
-  initList: IPosts;
-}> = ({ initList }) => {
+
+const CustomList: React.FC<{
+  list: IPosts;
+}> = ({ list }) => {
   const { query, getQuery, jumpTo } = useQuery();
-  const [list, setList] = useState(initList);
   const pageNo = getQuery("pageNo") * 1 || 1;
   const pageSize = getQuery("pageSize") || 10;
-  const [loading, setLoading] = useState(false);
+  const loading = useSelector((state: IState) => state.loading);
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      const resp = await api.request({
-        url: `/post?pageSize=${pageSize || 10}&pageNo=${pageNo || 1}`,
-      });
-      setLoading(false);
-      setList(resp.data.data);
-    })();
-  }, [pageNo, pageSize]);
-  
   const renderContent = (
     <div id="home-wrapper">
       <CustomLayout>
+        {/* {true && <PageLoading />} */}
         <List
+          style={{ background: "#fff", padding: 20 }}
           bordered={false}
           size="small"
           loading={loading}
@@ -70,7 +60,7 @@ const Slug: NextPage<{
             showTotal: (total) => `共 ${total} 篇`,
             pageSize: pageSize,
             current: pageNo,
-            hideOnSinglePage: true,
+            // hideOnSinglePage: true,
             size: "small",
             onChange: (pageNo, pageSize) => {
               query.set("pageNo", pageNo + "");
@@ -93,27 +83,6 @@ const Slug: NextPage<{
   return renderContent;
 };
 
-Slug.getInitialProps = async (ctx) => {
-  const { req, query, res } = ctx;
-
-  console.log(res, query,'??????');
-  // if (res) {
-  //   res?.writeHead(302, {
-  //     Location: login,
-  //   });
-  //   res?.end();
-  // } else {
-  //   Router.replace(login);
-  // }
-
-  const resp = await api.request({
-    url: `/post?pageSize=${query.pageSize || 10}&pageNo=${query.pageNo || 1}`,
-  });
-  return {
-    initList: resp.data.data,
-  };
-};
-
 const ArticleCard = (props: any) => {
   const {
     abstract,
@@ -129,12 +98,11 @@ const ArticleCard = (props: any) => {
 
   const router = useRouter();
   const { path } = router.query;
-  console.log(path, ">>>>>>>>>>>>>>.");
 
   return (
     <div className="list-item">
       <h1 className="home-card-title">
-        <Link href={`/article/${id}`}>
+        <Link href={`/article?id=${id}`} as={`/article/${id}`}>
           <a>{title}</a>
         </Link>
       </h1>
@@ -166,4 +134,4 @@ const ArticleCard = (props: any) => {
   );
 };
 
-export default Slug;
+export default CustomList;

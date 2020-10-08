@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Timeline, Card, List, Space, Row, Col } from "antd";
 import classNames from "classnames";
-import { IPosts, dateFormat } from "./[path]";
+import { IPosts, dateFormat } from "@/components/customList";
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@/hooks/useQuery";
 import moment from "moment";
@@ -20,6 +20,7 @@ interface ITags {
   data: ITag[];
   total: number;
 }
+
 const Achieve: NextPage<{
   tags: ITags;
   posts: IPosts;
@@ -29,21 +30,7 @@ const Achieve: NextPage<{
   const tag = getQuery("tag") || "";
   const pageNo = getQuery("pageNo") * 1 || 1;
   const pageSize = getQuery("pageSize") || 10;
-  const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState(initPosts);
-
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      const resp = await api.request({
-        url: `/post?pageSize=${pageSize}&pageNo=${pageNo}&tag=${encodeURI(
-          tag
-        )}`,
-      });
-      setLoading(false);
-      setPosts(resp.data.data);
-    })();
-  }, [pageNo, pageSize, tag]);
 
   return (
     <div id="achieve-wrapper">
@@ -86,7 +73,6 @@ const Achieve: NextPage<{
             // footer={<div>Footer</div>}
             bordered={false}
             dataSource={posts.rows}
-            loading={loading}
             renderItem={(item) => (
               <List.Item
                 extra={
@@ -134,7 +120,9 @@ const Achieve: NextPage<{
 };
 
 Achieve.getInitialProps = async (ctx) => {
-  const { req, query } = ctx;
+  const { res, req, query } = ctx;
+  if (res) {
+  }
   const resp = await Promise.all([
     api.request({ url: `/tags` }),
     api.request({

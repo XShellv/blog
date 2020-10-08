@@ -1,6 +1,6 @@
 import axios from "axios";
 import { call, put, all, takeLatest, takeEvery } from "redux-saga/effects";
-import { actionTypes, setUserInfo } from "./actions";
+import { actionTypes, authAdmin, setUserInfo } from "./actions";
 
 function* runClockSaga() {
   yield take(actionTypes.START_CLOCK);
@@ -13,7 +13,7 @@ function* runClockSaga() {
 function* logout() {
   try {
     const res = yield axios.post("/logout");
-    yield put(setUserInfo(null));
+    yield put(authAdmin(false));
   } catch (err) {
     console.log(err);
   }

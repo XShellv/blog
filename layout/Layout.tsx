@@ -11,9 +11,10 @@ import { IState } from "redux/reducer";
 import { login, logout } from "redux/actions";
 import axios from "axios";
 import BesideInfo from "@/components/besideInfo";
+import PageLoading from "@/components/pageLoading";
 const config = require("../server/config/config");
 
-const menuOptions = [
+export const menuOptions = [
   {
     name: "首页",
     path: "/",
@@ -31,6 +32,7 @@ const menuOptions = [
     path: "/notes",
     key: "/notes",
     icon: <i className="iconfont">&#xe62a;</i>,
+    auth: true,
   },
   {
     name: "归档",
@@ -62,7 +64,7 @@ const gap = () => {
   };
 };
 const CustomLayout: React.FC<any> = ({ children, router }) => {
-  const userInfo = useSelector((state: IState) => state.userInfo);
+  const { userInfo, isAdmin } = useSelector((state: IState) => state);
   const dispatch = useDispatch();
 
   const menu = (
@@ -99,7 +101,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
   } else {
     renderLog = (
       <Tooltip title={<span style={{ fontSize: 12 }}>点击进行管理员登录</span>}>
-        <a className="login-link" href={`/preapre-auth?url=${router.asPath}`}>
+        <a className="login-link" href={`/prepare-auth?url=${router.asPath}`}>
           <Space>
             <Avatar size={30} icon={<UserOutlined />} />
             <span className="logout-name">未登录</span>
@@ -108,6 +110,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
       </Tooltip>
     );
   }
+
   return (
     <div id="layout">
       <Header id="header">
@@ -124,7 +127,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
             selectedKeys={[router.pathname]}
           >
             {menuOptions.map((op) => {
-              return (
+              const renderMenu = (
                 <Menu.Item key={op.key} className="menu-item">
                   <Link href={op.path}>
                     <a>
@@ -134,6 +137,14 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
                   </Link>
                 </Menu.Item>
               );
+              if (op.auth) {
+                if (isAdmin) {
+                  return renderMenu;
+                }
+                return null;
+              } else {
+                return renderMenu;
+              }
             })}
           </Menu>
           <div className="log-options">{renderLog}</div>
@@ -146,6 +157,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           />
         </div> */}
       </Header>
+
       <Row gutter={[{ md: 12, lg: 30, xl: 100, xxl: 400 }, 24]}>
         <Col span={24}>
           <Content id="body">

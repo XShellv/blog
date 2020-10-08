@@ -4,9 +4,13 @@ import { HYDRATE } from "next-redux-wrapper";
 
 export interface IState {
   userInfo: any;
+  loading: boolean;
+  isAdmin: boolean;
 }
 const initialState: IState = {
   userInfo: null,
+  loading: false,
+  isAdmin: false,
 };
 
 function reducer(state = initialState, action: AnyAction) {
@@ -16,6 +20,10 @@ function reducer(state = initialState, action: AnyAction) {
       return { ...state, ...action.payload };
     case actionTypes.SET_USERINFO:
       return { ...state, userInfo: action.payload };
+    case actionTypes.SET_LOADING:
+      return { ...state, loading: action.payload };
+    case actionTypes.AUTH_ADMIN:
+      return { ...state, isAdmin: action.payload };
     default:
       return state;
   }
