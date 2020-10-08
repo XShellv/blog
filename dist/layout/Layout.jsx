@@ -15,7 +15,7 @@ const react_redux_1 = require("react-redux");
 const actions_1 = require("redux/actions");
 const besideInfo_1 = __importDefault(require("@/components/besideInfo"));
 const config = require("../server/config/config");
-const menuOptions = [
+exports.menuOptions = [
     {
         name: "首页",
         path: "/",
@@ -33,6 +33,7 @@ const menuOptions = [
         path: "/notes",
         key: "/notes",
         icon: <i className="iconfont">&#xe62a;</i>,
+        auth: true,
     },
     {
         name: "归档",
@@ -63,7 +64,7 @@ const gap = () => {
     };
 };
 const CustomLayout = ({ children, router }) => {
-    const userInfo = react_redux_1.useSelector((state) => state.userInfo);
+    const { userInfo, isAdmin } = react_redux_1.useSelector((state) => state);
     const dispatch = react_redux_1.useDispatch();
     const menu = (<antd_1.Menu className="login-menu">
       <antd_1.Menu.Item>
@@ -91,7 +92,7 @@ const CustomLayout = ({ children, router }) => {
     }
     else {
         renderLog = (<antd_1.Tooltip title={<span style={{ fontSize: 12 }}>点击进行管理员登录</span>}>
-        <a className="login-link" href={`/preapre-auth?url=${router.asPath}`}>
+        <a className="login-link" href={`/prepare-auth?url=${router.asPath}`}>
           <antd_1.Space>
             <antd_2.Avatar size={30} icon={<icons_1.UserOutlined />}/>
             <span className="logout-name">未登录</span>
@@ -108,8 +109,8 @@ const CustomLayout = ({ children, router }) => {
         </link_1.default>
         <div className="options">
           <antd_1.Menu mode="horizontal" className="menu" theme="light" selectedKeys={[router.pathname]}>
-            {menuOptions.map((op) => {
-        return (<antd_1.Menu.Item key={op.key} className="menu-item">
+            {exports.menuOptions.map((op) => {
+        const renderMenu = (<antd_1.Menu.Item key={op.key} className="menu-item">
                   <link_1.default href={op.path}>
                     <a>
                       {op.icon}
@@ -117,12 +118,22 @@ const CustomLayout = ({ children, router }) => {
                     </a>
                   </link_1.default>
                 </antd_1.Menu.Item>);
+        if (op.auth) {
+            if (isAdmin) {
+                return renderMenu;
+            }
+            return null;
+        }
+        else {
+            return renderMenu;
+        }
     })}
           </antd_1.Menu>
           <div className="log-options">{renderLog}</div>
         </div>
         
       </Header>
+
       <antd_1.Row gutter={[{ md: 12, lg: 30, xl: 100, xxl: 400 }, 24]}>
         <antd_1.Col span={24}>
           <Content id="body">

@@ -18,7 +18,7 @@ const link_1 = __importDefault(require("next/link"));
 const router_1 = require("next/router");
 const antd_1 = require("antd");
 const classnames_1 = __importDefault(require("classnames"));
-const _slug_1 = require("./[slug]");
+const customList_1 = require("@/components/customList");
 const react_1 = __importStar(require("react"));
 const useQuery_1 = require("@/hooks/useQuery");
 const moment_1 = __importDefault(require("moment"));
@@ -28,18 +28,7 @@ const Achieve = ({ tags, posts: initPosts }) => {
     const tag = getQuery("tag") || "";
     const pageNo = getQuery("pageNo") * 1 || 1;
     const pageSize = getQuery("pageSize") || 10;
-    const [loading, setLoading] = react_1.useState(false);
     const [posts, setPosts] = react_1.useState(initPosts);
-    react_1.useEffect(() => {
-        (async () => {
-            setLoading(true);
-            const resp = await api_1.default.request({
-                url: `/post?pageSize=${pageSize}&pageNo=${pageNo}&tag=${encodeURI(tag)}`,
-            });
-            setLoading(false);
-            setPosts(resp.data.data);
-        })();
-    }, [pageNo, pageSize, tag]);
     return (<div id="achieve-wrapper">
       <head_1.default>
         <title>归档</title>
@@ -64,10 +53,10 @@ const Achieve = ({ tags, posts: initPosts }) => {
                   </customTag_1.default>))}
               </div>} 
     // footer={<div>Footer</div>}
-    bordered={false} dataSource={posts.rows} loading={loading} renderItem={(item) => (<antd_1.List.Item extra={<antd_1.Space>
+    bordered={false} dataSource={posts.rows} renderItem={(item) => (<antd_1.List.Item extra={<antd_1.Space>
                     <span className="time">
                       发布于：
-                      {moment_1.default(new Date(item.updatedAt).valueOf()).format(_slug_1.dateFormat)}
+                      {moment_1.default(new Date(item.updatedAt).valueOf()).format(customList_1.dateFormat)}
                     </span>
                   </antd_1.Space>}>
                 <link_1.default href={`/article/${item.id}`}>
@@ -99,7 +88,9 @@ const Achieve = ({ tags, posts: initPosts }) => {
     </div>);
 };
 Achieve.getInitialProps = async (ctx) => {
-    const { req, query } = ctx;
+    const { res, req, query } = ctx;
+    if (res) {
+    }
     const resp = await Promise.all([
         api_1.default.request({ url: `/tags` }),
         api_1.default.request({

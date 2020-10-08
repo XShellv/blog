@@ -14,20 +14,19 @@ const comment_1 = __importDefault(require("@/components/comment"));
 const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
 const customTag_1 = __importDefault(require("@/components/customTag"));
 const api_1 = __importDefault(require("../lib/api"));
-const react_1 = __importStar(require("react"));
+const react_1 = __importDefault(require("react"));
 const head_1 = __importDefault(require("next/head"));
 const link_1 = __importDefault(require("next/link"));
 const moment_1 = __importDefault(require("moment"));
 const dynamic_1 = __importDefault(require("next/dynamic"));
 const antd_1 = require("antd");
-const _slug_1 = require("./[slug]");
+const customList_1 = require("@/components/customList");
 const pageLoading_1 = __importDefault(require("@/components/pageLoading"));
 const VditorMd = dynamic_1.default(() => Promise.resolve().then(() => __importStar(require("@/components/vditorMd"))), {
     ssr: false,
     loading: () => <pageLoading_1.default />,
 });
 const Article = ({ post }) => {
-    react_1.useEffect(() => { }, []);
     return (<div id="article-wrapper">
       <head_1.default>
         <title>{post.title}</title>
@@ -45,7 +44,7 @@ const Article = ({ post }) => {
             <div className="extra">
               <span className="time">
                 发布于：
-                {moment_1.default(new Date(post.updatedAt).valueOf()).format(_slug_1.dateFormat)}
+                {moment_1.default(new Date(post.updatedAt).valueOf()).format(customList_1.dateFormat)}
               </span>
             </div>
           </div>
