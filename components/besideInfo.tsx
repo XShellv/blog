@@ -13,7 +13,7 @@ export const dateFormat = "YYYY-MM-DD HH:mm:ss";
 const BesideInfo: React.FC = () => {
   const router = useRouter();
   return (
-    <Card className="brief-info">
+    <Card className="brief-info" bordered={false}>
       <div className="avatar">
         <Avatar size={100} src="https://cdn.xshellv.com/avatar" />
       </div>
@@ -57,6 +57,7 @@ const BesideInfo: React.FC = () => {
           <i className="iconfont">&#xeee2;</i>
         </a>
       </div>
+      <div className="article-toc"></div>
     </Card>
   );
 };

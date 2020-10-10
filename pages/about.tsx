@@ -23,14 +23,12 @@ const About: NextPage<IAbout> = ({ markdownStr }) => {
         <meta property="og:title" content="My page title" key="about" />
         <script src="/static/js/prism.js"></script>
       </Head>
-      <CustomLayout>
-        <Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
-          <VditorMd content={markdownStr} />
-        </Card>
-        <Card bordered={false}>
-          <Comment />
-        </Card>
-      </CustomLayout>
+      <Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
+        <VditorMd content={markdownStr} />
+      </Card>
+      <Card bordered={false}>
+        <Comment />
+      </Card>
     </div>
   );
 };

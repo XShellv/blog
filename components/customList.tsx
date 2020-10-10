@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Card, List, Row, Col, Avatar, Button } from "antd";
-import CustomLayout from "@/layout/Layout.tsx";
 import CustomTag from "@/components/customTag.tsx";
 import { useQuery } from "@/hooks/useQuery";
 import React from "react";
@@ -42,7 +41,6 @@ const CustomList: React.FC<{
 
   const renderContent = (
     <div id="home-wrapper">
-      <CustomLayout>
         {/* {true && <PageLoading />} */}
         <List
           style={{ background: "#fff", padding: 20 }}
@@ -77,7 +75,6 @@ const CustomList: React.FC<{
             pageSizeOptions: ["10", "20", "50"],
           }}
         />
-      </CustomLayout>
     </div>
   );
   return renderContent;

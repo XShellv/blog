@@ -38,83 +38,81 @@ const Achieve: NextPage<{
         <title>归档</title>
         <meta property="og:title" content="My page title" key="about" />
       </Head>
-      <CustomLayout>
-        <Card bordered={false}>
-          <List
-            size="small"
-            header={
-              <div className="tags">
+      <Card bordered={false}>
+        <List
+          size="small"
+          header={
+            <div className="tags">
+              <CustomTag
+                key="total"
+                className={classNames({ active: tag === "" })}
+                handleClick={() => {
+                  query.set("tag", "");
+                  query.set("pageNo", "1");
+                  jumpTo(query);
+                }}
+              >
+                全部 ({tags.total})
+              </CustomTag>
+              {tags.data.map((t: ITag) => (
                 <CustomTag
-                  key="total"
-                  className={classNames({ active: tag === "" })}
+                  key={t.name}
+                  className={classNames({ active: tag === t.name })}
                   handleClick={() => {
-                    query.set("tag", "");
+                    query.set("tag", t.name);
                     query.set("pageNo", "1");
                     jumpTo(query);
                   }}
                 >
-                  全部 ({tags.total})
+                  {t.name} ({t.count})
                 </CustomTag>
-                {tags.data.map((t: ITag) => (
-                  <CustomTag
-                    key={t.name}
-                    className={classNames({ active: tag === t.name })}
-                    handleClick={() => {
-                      query.set("tag", t.name);
-                      query.set("pageNo", "1");
-                      jumpTo(query);
-                    }}
-                  >
-                    {t.name} ({t.count})
-                  </CustomTag>
-                ))}
-              </div>
-            }
-            // footer={<div>Footer</div>}
-            bordered={false}
-            dataSource={posts.rows}
-            renderItem={(item) => (
-              <List.Item
-                extra={
-                  <Space>
-                    <span className="time">
-                      发布于：
-                      {moment(new Date(item.updatedAt).valueOf()).format(
-                        dateFormat
-                      )}
-                    </span>
-                  </Space>
-                }
-              >
-                <Link href={`/article/${item.id}`}>
-                  <a>{item.title}</a>
-                </Link>
-              </List.Item>
-            )}
-            pagination={{
-              total: posts.count,
-              showTotal: (total) => `共 ${total} 篇`,
-              pageSize: pageSize,
-              current: pageNo,
-              onChange: (pageNo, pageSize) => {
-                query.set("pageNo", pageNo + "");
-                query.set("pageSize", pageSize + "");
-                jumpTo(query);
-              },
-              onShowSizeChange: (pageNo, pageSize) => {
-                query.set("pageNo", pageNo + "");
-                query.set("pageSize", pageSize + "");
-                jumpTo(query);
-              },
-              hideOnSinglePage: true,
-              size: "small",
-              showQuickJumper: true,
-              showSizeChanger: true,
-              pageSizeOptions: ["10", "20", "50"],
-            }}
-          />
-        </Card>
-      </CustomLayout>
+              ))}
+            </div>
+          }
+          // footer={<div>Footer</div>}
+          bordered={false}
+          dataSource={posts.rows}
+          renderItem={(item) => (
+            <List.Item
+              extra={
+                <Space>
+                  <span className="time">
+                    发布于：
+                    {moment(new Date(item.updatedAt).valueOf()).format(
+                      dateFormat
+                    )}
+                  </span>
+                </Space>
+              }
+            >
+              <Link href={`/article/${item.id}`}>
+                <a>{item.title}</a>
+              </Link>
+            </List.Item>
+          )}
+          pagination={{
+            total: posts.count,
+            showTotal: (total) => `共 ${total} 篇`,
+            pageSize: pageSize,
+            current: pageNo,
+            onChange: (pageNo, pageSize) => {
+              query.set("pageNo", pageNo + "");
+              query.set("pageSize", pageSize + "");
+              jumpTo(query);
+            },
+            onShowSizeChange: (pageNo, pageSize) => {
+              query.set("pageNo", pageNo + "");
+              query.set("pageSize", pageSize + "");
+              jumpTo(query);
+            },
+            hideOnSinglePage: true,
+            size: "small",
+            showQuickJumper: true,
+            showSizeChanger: true,
+            pageSizeOptions: ["10", "20", "50"],
+          }}
+        />
+      </Card>
     </div>
   );
 };

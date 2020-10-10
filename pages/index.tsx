@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Card, List, Row, Col, Avatar, Button } from "antd";
-import CustomLayout, { menuOptions } from "@/layout/Layout.tsx";
 import CustomTag from "@/components/customTag.tsx";
 import { useQuery } from "@/hooks/useQuery";
 import api from "lib/api";

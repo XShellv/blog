@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { ConfigProvider } from "antd";
+import React, { useEffect, useState } from "react";
+import { ConfigProvider, Layout } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
 import Head from "next/head";
 import "../style/index.less";
@@ -8,7 +8,7 @@ import api from "../lib/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo, setLoading } from "../redux/actions";
 import { wrapper } from "../redux/store";
-
+import CustomLayout from "@/layout/Layout.tsx";
 import type { AppProps, AppContext } from "next/app";
 import { Router } from "next/router";
 import PageLoading from "@/components/pageLoading";
@@ -50,7 +50,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     // 判断是否存在cookie
-    console.log(isAdmin)
     if (isAdmin) {
       fetchUser();
     } else {
@@ -62,10 +61,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     const resp: any = await api.request({ url: "/user/info" });
     dispatch(setUserInfo(resp.data));
   };
-  
+
+  console.log(Component.name)
   return (
     <ConfigProvider locale={zhCN}>
-      <Component {...pageProps} />
+      <CustomLayout>
+        <Component {...pageProps} />
+      </CustomLayout>
     </ConfigProvider>
   );
 }

@@ -3,19 +3,19 @@
         width              : 100%;
         // margin-bottom   : 30px;
         padding            : 0 80px;
-        background-color   : #fff;
+        background-color   : #292525;
         // height: auto;
         display            : flex;
         justify-content    : space-between;
 
         .logo {
             text-align     : center;
-            color          : @body-color;
+            color          : fade(@white, 70%);
             font-size      : 22px;
             text-decoration: none;
 
             &:hover {
-                color: darken(@body-color, 10%);
+                color: fade(@white, 90%);
             }
 
             .iconfont {
@@ -52,7 +52,11 @@
                 .login-name,
                 .logout-name {
                     font-size: 14px;
-                    color    : @body-color;
+                    color    : fade(@white, 70%);
+
+                    &:hover {
+                        color: fade(@white, 90%)
+                    }
                 }
             }
         }
@@ -64,10 +68,10 @@
     }
 
     #footer {
-        color           : @body-color;
+        color           : fade(@white, 70%);
         font-size       : 12px;
         text-align      : center;
-        background-color: #fff;
+        background-color: #292525;
 
         p {
             line-height  : 2;
@@ -79,10 +83,10 @@
         .time,
         .icp {
             a {
-                color: @body-color;
+                color: fade(@white, 70%);
 
                 &:hover {
-                    color          : darken(@body-color, 10%);
+                    color          : fade(@white, 90%);
                     text-decoration: underline;
                 }
             }

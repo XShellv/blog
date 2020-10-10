@@ -32,57 +32,55 @@ const Article: NextPage<{
         <script src="/static/js/prism.js"></script>
       </Head>
 
-      <CustomLayout>
-        <Card bordered={false}>
-          <h1 className="article-title">{post.title}</h1>
-          <div className="article-info">
-            <div className="tags">
-              {post.tags.map((tag: ITag) => (
-                <CustomTag key={tag.name}>{tag.name}</CustomTag>
-              ))}
-            </div>
-            <div className="extra">
-              <span className="time">
-                发布于：
-                {moment(new Date(post.updatedAt).valueOf()).format(dateFormat)}
-              </span>
-            </div>
+      <Card bordered={false}>
+        <h1 className="article-title">{post.title}</h1>
+        <div className="article-info">
+          <div className="tags">
+            {post.tags.map((tag: ITag) => (
+              <CustomTag key={tag.name}>{tag.name}</CustomTag>
+            ))}
           </div>
-          <div
-            className="article-header"
-            style={{
-              backgroundImage: `url(${post.post})`,
-            }}
-          ></div>
+          <div className="extra">
+            <span className="time">
+              发布于：
+              {moment(new Date(post.updatedAt).valueOf()).format(dateFormat)}
+            </span>
+          </div>
+        </div>
+        <div
+          className="article-header"
+          style={{
+            backgroundImage: `url(${post.post})`,
+          }}
+        ></div>
 
-          <div className="article-content" style={{ position: "relative" }}>
-            <VditorMd content={post.content} />
-            <div className="article-toc"></div>
-          </div>
-          <div className="article-nav">
-            {post.prev && (
-              <Link href={`/article/${post.prev}`}>
-                <a className="left">
-                  <i className="iconfont">&#xe607;</i>
-                  <span>{post.prev}</span>
-                </a>
-              </Link>
-            )}
-            {post.next && (
-              <Link href={`/article/${post.next}`}>
-                <a className="right">
-                  <span>{post.next}</span>
-                  <i className="iconfont">&#xe606;</i>
-                </a>
-              </Link>
-            )}
-          </div>
-        </Card>
-        <Card bordered={false}>
-          <Comment />
-        </Card>
-        <BackTop />
-      </CustomLayout>
+        <div className="article-content" style={{ position: "relative" }}>
+          <VditorMd content={post.content} />
+          {/* <div className="article-toc"></div> */}
+        </div>
+        <div className="article-nav">
+          {post.prev && (
+            <Link href={`/article/${post.prev}`}>
+              <a className="left">
+                <i className="iconfont">&#xe607;</i>
+                <span>{post.prev}</span>
+              </a>
+            </Link>
+          )}
+          {post.next && (
+            <Link href={`/article/${post.next}`}>
+              <a className="right">
+                <span>{post.next}</span>
+                <i className="iconfont">&#xe606;</i>
+              </a>
+            </Link>
+          )}
+        </div>
+      </Card>
+      <Card bordered={false}>
+        <Comment />
+      </Card>
+      <BackTop />
     </div>
   );
 };

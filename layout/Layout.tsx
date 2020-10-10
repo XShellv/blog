@@ -123,7 +123,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           <Menu
             mode="horizontal"
             className="menu"
-            theme="light"
+            theme="dark"
             selectedKeys={[router.pathname]}
           >
             {menuOptions.map((op) => {
@@ -163,7 +163,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           <Content id="body">
             <Row gutter={[24, 24]}>
               <Col xs={0} md={0} lg={8} xl={6}>
-                {<BesideInfo />}
+                <BesideInfo />
               </Col>
               <Col xs={24} md={24} lg={16} xl={18}>
                 {children}
