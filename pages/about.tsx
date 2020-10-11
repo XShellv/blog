@@ -7,24 +7,21 @@ import { Card, Col, Row, Spin } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
 import PageLoading from "@/components/pageLoading";
+import MarkdownRenderer from "@/components/markdownRenderer";
 
-const VditorMd = dynamic(() => import("@/components/vditorMd"), {
-  ssr: false,
-  loading: () => <PageLoading />,
-});
 interface IAbout {
-  markdownStr: string;
+  content: string;
 }
-const About: NextPage<IAbout> = ({ markdownStr }) => {
+const About: NextPage<IAbout> = ({ content }) => {
   return (
     <div>
-      <Head>
+      {/* <Head>
         <title>关于我</title>
         <meta property="og:title" content="My page title" key="about" />
         <script src="/static/js/prism.js"></script>
-      </Head>
+      </Head> */}
       <Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
-        <VditorMd content={markdownStr} />
+        <MarkdownRenderer content={content} />
       </Card>
       <Card bordered={false}>
         <Comment />
@@ -40,7 +37,7 @@ const About: NextPage<IAbout> = ({ markdownStr }) => {
 About.getInitialProps = async () => {
   const resp = await api.request({ url: `/me` });
   return {
-    markdownStr: resp.data.data.content,
+    content: resp.data.data.content,
   };
 };
 

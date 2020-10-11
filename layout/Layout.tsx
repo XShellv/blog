@@ -95,7 +95,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
       <Dropdown overlay={menu}>
         <Space>
           <Avatar size={30} src={userInfo["avatar_url"]} />
-          <span className="login-name">{userInfo["name"]}</span>
+          <span className="login-name">{userInfo["name"] || userInfo["login"]}</span>
         </Space>
       </Dropdown>
     );

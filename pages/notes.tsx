@@ -18,7 +18,7 @@ Notes.getInitialProps = async (ctx) => {
   const resp = await api.request({
     url: `/post?pageSize=${query.pageSize || 10}&pageNo=${
       query.pageNo || 1
-    }&type=notes`,
+    }&category=notes`,
   });
   return {
     list: resp.data.data,

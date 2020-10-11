@@ -11,5 +11,6 @@ export default function initialize(ctx: any) {
   if (user && userSig) {
     // 已经登录
     store.dispatch(authAdmin(true));
+    // store.dispatch(storeCookie());
   }
 }

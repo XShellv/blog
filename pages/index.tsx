@@ -25,7 +25,10 @@ const Index: NextPage<{
 
 Index.getInitialProps = async (ctx) => {
   const { req, query, res } = ctx;
-
+  console.log(
+    req?.headers.cookie,
+    "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+  );
   // if (res) {
   //   res?.writeHead(302, {
   //     Location: login,
@@ -34,11 +37,12 @@ Index.getInitialProps = async (ctx) => {
   // } else {
   //   Router.replace(login);
   // }
-  const resp = await api.request({
-    url: `/post?pageSize=${query.pageSize || 10}&pageNo=${
-      query.pageNo || 1
-    }`,
-  });
+  const resp = await api.request(
+    {
+      url: `/post?pageSize=${query.pageSize || 10}&pageNo=${query.pageNo || 1}`,
+    },
+    ctx
+  );
   return {
     list: resp.data.data,
   };
