@@ -57,7 +57,6 @@ const BesideInfo: React.FC = () => {
           <i className="iconfont">&#xeee2;</i>
         </a>
       </div>
-      <div className="article-toc"></div>
     </Card>
   );
 };

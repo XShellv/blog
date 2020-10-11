@@ -10,7 +10,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Layout_tsx_1 = __importDefault(require("@/layout/Layout.tsx"));
 const comment_1 = __importDefault(require("@/components/comment"));
 const api_1 = __importDefault(require("../lib/api"));
 const head_1 = __importDefault(require("next/head"));
@@ -29,14 +28,12 @@ const About = ({ markdownStr }) => {
         <meta property="og:title" content="My page title" key="about"/>
         <script src="/static/js/prism.js"></script>
       </head_1.default>
-      <Layout_tsx_1.default>
-        <antd_1.Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
-          <VditorMd content={markdownStr}/>
-        </antd_1.Card>
-        <antd_1.Card bordered={false}>
-          <comment_1.default />
-        </antd_1.Card>
-      </Layout_tsx_1.default>
+      <antd_1.Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
+        <VditorMd content={markdownStr}/>
+      </antd_1.Card>
+      <antd_1.Card bordered={false}>
+        <comment_1.default />
+      </antd_1.Card>
     </div>);
 };
 // interface Context extends NextPageContext {

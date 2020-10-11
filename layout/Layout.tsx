@@ -12,6 +12,7 @@ import { login, logout } from "redux/actions";
 import axios from "axios";
 import BesideInfo from "@/components/besideInfo";
 import PageLoading from "@/components/pageLoading";
+import Toc from "@/components/toc";
 const config = require("../server/config/config");
 
 export const menuOptions = [
@@ -164,6 +165,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
             <Row gutter={[24, 24]}>
               <Col xs={0} md={0} lg={8} xl={6}>
                 <BesideInfo />
+                {router.pathname === "/article" && <Toc />}
               </Col>
               <Col xs={24} md={24} lg={16} xl={18}>
                 {children}

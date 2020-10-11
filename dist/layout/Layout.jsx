@@ -14,6 +14,7 @@ const icons_1 = require("@ant-design/icons");
 const react_redux_1 = require("react-redux");
 const actions_1 = require("redux/actions");
 const besideInfo_1 = __importDefault(require("@/components/besideInfo"));
+const toc_1 = __importDefault(require("@/components/toc"));
 const config = require("../server/config/config");
 exports.menuOptions = [
     {
@@ -108,7 +109,7 @@ const CustomLayout = ({ children, router }) => {
           </a>
         </link_1.default>
         <div className="options">
-          <antd_1.Menu mode="horizontal" className="menu" theme="light" selectedKeys={[router.pathname]}>
+          <antd_1.Menu mode="horizontal" className="menu" theme="dark" selectedKeys={[router.pathname]}>
             {exports.menuOptions.map((op) => {
         const renderMenu = (<antd_1.Menu.Item key={op.key} className="menu-item">
                   <link_1.default href={op.path}>
@@ -139,7 +140,8 @@ const CustomLayout = ({ children, router }) => {
           <Content id="body">
             <antd_1.Row gutter={[24, 24]}>
               <antd_1.Col xs={0} md={0} lg={8} xl={6}>
-                {<besideInfo_1.default />}
+                <besideInfo_1.default />
+                {router.pathname === "/article" && <toc_1.default />}
               </antd_1.Col>
               <antd_1.Col xs={24} md={24} lg={16} xl={18}>
                 {children}
