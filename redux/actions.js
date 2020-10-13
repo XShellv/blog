@@ -25,8 +25,8 @@ export function setLoading(data) {
   return { type: actionTypes.SET_LOADING, payload: data };
 }
 
-export function logout() {
-  return { type: actionTypes.LOGOUT };
+export function logout(url) {
+  return { type: actionTypes.LOGOUT, payload: url };
 }
 
 export function login(url) {

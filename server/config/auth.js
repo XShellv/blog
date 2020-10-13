@@ -66,9 +66,11 @@ module.exports = (server) => {
   server.use(async (ctx, next) => {
     const path = ctx.path;
     const method = ctx.method;
-    if (path === "/logout" && method === "POST") {
+    if (path === "/logout" && method === "GET") {
+      const { url } = ctx.query;
       ctx.session = null;
-      ctx.body = `logout success`;
+      // ctx.body = `logout success`;
+      ctx.redirect(url || "/");
     } else {
       await next();
     }

@@ -34,8 +34,8 @@ const About: NextPage<IAbout> = ({ content }) => {
 //   // any modifications to the default context, e.g. query types
 // }
 
-About.getInitialProps = async () => {
-  const resp = await api.request({ url: `/me` });
+About.getInitialProps = async (ctx) => {
+  const resp = await api.request({ url: `/me` }, ctx);
   return {
     content: resp.data.data.content,
   };

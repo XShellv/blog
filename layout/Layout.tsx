@@ -67,7 +67,6 @@ const gap = () => {
 const CustomLayout: React.FC<any> = ({ children, router }) => {
   const { userInfo, isAdmin } = useSelector((state: IState) => state);
   const dispatch = useDispatch();
-
   const menu = (
     <Menu className="login-menu">
       <Menu.Item>
@@ -80,7 +79,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            dispatch(logout());
+            dispatch(logout(router.asPath));
           }}
         >
           退出登录
@@ -95,7 +94,9 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
       <Dropdown overlay={menu}>
         <Space>
           <Avatar size={30} src={userInfo["avatar_url"]} />
-          <span className="login-name">{userInfo["name"] || userInfo["login"]}</span>
+          <span className="login-name">
+            {userInfo["name"] || userInfo["login"]}
+          </span>
         </Space>
       </Dropdown>
     );

@@ -24,13 +24,12 @@ interface ITags {
 const Achieve: NextPage<{
   tags: ITags;
   posts: IPosts;
-}> = ({ tags, posts: initPosts }) => {
+}> = ({ tags, posts }) => {
   const router = useRouter();
   const { query, jumpTo, getQuery } = useQuery();
   const tag = getQuery("tag") || "";
   const pageNo = getQuery("pageNo") * 1 || 1;
   const pageSize = getQuery("pageSize") || 10;
-  const [posts, setPosts] = useState(initPosts);
 
   return (
     <div id="achieve-wrapper">
@@ -119,16 +118,18 @@ const Achieve: NextPage<{
 
 Achieve.getInitialProps = async (ctx) => {
   const { res, req, query } = ctx;
-  if (res) {
-  }
   const resp = await Promise.all([
-    api.request({ url: `/tags` }),
-    api.request({
-      url: `/post?pageSize=${query.pageSize || 10}&pageNo=${
-        query.pageNo || 1
-      }&tag=${encodeURI((query.tag as string) || "")}`,
-    }),
+    api.request({ url: `/tags` }, ctx),
+    api.request(
+      {
+        url: `/post?pageSize=${query.pageSize || 10}&pageNo=${
+          query.pageNo || 1
+        }&tag=${encodeURI((query.tag as string) || "")}`,
+      },
+      ctx
+    ),
   ]);
+  console.log(resp, "#@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   return {
     tags: {
       data: resp[0].data.data,

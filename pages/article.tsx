@@ -121,7 +121,7 @@ const Article: NextPage<{
 
 Article.getInitialProps = async (ctx) => {
   const { req, query } = ctx;
-  const resp = await api.request({ url: `/post/${query.id}` });
+  const resp = await api.request({ url: `/post/${query.id}` }, ctx);
   return {
     post: resp.data.data,
   };

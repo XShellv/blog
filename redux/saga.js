@@ -10,16 +10,16 @@ function* runClockSaga() {
   }
 }
 
-function* logout() {
+function* logout(data) {
   try {
-    const res = yield axios.post("/logout");
+    const res = yield axios.get(`/logout?url=${data.payload}`);
     yield put(authAdmin(false));
   } catch (err) {
     console.log(err);
   }
 }
 
-function* login(url) {
+function* login() {
   try {
     const res = yield axios.get("/prepare-auth");
     yield put(setUserInfo(null));

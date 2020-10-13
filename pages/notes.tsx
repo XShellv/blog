@@ -13,13 +13,16 @@ const Notes: NextPage<{
 };
 
 Notes.getInitialProps = async (ctx) => {
-  console.log(ctx)
+  console.log(ctx);
   const { req, query, res } = ctx;
-  const resp = await api.request({
-    url: `/post?pageSize=${query.pageSize || 10}&pageNo=${
-      query.pageNo || 1
-    }&category=notes`,
-  });
+  const resp = await api.request(
+    {
+      url: `/post?pageSize=${query.pageSize || 10}&pageNo=${
+        query.pageNo || 1
+      }&category=notes`,
+    },
+    ctx
+  );
   return {
     list: resp.data.data,
   };

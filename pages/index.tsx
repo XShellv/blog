@@ -25,10 +25,6 @@ const Index: NextPage<{
 
 Index.getInitialProps = async (ctx) => {
   const { req, query, res } = ctx;
-  console.log(
-    req?.headers.cookie,
-    "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-  );
   // if (res) {
   //   res?.writeHead(302, {
   //     Location: login,
