@@ -35,6 +35,7 @@ const Toc: React.FC = () => {
     setRefresh((fresh) => !fresh);
   };
   useEffect(() => {
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleRefresh);
     return () => {

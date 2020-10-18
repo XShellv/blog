@@ -10,27 +10,9 @@ function* runClockSaga() {
   }
 }
 
-function* logout(data) {
-  try {
-    const res = yield axios.get(`/logout?url=${data.payload}`);
-    yield put(authAdmin(false));
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-function* login() {
-  try {
-    const res = yield axios.get("/prepare-auth");
-    yield put(setUserInfo(null));
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 function* rootSaga() {
-  yield takeEvery(actionTypes.LOGOUT, logout);
-  yield takeEvery(actionTypes.LOGIN, login);
+  // yield takeEvery(actionTypes.LOGOUT, logout);
+  // yield takeEvery(actionTypes.LOGIN, login);
 }
 
 export default rootSaga;

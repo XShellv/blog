@@ -45,15 +45,15 @@ module.exports = (server) => {
           },
         });
         // 判断是否是管理员
-        // if (data.id !== 45475139) {
-        //   ctx.session = null;
-        //   ctx.status = 401;
-        //   ctx.body = "No Auth!";
-        // } else {
-        ctx.session.userInfo = data;
-        ctx.redirect((ctx.session && ctx.session.urlBeforeOAuth) || "/");
-        ctx.session.urlBeforeOAuth = "";
-        // }
+        if (data.id !== 45475139) {
+          ctx.session = null;
+          ctx.status = 401;
+          ctx.body = "No Auth!";
+        } else {
+          ctx.session.userInfo = data;
+          ctx.redirect((ctx.session && ctx.session.urlBeforeOAuth) || "/");
+          ctx.session.urlBeforeOAuth = "";
+        }
       } else {
         const errorMsg = result.data && result.data.error;
         ctx.body = `request token failed ${errorMsg}`;
@@ -69,7 +69,6 @@ module.exports = (server) => {
     if (path === "/logout" && method === "GET") {
       const { url } = ctx.query;
       ctx.session = null;
-      // ctx.body = `logout success`;
       ctx.redirect(url || "/");
     } else {
       await next();

@@ -6,8 +6,14 @@ import "../style/index.less";
 import "vditor/dist/index.css";
 import api from "../lib/api";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo, setLoading } from "../redux/actions";
+import {
+  setUserInfo,
+  setLoading,
+  setStatus,
+  initStatus,
+} from "../redux/actions";
 import { wrapper } from "../redux/store";
+import Error from "./error";
 import CustomLayout from "@/layout/Layout.tsx";
 import type { AppProps, AppContext } from "next/app";
 import { Router } from "next/router";
@@ -21,7 +27,7 @@ const setRem = async () => {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const isAdmin = useSelector((state: IState) => state.isAdmin);
+  const { isAdmin, statusCode } = useSelector((state: IState) => state);
   const dispatch = useDispatch();
   // useEffect(()=>{
   //     setRem()
@@ -42,34 +48,27 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const startLoading = () => {
     dispatch(setLoading(true));
+    dispatch(initStatus());
   };
 
   const stopLoading = () => {
     dispatch(setLoading(false));
   };
 
-  useEffect(() => {
-    // 判断是否存在cookie
-    if (isAdmin) {
-      fetchUser();
-    } else {
-      dispatch(setUserInfo(null));
-    }
-  }, [isAdmin]);
-
-  const fetchUser = async () => {
-    const resp: any = await api.request({ url: "/user/info" });
-    dispatch(setUserInfo(resp.data));
-  };
-
-  console.log(Component.name)
-  return (
-    <ConfigProvider locale={zhCN}>
+  let renderContent;
+  if (statusCode !== 200) {
+    renderContent = <Error statusCode={statusCode} />;
+  } else if (Component.name === "Error") {
+    renderContent = <Error />;
+  } else {
+    renderContent = (
       <CustomLayout>
         <Component {...pageProps} />
       </CustomLayout>
-    </ConfigProvider>
-  );
+    );
+  }
+
+  return <ConfigProvider locale={zhCN}>{renderContent}</ConfigProvider>;
 }
 
 MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
@@ -79,7 +78,12 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
    *  传入的参数是ctx，里面包含store和req等
    **/
   initialize(ctx);
-
+  if (ctx.store.getState().isAdmin) {
+    const resp: any = await api.request({ url: "/user/info" }, ctx);
+    ctx.store.dispatch(setUserInfo(resp.data));
+  } else {
+    ctx.store.dispatch(setUserInfo(null));
+  }
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }

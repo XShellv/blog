@@ -2,50 +2,81 @@ const Koa = require("koa");
 const next = require("next");
 const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
-const koaStatic = require("koa-static");
+const combineRouters = require("koa-combine-routers");
 const session = require("koa-session");
 const proxy = require("koa2-proxy-middleware");
 const path = require("path");
 const fs = require("fs");
+const initdb = require("./mysql");
+const { isAdmin } = require("./util/util");
+const postRouter = require("./routes/post");
+const aboutRouter = require("./routes/about");
+const authRouter = require("./routes/auth");
 const auth = require("./config/auth");
 const Store = require("./config/store");
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
+const sess_key = "user";
 
 app
   .prepare()
   .then(() => {
     const server = new Koa();
-    const router = new Router();
+    const nextRouter = new Router();
 
-    const options = {
-      targets: {
-        "/api/(.*)": {
-          target: "http://localhost:8000",
-          changeOrigin: true,
-          pathRewrite: {
-            "^/api": "",
-          },
-        },
-      },
-    };
+    // const options = {
+    //   targets: {
+    //     "/api/(.*)": {
+    //       target: "http://localhost:8000",
+    //       changeOrigin: true,
+    //       pathRewrite: {
+    //         "^/api": "",
+    //       },
+    //     },
+    //   },
+    // };
 
-    server.use(proxy(options));
+    // server.use(proxy(options));
     server.use(bodyParser());
 
     server.keys = ["xshellv is a programmer"];
     const SESSION_CONFIG = {
-      key: "user",
+      key: sess_key,
       store: new Store(),
     };
     server.use(session(SESSION_CONFIG, server));
 
+    server.use(async (ctx, next) => {
+      if (ctx.headers.cookie) {
+        const cookie = ctx.cookies.get(sess_key);
+        const store = new Store();
+        const values = await store.get(cookie);
+        if (isAdmin(values.userInfo)) {
+          ctx.state.isAdmin = true;
+          // ctx.session.userInfo = values.userInfo;
+        }
+      }
+      await next();
+    });
+
+    server.use(async (ctx, next) => {
+      const path = ctx.path;
+      const method = ctx.method;
+      if (path === "/user/info" && method === "GET") {
+        const user = ctx.session.userInfo;
+        ctx.set("Content-Type", "application/json");
+        ctx.body = user;
+      } else {
+        await next();
+      }
+    });
+
     // 配置处理github OAuth的登录
     auth(server);
 
-    router.get("/article/:id", async (ctx) => {
+    nextRouter.get("/article/:id", async (ctx) => {
       const id = ctx.params.id;
       await handle(ctx.req, ctx.res, {
         pathname: "/article",
@@ -56,22 +87,26 @@ app
       ctx.respond = false;
     });
 
-    router.all("*", async (ctx) => {
+    nextRouter.all("*", async (ctx) => {
       await handle(ctx.req, ctx.res);
       ctx.respond = false;
     });
 
-    server.use(async (ctx, next) => {
-      ctx.res.statusCode = 200;
-      await next();
-    });
+    const router = combineRouters(
+      postRouter,
+      aboutRouter,
+      nextRouter
+    );
+    server.use(router());
 
-    server.use(router.routes());
-    server.listen(port, () => {
-      console.log(`> Ready on http://localhost:${port}`);
-    });
-    server.on("error", function (err) {
-      console.log(err);
+    initdb().then(async (result) => {
+      console.log("> sync models successfully...");
+      server.listen(port, () => {
+        console.log(`> Ready on http://localhost:${port}`);
+      });
+      server.on("error", function (err) {
+        console.log(err);
+      });
     });
   })
   .catch((ex) => {

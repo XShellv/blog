@@ -6,11 +6,13 @@ export interface IState {
   userInfo: any;
   loading: boolean;
   isAdmin: boolean;
+  statusCode: 200 | 400 | 404 | 500;
 }
 const initialState: IState = {
   userInfo: null,
   loading: false,
   isAdmin: false,
+  statusCode: 200,
 };
 
 function reducer(state = initialState, action: AnyAction) {
@@ -24,6 +26,10 @@ function reducer(state = initialState, action: AnyAction) {
       return { ...state, loading: action.payload };
     case actionTypes.AUTH_ADMIN:
       return { ...state, isAdmin: action.payload };
+    case actionTypes.SET_STATUS:
+      return { ...state, statusCode: action.payload };
+    case actionTypes.INIT_STATUS:
+      return { ...state, statusCode: 200 };
     default:
       return state;
   }

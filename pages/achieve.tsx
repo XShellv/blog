@@ -5,7 +5,7 @@ import api from "../lib/api";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Timeline, Card, List, Space, Row, Col } from "antd";
+import { Timeline, Card, List, Space, Row, Col, Pagination } from "antd";
 import classNames from "classnames";
 import { IPosts, dateFormat } from "@/components/customList";
 import React, { useState, useEffect } from "react";
@@ -38,78 +38,74 @@ const Achieve: NextPage<{
         <meta property="og:title" content="My page title" key="about" />
       </Head>
       <Card bordered={false}>
-        <List
-          size="small"
-          header={
-            <div className="tags">
-              <CustomTag
-                key="total"
-                className={classNames({ active: tag === "" })}
-                handleClick={() => {
-                  query.set("tag", "");
-                  query.set("pageNo", "1");
-                  jumpTo(query);
-                }}
-              >
-                全部 ({tags.total})
-              </CustomTag>
-              {tags.data.map((t: ITag) => (
-                <CustomTag
-                  key={t.name}
-                  className={classNames({ active: tag === t.name })}
-                  handleClick={() => {
-                    query.set("tag", t.name);
-                    query.set("pageNo", "1");
-                    jumpTo(query);
-                  }}
-                >
-                  {t.name} ({t.count})
-                </CustomTag>
-              ))}
-            </div>
-          }
-          // footer={<div>Footer</div>}
-          bordered={false}
-          dataSource={posts.rows}
-          renderItem={(item) => (
-            <List.Item
-              extra={
-                <Space>
+        <div className="tags">
+          <CustomTag
+            key="total"
+            className={classNames({ active: tag === "" })}
+            handleClick={() => {
+              query.set("tag", "");
+              query.set("pageNo", "1");
+              jumpTo(query);
+            }}
+          >
+            全部 ({tags.total})
+          </CustomTag>
+          {tags.data.map((t: ITag) => (
+            <CustomTag
+              key={t.name}
+              className={classNames({ active: tag === t.name })}
+              handleClick={() => {
+                query.set("tag", t.name);
+                query.set("pageNo", "1");
+                jumpTo(query);
+              }}
+            >
+              {t.name} ({t.count})
+            </CustomTag>
+          ))}
+        </div>
+        <Timeline>
+          {posts.rows.map((item) => {
+            return (
+              <Timeline.Item>
+                <div className="content">
+                  <Link href={`/article/${item.id}`}>
+                    <a>{item.title}</a>
+                  </Link>
                   <span className="time">
-                    发布于：
                     {moment(new Date(item.updatedAt).valueOf()).format(
                       dateFormat
                     )}
                   </span>
-                </Space>
-              }
-            >
-              <Link href={`/article/${item.id}`}>
-                <a>{item.title}</a>
-              </Link>
-            </List.Item>
-          )}
-          pagination={{
-            total: posts.count,
-            showTotal: (total) => `共 ${total} 篇`,
-            pageSize: pageSize,
-            current: pageNo,
-            onChange: (pageNo, pageSize) => {
-              query.set("pageNo", pageNo + "");
-              query.set("pageSize", pageSize + "");
-              jumpTo(query);
-            },
-            onShowSizeChange: (pageNo, pageSize) => {
-              query.set("pageNo", pageNo + "");
-              query.set("pageSize", pageSize + "");
-              jumpTo(query);
-            },
-            hideOnSinglePage: true,
-            size: "small",
-            showQuickJumper: true,
-            showSizeChanger: true,
-            pageSizeOptions: ["10", "20", "50"],
+                </div>
+                <div className="timeline-tags">
+                  {item.tags.map((tag) => (
+                    <CustomTag key={tag.name}>{tag.name}</CustomTag>
+                  ))}
+                </div>
+              </Timeline.Item>
+            );
+          })}
+        </Timeline>
+        <Pagination
+          total={posts.count}
+          showTotal={(total) => `共 ${total} 篇`}
+          pageSize={pageSize}
+          current={pageNo}
+          onChange={(pageNo, pageSize) => {
+            query.set("pageNo", pageNo + "");
+            query.set("pageSize", pageSize + "");
+            jumpTo(query);
           }}
+          onShowSizeChange={(pageNo, pageSize) => {
+            query.set("pageNo", pageNo + "");
+            query.set("pageSize", pageSize + "");
+            jumpTo(query);
+          }}
+          size="small"
+          showQuickJumper
+          showSizeChanger
+          pageSizeOptions={["10", "20", "50"]}
         />
       </Card>
     </div>
@@ -129,7 +125,6 @@ Achieve.getInitialProps = async (ctx) => {
       ctx
     ),
   ]);
-  console.log(resp, "#@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   return {
     tags: {
       data: resp[0].data.data,

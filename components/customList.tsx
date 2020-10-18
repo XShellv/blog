@@ -39,44 +39,43 @@ const CustomList: React.FC<{
   const pageSize = getQuery("pageSize") || 10;
   const loading = useSelector((state: IState) => state.loading);
 
-  const renderContent = (
+  const renderContent = list ? (
     <div id="home-wrapper">
-        {/* {true && <PageLoading />} */}
-        <List
-          style={{ background: "#fff", padding: 20 }}
-          bordered={false}
-          size="small"
-          loading={loading}
-          dataSource={list.rows}
-          renderItem={(row) => (
-            <List.Item key={row.title}>
-              <ArticleCard key={row.title} {...row} />
-            </List.Item>
-          )}
-          pagination={{
-            total: list.count,
-            showTotal: (total) => `共 ${total} 篇`,
-            pageSize: pageSize,
-            current: pageNo,
-            // hideOnSinglePage: true,
-            size: "small",
-            onChange: (pageNo, pageSize) => {
-              query.set("pageNo", pageNo + "");
-              query.set("pageSize", pageSize + "");
-              jumpTo(query);
-            },
-            onShowSizeChange: (pageNo, pageSize) => {
-              query.set("pageNo", pageNo + "");
-              query.set("pageSize", pageSize + "");
-              jumpTo(query);
-            },
-            showQuickJumper: true,
-            showSizeChanger: true,
-            pageSizeOptions: ["10", "20", "50"],
-          }}
-        />
+      <List
+        style={{ background: "#fff", padding: 20 }}
+        bordered={false}
+        size="small"
+        loading={loading}
+        dataSource={list.rows}
+        renderItem={(row) => (
+          <List.Item key={row.title}>
+            <ArticleCard key={row.title} {...row} />
+          </List.Item>
+        )}
+        pagination={{
+          total: list.count,
+          showTotal: (total) => `共 ${total} 篇`,
+          pageSize: pageSize,
+          current: pageNo,
+          // hideOnSinglePage: true,
+          size: "small",
+          onChange: (pageNo, pageSize) => {
+            query.set("pageNo", pageNo + "");
+            query.set("pageSize", pageSize + "");
+            jumpTo(query);
+          },
+          onShowSizeChange: (pageNo, pageSize) => {
+            query.set("pageNo", pageNo + "");
+            query.set("pageSize", pageSize + "");
+            jumpTo(query);
+          },
+          showQuickJumper: true,
+          showSizeChanger: true,
+          pageSizeOptions: ["10", "20", "50"],
+        }}
+      />
     </div>
-  );
+  ) : null;
   return renderContent;
 };
 

@@ -8,7 +8,6 @@ import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "redux/reducer";
-import { login, logout } from "redux/actions";
 import axios from "axios";
 import BesideInfo from "@/components/besideInfo";
 import PageLoading from "@/components/pageLoading";
@@ -17,23 +16,10 @@ const config = require("../server/config/config");
 
 export const menuOptions = [
   {
-    name: "首页",
-    path: "/",
-    key: "/",
-    icon: <i className="iconfont">&#xe605;</i>,
-  },
-  // {
-  //   name: "开发",
-  //   path: "/develop",
-  //   key: "/develop",
-  //   icon: <i className="iconfont">&#xe962;</i>,
-  // },
-  {
-    name: "笔记",
-    path: "/notes",
-    key: "/notes",
-    icon: <i className="iconfont">&#xe62a;</i>,
-    auth: true,
+    name: "关于我",
+    path: "/about",
+    key: "/about",
+    icon: <i className="iconfont">&#xe646;</i>,
   },
   {
     name: "归档",
@@ -42,10 +28,23 @@ export const menuOptions = [
     icon: <i className="iconfont">&#xe604;</i>,
   },
   {
-    name: "关于我",
-    path: "/about",
-    key: "/about",
-    icon: <i className="iconfont">&#xe646;</i>,
+    name: "笔记",
+    path: "/notes",
+    key: "/notes",
+    icon: <i className="iconfont">&#xe62a;</i>,
+    auth: true,
+  },
+  // {
+  //   name: "开发",
+  //   path: "/develop",
+  //   key: "/develop",
+  //   icon: <i className="iconfont">&#xe962;</i>,
+  // },
+  {
+    name: "首页",
+    path: "/",
+    key: "/",
+    icon: <i className="iconfont">&#xe605;</i>,
   },
 ];
 
@@ -75,15 +74,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(logout(router.asPath));
-          }}
-        >
-          退出登录
-        </a>
+        <a href={`/logout?url=${router.asPath}`}>退出登录</a>
       </Menu.Item>
     </Menu>
   );
@@ -152,46 +143,39 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
           <div className="log-options">{renderLog}</div>
         </div>
         {/* <div className="search">
-          <Input
-            style={{ width: 250 }}
-            placeholder="输入文章标题关键词查询..."
-            allowClear
-          />
-        </div> */}
+      <Input
+        style={{ width: 250 }}
+        placeholder="输入文章标题关键词查询..."
+        allowClear
+      />
+    </div> */}
       </Header>
-
-      <Row gutter={[{ md: 12, lg: 30, xl: 100, xxl: 400 }, 24]}>
-        <Col span={24}>
-          <Content id="body">
-            <Row gutter={[24, 24]}>
-              <Col xs={0} md={0} lg={8} xl={6}>
-                <BesideInfo />
-                {router.pathname === "/article" && <Toc />}
-              </Col>
-              <Col xs={24} md={24} lg={16} xl={18}>
-                {children}
-              </Col>
-            </Row>
-          </Content>
-        </Col>
-      </Row>
+      <Content id="body">
+        <Row gutter={[24, 24]}>
+          <Col xs={0} md={0} lg={8} xl={6}>
+            <BesideInfo />
+            {router.pathname === "/article" && <Toc />}
+          </Col>
+          <Col xs={24} md={24} lg={16} xl={18}>
+            {children}
+          </Col>
+        </Row>
+      </Content>
       <Footer id="footer">
-        <div className="footerInfo">
-          {/* <p className="time">
-            {`🕑 创建于2020年08月16日、已运行${gap().Y}年${gap().M}月${
-              gap().D
-            }天`}
-          </p> */}
-          <p className="support">
-            托管于腾讯云、使用Ant Design、next.js服务端框架
-          </p>
-          <p className="copyright">❤️ Copyright © 2020 developed by Xshellv</p>
-          <p className="icp">
-            <a target="blank" href="http://www.beian.miit.gov.cn/">
-              苏ICP备19014278号
-            </a>
-          </p>
-        </div>
+        {/* <p className="time">
+          {`🕑 创建于2020年08月16日、已运行${gap().Y}年${gap().M}月${
+            gap().D
+          }天`}
+        </p> */}
+        <p className="support">
+          托管于腾讯云、使用Ant Design、next.js服务端框架
+        </p>
+        <p className="copyright">❤️ Copyright © 2020 developed by Xshellv</p>
+        <p className="icp">
+          <a target="blank" href="http:www.beian.miit.gov.cn/">
+            苏ICP备19014278号
+          </a>
+        </p>
       </Footer>
     </div>
   );

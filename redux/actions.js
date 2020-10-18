@@ -1,9 +1,11 @@
 export const actionTypes = {
   SET_USERINFO: "SET_USERINFO",
-  LOGOUT: "LOGOUT",
   LOGIN: "LOGIN",
   SET_LOADING: "SET_LOADING",
   AUTH_ADMIN: "AUTH_ADMIN",
+  SET_STATUS: "SET_STATUS",
+  SET_STATUS: "SET_STATUS",
+  INIT_STATUS: "INIT_STATUS",
 };
 
 export function failure(error) {
@@ -25,8 +27,12 @@ export function setLoading(data) {
   return { type: actionTypes.SET_LOADING, payload: data };
 }
 
-export function logout(url) {
-  return { type: actionTypes.LOGOUT, payload: url };
+export function setStatus(data) {
+  return { type: actionTypes.SET_STATUS, payload: data };
+}
+
+export function initStatus() {
+  return { type: actionTypes.INIT_STATUS };
 }
 
 export function login(url) {
