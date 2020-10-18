@@ -26,31 +26,42 @@ const queryPostOrDraft = async (ctx, next, { status }) => {
         message: "the query post was not found",
       };
     } else {
-      const prev_post = await model.Post.findAll({
-        order: [["id", "DESC"]],
-        where: {
-          id: { [Op.lt]: id * 1 },
-          status: "post",
-        },
-        attributes: ["id"],
-        limit: 1,
-      });
+      let where = {
+        id: { [Op.lt]: id * 1 },
+        status: "post",
+      };
+      if (!state || !state.isAdmin) {
+        where.auth = 0;
+      }
       const next_post = await model.Post.findAll({
-        order: [["id", "ASC"]],
-        where: {
-          id: { [Op.gt]: id * 1 },
-          status: "post",
-        },
-        attributes: ["id"],
+        order: [["id", "DESC"]],
+        where,
+        attributes: ["id", "title"],
         limit: 1,
       });
+
+      where = {
+        id: { [Op.gt]: id * 1 },
+        status: "post",
+      };
+      if (!state || !state.isAdmin) {
+        where.auth = 0;
+      }
+
+      const prev_post = await model.Post.findAll({
+        order: [["id", "ASC"]],
+        where,
+        attributes: ["id", "title"],
+        limit: 1,
+      });
+
       if (next_post && next_post[0]) {
-        post.setDataValue("next", next_post[0].id);
+        post.setDataValue("next", next_post[0]);
       } else {
         post.setDataValue("next", null);
       }
       if (prev_post && prev_post[0]) {
-        post.setDataValue("prev", prev_post[0].id);
+        post.setDataValue("prev", prev_post[0]);
       } else {
         post.setDataValue("prev", null);
       }
