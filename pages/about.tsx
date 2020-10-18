@@ -6,7 +6,6 @@ import Head from "next/head";
 import { Card, Col, Row, Spin } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
-import PageLoading from "@/components/pageLoading";
 import MarkdownRenderer from "@/components/markdownRenderer";
 
 interface IAbout {

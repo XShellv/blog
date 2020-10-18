@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { IState } from "redux/reducer";
 import axios from "axios";
 import BesideInfo from "@/components/besideInfo";
-import PageLoading from "@/components/pageLoading";
 import Toc from "@/components/toc";
 const config = require("../server/config/config");
 

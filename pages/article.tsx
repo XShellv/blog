@@ -18,8 +18,14 @@ import { useDispatch } from "react-redux";
 import { setStatus } from "redux/actions";
 interface IArticle extends IPost {
   content: string;
-  prev: null | number;
-  next: null | number;
+  prev: null | {
+    title: string;
+    id: number;
+  };
+  next: null | {
+    title: string;
+    id: number;
+  };
 }
 const Article: NextPage<{
   post: IArticle;

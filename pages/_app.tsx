@@ -17,7 +17,6 @@ import Error from "./error";
 import CustomLayout from "@/layout/Layout.tsx";
 import type { AppProps, AppContext } from "next/app";
 import { Router } from "next/router";
-import PageLoading from "@/components/pageLoading";
 import { getCookie } from "util/cookie";
 import initialize from "util/initialize";
 import { IState } from "redux/reducer";
