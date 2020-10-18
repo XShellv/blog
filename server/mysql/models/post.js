@@ -34,6 +34,11 @@ const Post = sequelize.define("post", {
     allowNull: false,
     defaultValue: "draft",
   },
+  auth: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
   like: {
     type: Sequelize.INTEGER,
     allowNull: false,

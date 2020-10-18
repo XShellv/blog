@@ -1,12 +1,71 @@
 const fs = require("fs");
 const path = require("path");
-const Router = require("@koa/router");
+const Router = require("koa-router");
 const apiRouter = new Router();
 const model = require("../mysql/models");
-
 const Sequelize = require("sequelize");
 const sequelize = require("../mysql/util/database");
+const { where } = require("sequelize");
 
+const queryPostOrDraft = async (ctx, next, { status }) => {
+  const { state } = ctx;
+
+  const { Op } = Sequelize;
+  const id = ctx.params.id;
+  const post = await model.Post.findOne({
+    include: [{ model: model.Tag, attributes: ["id", "name"] }],
+    where: {
+      id,
+      status,
+    },
+  });
+  if (post) {
+    if (post.auth === 1 && (!state || !state.isAdmin)) {
+      ctx.body = {
+        success: false,
+        message: "the query post was not found",
+      };
+    } else {
+      const prev_post = await model.Post.findAll({
+        order: [["id", "DESC"]],
+        where: {
+          id: { [Op.lt]: id * 1 },
+          status: "post",
+        },
+        attributes: ["id"],
+        limit: 1,
+      });
+      const next_post = await model.Post.findAll({
+        order: [["id", "ASC"]],
+        where: {
+          id: { [Op.gt]: id * 1 },
+          status: "post",
+        },
+        attributes: ["id"],
+        limit: 1,
+      });
+      if (next_post && next_post[0]) {
+        post.setDataValue("next", next_post[0].id);
+      } else {
+        post.setDataValue("next", null);
+      }
+      if (prev_post && prev_post[0]) {
+        post.setDataValue("prev", prev_post[0].id);
+      } else {
+        post.setDataValue("prev", null);
+      }
+      ctx.body = {
+        success: true,
+        data: post,
+      };
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      message: "the query post was not found",
+    };
+  }
+};
 /**
  * 创建文章
  */
@@ -26,7 +85,9 @@ apiRouter.post("/post", async (ctx, next) => {
     const post = await model.Post.create(body);
     if (post) {
       const tags = await Promise.all(
-        await body.tags.map((tag) => model.Tag.create({ name: tag }))
+        await body.tags.map((tag) =>
+          model.Tag.create({ name: tag, auth: body.auth })
+        )
       );
       await post.addTags(tags);
       ctx.body = { success: true, data: post };
@@ -37,58 +98,16 @@ apiRouter.post("/post", async (ctx, next) => {
 /**
  * 根据主键查找文章及关联的标签
  */
-apiRouter.get("/post/:id", async (ctx, next) => {
-  const { Op } = Sequelize;
-  const id = ctx.params.id;
-  const post = await model.Post.findByPk(id, {
-    include: [{ model: model.Tag, attributes: ["id", "name"] }],
-  });
-  if (post) {
-    const prev_post = await model.Post.findAll({
-      order: [["id", "DESC"]],
-      where: {
-        id: { [Op.lt]: id * 1 },
-        status: "post",
-      },
-      attributes: ["id", "title"],
-      limit: 1,
-    });
-    const next_post = await model.Post.findAll({
-      order: [["id", "ASC"]],
-      where: {
-        id: { [Op.gt]: id * 1 },
-        status: "post",
-      },
-      attributes: ["id", "title"],
-      limit: 1,
-    });
-    if (next_post && next_post[0]) {
-      post.setDataValue("next", {
-        id: next_post[0].id,
-        title: next_post[0].title,
-      });
-    } else {
-      post.setDataValue("next", null);
-    }
-    if (prev_post && prev_post[0]) {
-      post.setDataValue("prev", {
-        id: prev_post[0].id,
-        title: prev_post[0].title,
-      });
-    } else {
-      post.setDataValue("prev", null);
-    }
-    ctx.body = {
-      success: true,
-      data: post,
-    };
-  } else {
-    ctx.body = {
-      success: false,
-      message: "the query post was not found",
-    };
-  }
-});
+apiRouter.get("/post/:id", (ctx, next) =>
+  queryPostOrDraft(ctx, next, { status: "post" })
+);
+
+/**
+ * 根据主键查找草稿及关联的标签
+ */
+apiRouter.get("/draft/:id", (ctx, next) =>
+  queryPostOrDraft(ctx, next, { status: "draft" })
+);
 
 /**
  * 删除文章及关联的标签
@@ -136,7 +155,9 @@ apiRouter.post("/post/:id", async (ctx, next) => {
   await Promise.all(findTags.map((tag) => tag.destroy()));
 
   const tags = await Promise.all(
-    await body.tags.map((tag) => model.Tag.create({ name: tag }))
+    await body.tags.map((tag) =>
+      model.Tag.create({ name: tag, auth: body.auth })
+    )
   );
   const ret = await findPost.setTags(tags);
   if (ret) {
@@ -156,23 +177,29 @@ apiRouter.post("/post/:id", async (ctx, next) => {
  * 获取所有的标签
  */
 apiRouter.get("/tags", async (ctx, next) => {
+  const { state } = ctx;
   // 从postTag中找出有效的tagId
   // 分组查询并聚合count数
+  let where = { status: "post" };
+  if (!state || !state.isAdmin) {
+    where.auth = 0;
+  }
   const posts = await model.Post.findAll({
-    where: {
-      status: "post",
-    },
+    where,
     include: [{ model: model.Tag }],
   });
   let tagIds = [];
   posts.map((post) => {
     tagIds = tagIds.concat(post.tags.map((tag) => tag.id));
   });
+
+  where = { id: tagIds };
+  if (!state || !state.isAdmin) {
+    where.auth = 0;
+  }
   const ret = await model.Tag.findAll({
     attributes: [[sequelize.fn("COUNT", "name"), "count"], "name"],
-    where: {
-      id: tagIds,
-    },
+    where,
     // include: [{
     //   model: model.Post, where: {
     //     status: "post"
@@ -185,11 +212,12 @@ apiRouter.get("/tags", async (ctx, next) => {
       sequelize.where(sequelize.fn("COUNT", sequelize.col("name")), ">", 0),
     ],
   });
-
+  where = { status: "post" };
+  if (!state || !state.isAdmin) {
+    where.auth = 0;
+  }
   const total = await model.Post.count({
-    where: {
-      status: "post",
-    },
+    where,
   });
   if (ret) {
     ctx.body = {
@@ -209,18 +237,36 @@ apiRouter.get("/tags", async (ctx, next) => {
  * 分页查询非草稿
  */
 apiRouter.get("/post", async (ctx, next) => {
-  const { pageSize, pageNo, tag } = ctx.request.query;
+  const { pageSize, pageNo, tag, category } = ctx.request.query;
+  const { state } = ctx;
+  const Op = Sequelize.Op;
   let conditions = {
     attributes: { exclude: ["content"] },
     include: [{ model: model.Tag, attributes: ["id", "name"] }],
     order: [["createdAt", "DESC"]],
     distinct: true,
+    where: {},
   };
+  // 加入权限过滤
+  if (!state || !state.isAdmin) {
+    conditions.where = { auth: 0 };
+  }
+  // 如果是查询分类别
+  if (category) {
+    conditions.where = {
+      ...conditions.where,
+      category,
+    };
+  }
   if (tag && tag.trim()) {
+    let where = {};
+    if (state && state.isAdmin) {
+      where = { name: tag };
+    } else {
+      where = { name: tag, auth: 0 };
+    }
     const tags = await model.Tag.findAll({
-      where: {
-        name: tag,
-      },
+      where,
       attributes: ["id"],
     });
 
@@ -237,6 +283,7 @@ apiRouter.get("/post", async (ctx, next) => {
   }
   if (!isNaN(pageSize * 1) && !isNaN(pageNo)) {
     conditions.where = {
+      ...conditions.where,
       status: "post",
     };
     conditions.offset = (pageNo * 1 - 1) * pageSize * 1;

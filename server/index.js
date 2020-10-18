@@ -1,86 +1,115 @@
 const Koa = require("koa");
 const next = require("next");
-const Router = require("@koa/router");
-const combineRouters = require("koa-combine-routers");
+const Router = require("koa-router");
 const bodyParser = require("koa-bodyparser");
-const initdb = require("./mysql");
-const koaStatic = require("koa-static");
-const server = new Koa();
+const combineRouters = require("koa-combine-routers");
+const session = require("koa-session");
+const proxy = require("koa2-proxy-middleware");
 const path = require("path");
 const fs = require("fs");
+const initdb = require("./mysql");
+const { isAdmin } = require("./util/util");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
-server.use(bodyParser());
-let index = 0;
-// server.use(koaStatic(path.resolve(__dirname, "./public/manage")));
-
-// server.use(async (ctx, next) => {
-//   const reg = /^(\/manage)/;
-//   if (reg.test(ctx.path)) {
-//     ctx.response.type = "html";
-//     ctx.response.body = fs.createReadStream(
-//       path.resolve(__dirname, "./public/manage/manage.html")
-//     );
-//   } else {
-//     await next();
-//   }
-// });
-
-const github_base_url = "https://api.github.com";
+const authRouter = require("./routes/auth");
+const auth = require("./config/auth");
+const Store = require("./config/store");
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const pageRouter = new Router();
+const sess_key = "user";
 
 app
   .prepare()
   .then(() => {
-    pageRouter.get("/", async (ctx) => {
-      await app.render(ctx.req, ctx.res, "/", ctx.query);
-      ctx.respond = false;
+    const server = new Koa();
+    const nextRouter = new Router();
+
+    // const options = {
+    //   targets: {
+    //     "/api/(.*)": {
+    //       target: "http://localhost:8000",
+    //       changeOrigin: true,
+    //       pathRewrite: {
+    //         "^/api": "",
+    //       },
+    //     },
+    //   },
+    // };
+
+    // server.use(proxy(options));
+    server.use(bodyParser());
+
+    server.keys = ["xshellv is a programmer"];
+    const SESSION_CONFIG = {
+      key: sess_key,
+      store: new Store(),
+    };
+    server.use(session(SESSION_CONFIG, server));
+
+    server.use(async (ctx, next) => {
+      if (ctx.headers.cookie) {
+        const cookie = ctx.cookies.get(sess_key);
+        const store = new Store();
+        const values = await store.get(cookie);
+        if (isAdmin(values.userInfo)) {
+          ctx.state.isAdmin = true;
+          // ctx.session.userInfo = values.userInfo;
+        }
+      }
+      await next();
     });
 
-    pageRouter.get("/article/:id", async (ctx) => {
-      ctx.query = { id: ctx.params.id };
-      await app.render(ctx.req, ctx.res, "/article", ctx.query);
-      ctx.respond = false;
+    server.use(async (ctx, next) => {
+      const path = ctx.path;
+      const method = ctx.method;
+      if (path === "/user/info" && method === "GET") {
+        const user = ctx.session.userInfo;
+        ctx.set("Content-Type", "application/json");
+        ctx.body = user;
+      } else {
+        await next();
+      }
     });
 
-    pageRouter.get("/achieve", async (ctx) => {
-      const { tag, pageNo, pageSize } = ctx.query;
-      ctx.query = { tag, pageNo, pageSize };
-      await app.render(ctx.req, ctx.res, "/achieve", ctx.query);
-      ctx.respond = false;
-    });
+    // 配置处理github OAuth的登录
+    auth(server);
 
-    pageRouter.get("/about", async (ctx) => {
-      await app.render(ctx.req, ctx.res, "/about", ctx.query);
-      ctx.respond = false;
-    });
-
-    pageRouter.all("*", async (ctx) => {
-      ctx.cookies.set("id", index);
-      index += 1;
-      await handle(ctx.req, ctx.res).catch((e) => {
-        console.log(e);
+    nextRouter.get("/article/:id", async (ctx) => {
+      const id = ctx.params.id;
+      await handle(ctx.req, ctx.res, {
+        pathname: "/article",
+        query: {
+          id,
+        },
       });
       ctx.respond = false;
+    });
+
+    nextRouter.all("*", async (ctx) => {
+      await handle(ctx.req, ctx.res);
+      ctx.respond = false;
+    });
+
+    const router = combineRouters(
+      postRouter,
+      aboutRouter,
+      nextRouter
+    );
+    server.use(router());
+
+    initdb().then(async (result) => {
+      console.log("> sync models successfully...");
+      server.listen(port, () => {
+        console.log(`> Ready on http://localhost:${port}`);
+      });
+      server.on("error", function (err) {
+        console.log(err);
+      });
     });
   })
   .catch((ex) => {
     console.error(ex.stack);
     process.exit(1);
   });
-
-const router = combineRouters(postRouter, aboutRouter, pageRouter);
-server.use(router());
-
-initdb().then(async (result) => {
-  if (result) {
-    console.log("> sync models successfully...");
-    server.listen(port, () => {
-      console.log(`> Ready on http://localhost:${port}`);
-    });
-  }
-});

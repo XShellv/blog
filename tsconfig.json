@@ -9,6 +9,7 @@
       "@/components/*": ["components/*"],
       "@/layout/*": ["layout/*"],
       "@/hooks/*": ["hooks/*"],
+      "@/common/*": ["common/*"],
     },
     "moduleResolution": "node",
     "strict": true,

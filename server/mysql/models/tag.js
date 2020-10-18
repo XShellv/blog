@@ -12,6 +12,11 @@ const Tag = sequelize.define("tag", {
     type: Sequelize.STRING(20),
     allowNull: false,
   },
+  auth: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
 });
 
 module.exports = Tag;

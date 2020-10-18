@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import VditorPreview from "vditor/dist/method.min";
 import * as tocbot from "tocbot";
 
-const VditorMd = (props: any) => {
+const VditorMd: React.FC<{ content: string }> = (props: any) => {
   useEffect(() => {
-    VditorPreview.preview(document.getElementById("vditor"), props.content, {
-      paragraphBeginningSpace:true,
-      hljs:{
-        style:"monokai"
-      },
-      after: () => {
-        tocbot.refresh();
-      },
-    });
+    // VditorPreview.preview(document.getElementById("vditor"), props.content, {
+    //   paragraphBeginningSpace: true,
+    //   hljs: {
+    //     style: "monokai",
+    //   },
+    //   after: () => {
+    //     tocbot.refresh();
+    //   },
+    // });
 
     tocbot.init({
       tocSelector: ".article-toc",
@@ -24,7 +24,11 @@ const VditorMd = (props: any) => {
     };
   }, [props.content]);
 
-  return <div id="vditor" className="vditor-reset"></div>;
+  return (
+    <div id="vditor" className="vditor-reset">
+      <div dangerouslySetInnerHTML={{ __html: props.content }}></div>
+    </div>
+  );
 };
 
 export default VditorMd;

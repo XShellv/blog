@@ -4,10 +4,10 @@ const queryInterface = sequelize.getQueryInterface();
 
 const up = function () {
   return Promise.all([
-    queryInterface.addColumn("posts", "status", {
-      type: Sequelize.STRING(10),
+    queryInterface.addColumn("tags", "auth", {
+      type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: "draft",
+      defaultValue: 0,
     }),
   ]);
 };

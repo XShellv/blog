@@ -1,27 +1,97 @@
-import {ConfigProvider } from 'antd';
-import zhCN from 'antd/lib/locale/zh_CN';
-import Head from 'next/head';
-import '../style/index.less';
-import "vditor/dist/index.css"
-import type { AppProps /*, AppContext */ } from 'next/app'
+import React, { useEffect, useState } from "react";
+import { ConfigProvider, Layout } from "antd";
+import zhCN from "antd/lib/locale/zh_CN";
+import Head from "next/head";
+import "../style/index.less";
+import "vditor/dist/index.css";
+import api from "../lib/api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setUserInfo,
+  setLoading,
+  setStatus,
+  initStatus,
+} from "../redux/actions";
+import { wrapper } from "../redux/store";
+import Error from "./error";
+import CustomLayout from "@/layout/Layout.tsx";
+import type { AppProps, AppContext } from "next/app";
+import { Router } from "next/router";
+import PageLoading from "@/components/pageLoading";
+import { getCookie } from "util/cookie";
+import initialize from "util/initialize";
+import { IState } from "redux/reducer";
 
-
-const setRem = async ()=>{
-  await require('../public/static/js/flexible');
-}
+const setRem = async () => {
+  await require("../public/static/js/flexible");
+};
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { isAdmin, statusCode } = useSelector((state: IState) => state);
+  const dispatch = useDispatch();
+  // useEffect(()=>{
+  //     setRem()
+  //     window && window.addEventListener('resize',setRem)
+  // })
 
-// useEffect(()=>{
-//     setRem()
-//     window && window.addEventListener('resize',setRem)
-// })
+  useEffect(() => {
+    Router.events.on("routeChangeStart", startLoading);
+    Router.events.on("routeChangeComplete", stopLoading);
+    Router.events.on("routeChangeError", stopLoading);
 
-  return(
-    <ConfigProvider locale={zhCN}>
-      <Component {...pageProps} />
-    </ConfigProvider>
-  )
+    return () => {
+      Router.events.off("routeChangeStart", startLoading);
+      Router.events.off("routeChangeComplete", stopLoading);
+      Router.events.off("routeChangeError", stopLoading);
+    };
+  }, []);
+
+  const startLoading = () => {
+    dispatch(setLoading(true));
+    dispatch(initStatus());
+  };
+
+  const stopLoading = () => {
+    dispatch(setLoading(false));
+  };
+
+  let renderContent;
+  if (statusCode !== 200) {
+    renderContent = <Error statusCode={statusCode} />;
+  } else if (Component.name === "Error") {
+    renderContent = <Error />;
+  } else {
+    renderContent = (
+      <CustomLayout>
+        <Component {...pageProps} />
+      </CustomLayout>
+    );
+  }
+
+  return <ConfigProvider locale={zhCN}>{renderContent}</ConfigProvider>;
 }
 
-export default MyApp
+MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  let pageProps = {};
+  /** 应用初始化, 一定要在Component.getInitiialProps前面
+   *  因为里面是授权，系统最优先的逻辑
+   *  传入的参数是ctx，里面包含store和req等
+   **/
+  initialize(ctx);
+  if (ctx.store.getState().isAdmin) {
+    const resp: any = await api.request({ url: "/user/info" }, ctx);
+    ctx.store.dispatch(setUserInfo(resp.data));
+  } else {
+    ctx.store.dispatch(setUserInfo(null));
+  }
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  return { pageProps, Component };
+};
+
+// export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+//   store.dispatch(tickClock(false));
+// });
+
+export default wrapper.withRedux(MyApp);

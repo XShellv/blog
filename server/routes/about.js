@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const Router = require("@koa/router");
+const Router = require("koa-router");
 const aboutRouter = new Router();
 const model = require("../mysql/models");
 const Sequelize = require("sequelize");
@@ -42,22 +42,5 @@ aboutRouter.get("/me", async (ctx, next) => {
     data: ret,
   };
 });
-
-// const fetchMd = (file) => {
-//     return new Promise((resolve, reject) => {
-//       fs.readFile(
-//         path.resolve(__dirname, `../../mock/${file}.txt`),
-//         "utf-8",
-//         function(err, data) {
-//           if (err) {
-//             console.error(err);
-//             reject(err);
-//           } else {
-//             resolve();
-//           }
-//         }
-//       );
-//     });
-//   };
 
 module.exports = aboutRouter;

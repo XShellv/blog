@@ -3,34 +3,29 @@ import CustomLayout from "@/layout/Layout.tsx";
 import Comment from "@/components/comment";
 import api from "../lib/api";
 import Head from "next/head";
-import { Card, Spin } from "antd";
+import { Card, Col, Row, Spin } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
 import PageLoading from "@/components/pageLoading";
+import MarkdownRenderer from "@/components/markdownRenderer";
 
-const VditorMd = dynamic(() => import("@/components/vditorMd"), {
-  ssr: false,
-  loading: () => <PageLoading />,
-});
 interface IAbout {
-  markdownStr: string;
+  content: string;
 }
-const About: NextPage<IAbout> = ({ markdownStr }) => {
+const About: NextPage<IAbout> = ({ content }) => {
   return (
     <div>
-      <Head>
+      {/* <Head>
         <title>关于我</title>
         <meta property="og:title" content="My page title" key="about" />
         <script src="/static/js/prism.js"></script>
-      </Head>
-      <CustomLayout>
-        <Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
-          <VditorMd content={markdownStr} />
-        </Card>
-        <Card bordered={false}>
-          <Comment />
-        </Card>
-      </CustomLayout>
+      </Head> */}
+      <Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
+        <MarkdownRenderer content={content} />
+      </Card>
+      <Card bordered={false}>
+        <Comment />
+      </Card>
     </div>
   );
 };
@@ -39,10 +34,10 @@ const About: NextPage<IAbout> = ({ markdownStr }) => {
 //   // any modifications to the default context, e.g. query types
 // }
 
-About.getInitialProps = async () => {
-  const resp = await api.request({ url: `/me` });
+About.getInitialProps = async (ctx) => {
+  const resp = await api.request({ url: `/me` }, ctx);
   return {
-    markdownStr: resp.data.data.content,
+    content: resp.data.data.content,
   };
 };
 

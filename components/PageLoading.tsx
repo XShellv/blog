@@ -15,10 +15,12 @@ const PageLoading: React.FC<IPageLoading> = ({ _style }) => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    background: "rgba(255,255,255,.3)",
+    zIndex: 99999,
   };
   return (
     <div style={Object.assign(style, _style)}>
-      <Spin tip="加载中..." />
+      <Spin size="small" tip="加载中..." />
     </div>
   );
 };
