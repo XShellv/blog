@@ -64,7 +64,7 @@ const Article: NextPage<{
     };
   }, []);
 
-  return (
+  return post ? (
     <div id="article-wrapper">
       <Head>
         <title>{post.title}</title>
@@ -100,18 +100,20 @@ const Article: NextPage<{
           {/* <div className="article-toc"></div> */}
         </div>
         <div className="article-nav">
-          {post.prev && (
-            <Link href={`/article/${post.prev}`}>
+          {post.prev ? (
+            <Link href={`/article/${post.prev.id}`}>
               <a className="left">
                 <i className="iconfont">&#xe607;</i>
-                <span>{post.prev}</span>
+                <span>{post.prev.title}</span>
               </a>
             </Link>
+          ) : (
+            <span></span>
           )}
           {post.next && (
-            <Link href={`/article/${post.next}`}>
+            <Link href={`/article/${post.next.id}`}>
               <a className="right">
-                <span>{post.next}</span>
+                <span>{post.next.title}</span>
                 <i className="iconfont">&#xe606;</i>
               </a>
             </Link>
@@ -123,14 +125,14 @@ const Article: NextPage<{
       </Card>
       <BackTop />
     </div>
-  );
+  ) : null;
 };
 
 Article.getInitialProps = async (ctx) => {
   const { req, res, query } = ctx;
   const resp = await api.request({ url: `/post/${query.id}` }, ctx);
-  if (!resp.data.success && res) {
-    res.statusCode = 404;
+  console.log(res);
+  if (!resp.data.success) {
     ctx.store.dispatch(setStatus(404));
   }
 
