@@ -5,7 +5,6 @@ import { useQuery } from "@/hooks/useQuery";
 import React from "react";
 import moment from "moment";
 import { useRouter } from "next/router";
-import PageLoading from "./pageLoading";
 import { useSelector } from "react-redux";
 import { IState } from "redux/reducer";
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
