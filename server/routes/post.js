@@ -157,7 +157,8 @@ apiRouter.post("/post/:id", async (ctx, next) => {
       success: false,
       message: "the update post was not found",
     });
-  }
+  };
+  console.log(body)
   await findPost.update(body, {
     where: { id },
   });
