@@ -157,9 +157,8 @@ apiRouter.post("/post/:id", async (ctx, next) => {
       success: false,
       message: "the update post was not found",
     });
-  };
-  console.log(body)
-  await findPost.update(body, {
+  }
+  await model.Post.update(body, {
     where: { id },
   });
   // 删除tags表中实例
