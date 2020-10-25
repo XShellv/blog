@@ -1,3 +1,4 @@
+import MyScript from "module/myScript";
 import Document, {
   Html,
   Head,
@@ -5,6 +6,7 @@ import Document, {
   NextScript,
   DocumentContext,
 } from "next/document";
+import React from "react";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -36,6 +38,15 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
+          <MyScript>
+            {function () {
+              var hm = document.createElement("script");
+              hm.src =
+                "https://hm.baidu.com/hm.js?49893c6a2f3f90bddbd2e7691f051255";
+              var s: any = document.getElementsByTagName("script")[0];
+              s.parentNode.insertBefore(hm, s);
+            }}
+          </MyScript>
           <NextScript />
         </body>
       </Html>
