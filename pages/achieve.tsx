@@ -37,7 +37,7 @@ const Achieve: NextPage<{
         <title>归档</title>
         <meta property="og:title" content="My page title" key="about" />
       </Head>
-      <Card bordered={false}>
+      <Card bordered={false} size="small">
         <div className="tags">
           <CustomTag
             key="total"

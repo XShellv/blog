@@ -55,7 +55,7 @@ const Toc: React.FC = () => {
           fontSize: 12,
         }}
       >
-        <Card bordered={false} className="toc-info">
+        <Card bordered={false} className="toc-info" size="small" >
           <div className="article-toc"></div>
         </Card>
       </div>
