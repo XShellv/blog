@@ -26,7 +26,7 @@ const BesideInfo: React.FC = () => {
   const router = useRouter();
   return (
     <>
-      <Card className="brief-info my-card" bordered={false}>
+      <Card className="brief-info my-card" bordered={false} size="small">
         <div className="avatar">
           <Avatar size={60} src="https://cdn.xshellv.com/avatar" />
         </div>
