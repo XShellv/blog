@@ -1,16 +1,17 @@
 .customTag {
-    margin-bottom: 5px;
-    margin       : 5px 5px 5px 0;
-    cursor       : pointer;
-    color        : @primary;
-    background-color: fade(@primary, 5%);
+    margin-bottom   : 5px;
+    margin          : 5px 5px 5px 0;
+    cursor          : pointer;
+    color           : @gray-700;
+    border-color    : @gray-700;
+    border-color: fade(@gray-700, 30%);
+    // border-radius   : 12px;
 
     &:hover {
         color       : @primary;
         border-color: @primary  !important;
     }
 
-    border-color: fade(@primary, 30%);
 
     &.active {
         color       : @primary;
