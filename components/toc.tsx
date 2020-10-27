@@ -1,16 +1,14 @@
 import Link from "next/link";
-import { Card, List, Row, Col, Avatar, Button } from "antd";
-import CustomLayout from "@/layout/Layout.tsx";
-import CustomTag from "@/components/customTag.tsx";
-import { useQuery } from "@/hooks/useQuery";
+import { Card, List, Row, Col, Avatar, Button, Tabs } from "antd";
 import api from "lib/api";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { NextPageContext, NextPage } from "next";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { refresh } from "tocbot";
+import BesideInfo from "./besideInfo";
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
-
+const { TabPane } = Tabs;
 const Toc: React.FC = () => {
   const tocRef = useRef<HTMLDivElement>(null);
   const [classname, setClassName] = useState("");
@@ -47,17 +45,28 @@ const Toc: React.FC = () => {
   const tocDom = tocRef.current;
 
   return (
-    <div ref={tocRef}>
-      <div
-        className={classname}
-        style={{
-          width: tocDom ? tocDom.getBoundingClientRect().width : "auto",
-          fontSize: 12,
-        }}
-      >
-        <Card bordered={false} className="toc-info" size="small" >
-          <div className="article-toc"></div>
-        </Card>
+    <div className="toc-info" ref={tocRef}>
+      <div ref={tocRef}>
+        <div
+          className={classname}
+          style={{
+            width: tocDom ? tocDom.getBoundingClientRect().width : "auto",
+            fontSize: 12,
+          }}
+        >
+          <Tabs
+            defaultActiveKey="1"
+            onChange={() => {}}
+            style={{ background: "#fff" }}
+          >
+            <TabPane tab="文章目录" key="toc">
+              <div className="article-toc"></div>
+            </TabPane>
+            <TabPane tab="博客概览" key="brief">
+              <BesideInfo />
+            </TabPane>
+          </Tabs>
+        </div>
       </div>
     </div>
   );
