@@ -36,6 +36,7 @@ const Article: NextPage<{
   const articleRef = useRef(null);
   const generateTagId = () => {
     const articleNode: any = findDOMNode(articleRef.current);
+    console.log(articleNode)
     if (articleNode) {
       let nodes = articleNode.children;
       if (nodes.length) {

@@ -59,7 +59,7 @@ const Toc: React.FC = () => {
             onChange={() => {}}
             style={{ background: "#fff" }}
           >
-            <TabPane tab="文章目录" key="toc">
+            <TabPane tab="文章目录" key="toc" forceRender={true}>
               <div className="article-toc"></div>
             </TabPane>
             <TabPane tab="博客概览" key="brief">
