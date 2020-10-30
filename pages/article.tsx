@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { findDOMNode } from "react-dom";
 import Comment from "@/components/comment";
-import CustomLayout from "@/layout/Layout.tsx";
+import { useRouter } from "next/router";
 import CustomTag from "@/components/customTag";
 import api from "../lib/api";
 import React, { useEffect, useRef } from "react";
@@ -31,10 +31,12 @@ const Article: NextPage<{
   post: IArticle;
 }> = ({ post }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const articleRef = useRef(null);
   const generateTagId = () => {
     const articleNode: any = findDOMNode(articleRef.current);
+    console.log(articleNode)
     if (articleNode) {
       let nodes = articleNode.children;
       if (nodes.length) {
@@ -72,12 +74,19 @@ const Article: NextPage<{
         <script src="/static/js/prism.js"></script>
       </Head>
 
-      <Card bordered={false}>
+      <Card bordered={false} size="small">
         <h1 className="article-title">{post.title}</h1>
         <div className="article-info">
           <div className="tags">
             {post.tags.map((tag: ITag) => (
-              <CustomTag key={tag.name}>{tag.name}</CustomTag>
+              <CustomTag key={tag.name}
+              handleClick={() =>
+                router.push({
+                  pathname: "/achieve",
+                  query: { tag: tag.name },
+                })
+              }
+              >{tag.name}</CustomTag>
             ))}
           </div>
           <div className="extra">
@@ -120,7 +129,7 @@ const Article: NextPage<{
           )}
         </div>
       </Card>
-      <Card bordered={false}>
+      <Card bordered={false} size="small">
         <Comment />
       </Card>
       <BackTop />

@@ -19,7 +19,7 @@ const About: NextPage<IAbout> = ({ content }) => {
         <meta property="og:title" content="My page title" key="about" />
         <script src="/static/js/prism.js"></script>
       </Head> */}
-      <Card bordered={false} style={{ position: "relative", minHeight: 300 }}>
+      <Card bordered={false} style={{ position: "relative", minHeight: 300 }} size="small">
         <MarkdownRenderer content={content} />
       </Card>
       <Card bordered={false}>

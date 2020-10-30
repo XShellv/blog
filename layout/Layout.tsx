@@ -152,11 +152,10 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
       </Header>
       <Content id="body">
         <Row gutter={[24, 24]}>
-          <Col xs={0} md={0} lg={8} xl={7} xxl={6}>
-            <BesideInfo />
-            {router.pathname === "/article" && <Toc />}
+          <Col xs={0} md={0} lg={8} xl={6} xxl={6}>
+            {router.pathname === "/article" ? <Toc /> : <BesideInfo />}
           </Col>
-          <Col xs={24} md={24} lg={16} xl={17} xxl={18}>
+          <Col xs={24} md={24} lg={16} xl={18} xxl={18}>
             {children}
           </Col>
         </Row>
