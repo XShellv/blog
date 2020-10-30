@@ -10,6 +10,19 @@
         display         : flex;
         justify-content : space-between;
 
+        @media (min-width: 1200px) {
+            padding: 0 100px;
+        }
+
+        // @media (min-width: 1400px) {
+        //     padding: 0 200px;
+        // }
+
+        @media (min-width: 1600px) {
+            padding: 0 200px;
+        }
+
+
         .logo {
             text-align     : center;
             color          : fade(@white, 70%);
@@ -75,7 +88,11 @@
         }
 
         @media (min-width: 1400px) {
-            margin: 0 200px;
+            margin: 0 250px;
+        }
+
+        @media (min-width: 1600px) {
+            margin: 0 400px;
         }
     }
 
