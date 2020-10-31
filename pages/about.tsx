@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import CustomLayout from "@/layout/Layout.tsx";
-import Comment from "@/components/comment";
+import Comment from "@/components/Comment";
 import api from "../lib/api";
 import Head from "next/head";
 import { Card, Col, Row, Spin } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
-import MarkdownRenderer from "@/components/markdownRenderer";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 
 interface IAbout {
   content: string;
@@ -19,7 +19,17 @@ const About: NextPage<IAbout> = ({ content }) => {
         <meta property="og:title" content="My page title" key="about" />
         <script src="/static/js/prism.js"></script>
       </Head> */}
-      <Card bordered={false} style={{ position: "relative", minHeight: 300 }} size="small">
+      <Card
+        bordered={false}
+        style={{ position: "relative", minHeight: 300 }}
+        size="small"
+      >
+        {/* <div
+          className="me-post "
+          style={{
+            backgroundImage: `url(/static/me.jpg)`,
+          }}
+        /> */}
         <MarkdownRenderer content={content} />
       </Card>
       <Card bordered={false}>

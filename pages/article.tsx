@@ -1,18 +1,18 @@
 import { NextPage } from "next";
 import { findDOMNode } from "react-dom";
-import Comment from "@/components/comment";
+import Comment from "@/components/Comment";
 import { useRouter } from "next/router";
-import CustomTag from "@/components/customTag";
+import CustomTag from "@/components/CustomTag";
 import api from "../lib/api";
 import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import moment from "moment";
 import { BackTop, Avatar, Card, Button, Spin, message } from "antd";
-import { IPost, ITag, dateFormat } from "@/components/customList";
+import { IPost, ITag, dateFormat } from "@/components/CustomList";
 import * as tocbot from "tocbot";
 // import VditorMd from "@/components/vditorMd";
-import MarkdownRenderer from "@/components/markdownRenderer";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 import Error from "./error";
 import { useDispatch } from "react-redux";
 import { setStatus } from "redux/actions";
@@ -36,7 +36,7 @@ const Article: NextPage<{
   const articleRef = useRef(null);
   const generateTagId = () => {
     const articleNode: any = findDOMNode(articleRef.current);
-    console.log(articleNode)
+    console.log(articleNode);
     if (articleNode) {
       let nodes = articleNode.children;
       if (nodes.length) {
@@ -79,14 +79,17 @@ const Article: NextPage<{
         <div className="article-info">
           <div className="tags">
             {post.tags.map((tag: ITag) => (
-              <CustomTag key={tag.name}
-              handleClick={() =>
-                router.push({
-                  pathname: "/achieve",
-                  query: { tag: tag.name },
-                })
-              }
-              >{tag.name}</CustomTag>
+              <CustomTag
+                key={tag.name}
+                handleClick={() =>
+                  router.push({
+                    pathname: "/achieve",
+                    query: { tag: tag.name },
+                  })
+                }
+              >
+                {tag.name}
+              </CustomTag>
             ))}
           </div>
           <div className="extra">
@@ -101,7 +104,7 @@ const Article: NextPage<{
           style={{
             backgroundImage: `url(${post.post})`,
           }}
-        ></div>
+        />
 
         <div className="article-content" style={{ position: "relative" }}>
           {/* <VditorMd content={post.content} /> */}

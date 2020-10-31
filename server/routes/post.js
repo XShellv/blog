@@ -97,7 +97,7 @@ apiRouter.post("/post", async (ctx, next) => {
     if (post) {
       const tags = await Promise.all(
         await body.tags.map((tag) =>
-          model.Tag.create({ name: tag, auth: body.auth })
+          model.Tag.create({ name: tag, auth: body.auth, status: body.status })
         )
       );
       await post.addTags(tags);
@@ -167,7 +167,7 @@ apiRouter.post("/post/:id", async (ctx, next) => {
 
   const tags = await Promise.all(
     await body.tags.map((tag) =>
-      model.Tag.create({ name: tag, auth: body.auth })
+      model.Tag.create({ name: tag, auth: body.auth, status: body.status })
     )
   );
   const ret = await findPost.setTags(tags);

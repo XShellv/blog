@@ -1,8 +1,8 @@
 import api from "lib/api";
 import React, { useState, useCallback, useEffect } from "react";
 import { NextPageContext, NextPage } from "next";
-import withPrivateRoute from "@/components/withPrivateRoute";
-import CustomList, { IPosts } from "@/components/customList";
+import withPrivateRoute from "@/components/WithPrivateRoute";
+import CustomList, { IPosts } from "@/components/CustomList";
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
 const Notes: NextPage<{

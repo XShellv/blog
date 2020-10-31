@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, List, Row, Col, Avatar, Button } from "antd";
-import CustomTag from "@/components/customTag.tsx";
+import CustomTag from "@/components/CustomTag";
 import { useQuery } from "@/hooks/useQuery";
 import React from "react";
 import moment from "moment";

@@ -11,6 +11,7 @@ import {
   setLoading,
   setStatus,
   initStatus,
+  setTopTags,
 } from "../redux/actions";
 import { wrapper } from "../redux/store";
 import Error from "./error";
@@ -77,11 +78,21 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
    *  传入的参数是ctx，里面包含store和req等
    **/
   initialize(ctx);
+  let list = [];
+  list.push(
+    api.request({ method: "POST", url: "/topTags", data: { top: 5 } }, ctx)
+  );
   if (ctx.store.getState().isAdmin) {
-    const resp: any = await api.request({ url: "/user/info" }, ctx);
-    ctx.store.dispatch(setUserInfo(resp.data));
+    list.push(api.request({ url: "/user/info" }, ctx));
+    // const resp: any = await api.request({ url: "/user/info" }, ctx);
+    // ctx.store.dispatch(setUserInfo(resp.data));
   } else {
     ctx.store.dispatch(setUserInfo(null));
+  }
+  const resp: any = await Promise.all(list);
+  ctx.store.dispatch(setTopTags(resp[0].data.data));
+  if (resp[1]) {
+    ctx.store.dispatch(setUserInfo(resp[1].data));
   }
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);

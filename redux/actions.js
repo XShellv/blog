@@ -1,5 +1,6 @@
 export const actionTypes = {
   SET_USERINFO: "SET_USERINFO",
+  SET_TOPTAGS: "SET_TOPTAGS",
   LOGIN: "LOGIN",
   SET_LOADING: "SET_LOADING",
   AUTH_ADMIN: "AUTH_ADMIN",
@@ -17,6 +18,10 @@ export function failure(error) {
 
 export function setUserInfo(data) {
   return { type: actionTypes.SET_USERINFO, payload: data };
+}
+
+export function setTopTags(data) {
+  return { type: actionTypes.SET_TOPTAGS, payload: data };
 }
 
 export function authAdmin(data) {

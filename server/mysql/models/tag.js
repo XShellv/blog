@@ -17,6 +17,11 @@ const Tag = sequelize.define("tag", {
     allowNull: false,
     defaultValue: 0,
   },
+  status: {
+    type: Sequelize.STRING(10),
+    allowNull: false,
+    defaultValue: "draft",
+  },
 });
 
 module.exports = Tag;

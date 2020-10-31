@@ -5,11 +5,13 @@ import { HYDRATE } from "next-redux-wrapper";
 export interface IState {
   userInfo: any;
   loading: boolean;
+  topTags: { count: number; name: string }[] | null;
   isAdmin: boolean;
   statusCode: 200 | 400 | 404 | 500;
 }
 const initialState: IState = {
   userInfo: null,
+  topTags: null,
   loading: false,
   isAdmin: false,
   statusCode: 200,
@@ -22,6 +24,8 @@ function reducer(state = initialState, action: AnyAction) {
       return { ...state, ...action.payload };
     case actionTypes.SET_USERINFO:
       return { ...state, userInfo: action.payload };
+    case actionTypes.SET_TOPTAGS:
+      return { ...state, topTags: action.payload };
     case actionTypes.SET_LOADING:
       return { ...state, loading: action.payload };
     case actionTypes.AUTH_ADMIN:

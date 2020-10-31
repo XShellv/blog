@@ -6,7 +6,9 @@ import { NextPageContext, NextPage } from "next";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { refresh } from "tocbot";
-import BesideInfo from "./besideInfo";
+import BesideInfo from "./Brief";
+import MostTags from "./MostTags";
+import Besides from "./Besides";
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
 const { TabPane } = Tabs;
 const Toc: React.FC = () => {
@@ -62,8 +64,8 @@ const Toc: React.FC = () => {
             <TabPane tab="文章目录" key="toc" forceRender={true}>
               <div className="article-toc"></div>
             </TabPane>
-            <TabPane tab="博客概览" key="brief">
-              <BesideInfo />
+            <TabPane tab="博客概览" key="brief" className="brief">
+              <Besides />
             </TabPane>
           </Tabs>
         </div>

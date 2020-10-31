@@ -11,7 +11,7 @@ const initdb = require("./mysql");
 const { isAdmin } = require("./util/util");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
-const authRouter = require("./routes/auth");
+const commonRouter = require("./routes/common");
 const auth = require("./config/auth");
 const Store = require("./config/store");
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -95,6 +95,7 @@ app
     const router = combineRouters(
       postRouter,
       aboutRouter,
+      commonRouter,
       nextRouter
     );
     server.use(router());

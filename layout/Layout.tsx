@@ -9,8 +9,9 @@ import { UserOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "redux/reducer";
 import axios from "axios";
-import BesideInfo from "@/components/besideInfo";
-import Toc from "@/components/toc";
+import Toc from "@/components/Toc";
+import MostTags from "@/components/MostTags";
+import Besides from "@/components/Besides";
 const config = require("../server/config/config");
 
 export const menuOptions = [
@@ -152,7 +153,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
       <Content id="body">
         <Row gutter={[24, 24]}>
           <Col xs={0} md={0} lg={8} xl={6} xxl={6}>
-            {router.pathname === "/article" ? <Toc /> : <BesideInfo />}
+            {router.pathname === "/article" ? <Toc /> : <Besides />}
           </Col>
           <Col xs={24} md={24} lg={16} xl={18} xxl={18}>
             {children}

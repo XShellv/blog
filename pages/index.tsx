@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, List, Row, Col, Avatar, Button } from "antd";
-import CustomTag from "@/components/customTag.tsx";
+import CustomTag from "@/components/CustomTag";
 import { useQuery } from "@/hooks/useQuery";
 import api from "lib/api";
 import React, { useState, useCallback, useEffect } from "react";
@@ -12,8 +12,8 @@ import {
   NextRouter,
   SingletonRouter,
 } from "next/router";
-import withPrivateRoute from "@/components/withPrivateRoute";
-import CustomList, { IPosts } from "@/components/customList";
+import withPrivateRoute from "@/components/WithPrivateRoute";
+import CustomList, { IPosts } from "@/components/CustomList";
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
 const Index: NextPage<{
