@@ -13,7 +13,7 @@ commonRouter.post("/topTags", async (ctx, next) => {
   const body = ctx.request.body;
   const { state } = ctx;
   let where = { status: "post" };
-  if (false) {
+  if (!state || !state.isAdmin) {
     where.auth = 0;
   } else {
     where[Sequelize.Op.or] = [{ auth: 0 }, { auth: 1 }];
