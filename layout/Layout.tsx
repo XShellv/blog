@@ -156,26 +156,30 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
             {router.pathname === "/article" ? <Toc /> : <Besides />}
           </Col>
           <Col xs={24} md={24} lg={16} xl={18} xxl={18}>
-            {children}
-          </Col>
-        </Row>
-      </Content>
-      <Footer id="footer">
-        {/* <p className="time">
+            {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
+              {children}
+              <Footer id="footer">
+                {/* <p className="time">
           {`🕑 创建于2020年08月16日、已运行${gap().Y}年${gap().M}月${
             gap().D
           }天`}
         </p> */}
-        <p className="support">
-          托管于腾讯云、使用Ant Design、next.js服务端框架
-        </p>
-        <p className="copyright">❤️ Copyright © 2020 developed by Xshellv</p>
-        <p className="icp">
-          <a target="blank" href="http:www.beian.miit.gov.cn/">
-            苏ICP备19014278号
-          </a>
-        </p>
-      </Footer>
+                <p className="support">
+                  托管于腾讯云、使用Ant Design、next.js服务端框架
+                </p>
+                <p className="copyright">
+                  ❤️ Copyright © 2020 developed by Xshellv
+                </p>
+                <p className="icp">
+                  <a target="blank" href="http:www.beian.miit.gov.cn/">
+                    苏ICP备19014278号
+                  </a>
+                </p>
+              </Footer>
+            {/* </div> */}
+          </Col>
+        </Row>
+      </Content>
     </div>
   );
 };

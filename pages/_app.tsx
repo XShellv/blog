@@ -80,7 +80,7 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   initialize(ctx);
   let list = [];
   list.push(
-    api.request({ method: "POST", url: "/topTags", data: { top: 5 } }, ctx)
+    api.request({ method: "POST", url: "/topTags", data: { top: 10 } }, ctx)
   );
   if (ctx.store.getState().isAdmin) {
     list.push(api.request({ url: "/user/info" }, ctx));
