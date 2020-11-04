@@ -58,6 +58,7 @@ const Article: NextPage<{
     tocbot.init({
       tocSelector: ".article-toc",
       contentSelector: ".markdown-body",
+      collapseDepth:6,
       hasInnerContainers: true,
     });
     tocbot.refresh();

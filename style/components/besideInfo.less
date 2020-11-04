@@ -19,9 +19,34 @@
 .toc-info {
 
     .article-toc {
-        font-size     : 12px;
-        padding-bottom: 20px;
-        padding-left  : 25px
+        font-size: 12px;
+        ol {
+            list-style: none;
+        }
+        li {
+            counter-increment: a 1;
+        }
+
+        li:before {
+            content: counter(a)". ";
+        }
+
+        li li {
+            counter-increment: b 1;
+        }
+
+        li li:before {
+            content: counter(a)"."counter(b)". ";
+        }
+
+        li li li {
+            counter-increment: c 1;
+        }
+
+        li li li:before {
+            content: counter(a)"."counter(b)"."counter(c)". ";
+        }
+
     }
 }
 

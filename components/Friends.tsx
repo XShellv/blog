@@ -23,7 +23,7 @@ const Friends = () => {
   return (
     <Card
       title={<h2>友链</h2>}
-      className="most-tags my-card"
+      className="my-card"
       bordered={false}
       size="small"
     >
