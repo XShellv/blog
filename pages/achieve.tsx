@@ -73,7 +73,7 @@ const Achieve: NextPage<{
                     <a>{item.title}</a>
                   </Link>
                   <span className="time">
-                    {moment(new Date(item.updatedAt).valueOf()).format(
+                    {moment(new Date(item.createdAt).valueOf()).format(
                       dateFormat
                     )}
                   </span>

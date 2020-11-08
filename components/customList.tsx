@@ -86,6 +86,7 @@ const ArticleCard = (props: any) => {
     category,
     like,
     read,
+    createdAt,
     updatedAt,
     tags,
     id,
@@ -119,7 +120,7 @@ const ArticleCard = (props: any) => {
         </div>
         <div className="extra">
           <span className="time">
-            发布于：{moment(new Date(updatedAt).valueOf()).format(dateFormat)}
+            发布于：{moment(new Date(createdAt).valueOf()).format(dateFormat)}
           </span>
         </div>
       </div>
