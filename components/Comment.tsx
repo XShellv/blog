@@ -5,12 +5,12 @@ import { useEffect } from "react";
 const Comment = () => {
   useEffect(() => {
     var gitalk = new Gitalk({
-      clientID: "4f9f7108bdcdf6f189d3",
-      clientSecret: "7e4cf761d6185adcfbfe021277f289ec60dd45cf",
-      repo: "blog_comments",
+      clientID: "19aa34dffb8b36381787",
+      clientSecret: "fd85e1656cd62900d8a3fc4d9a2f3af40e4ce10d",
+      repo: "next-blog-comment",
       owner: "XShellv",
       admin: ["XShellv"],
-      // id: this.props.router.query.id || this.props.router.pathname,
+      id: window.location.pathname,
       distractionFreeMode: false,
     });
     gitalk.render("gitalk-container");
