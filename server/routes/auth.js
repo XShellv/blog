@@ -14,11 +14,6 @@ authRouter.get("/preapre-auth", async (ctx, next) => {
   ctx.redirect(config.github.GET_OAUTH_URL());
 });
 
-authRouter.get("/logout", async (ctx, next) => {
-  const { url } = ctx.query;
-  ctx.session = null;
-  ctx.redirect(url || "/");
-});
 
 authRouter.get("/auth", async (ctx, next) => {
   const code = ctx.query.code;
@@ -65,14 +60,5 @@ authRouter.get("/auth", async (ctx, next) => {
   }
 });
 
-authRouter.get("/user/info", async (ctx, next) => {
-  const user = ctx.session.userInfo;
-  if (!user) {
-    // 未登录默认不携带管理员信息
-    ctx.body = null;
-  } else {
-    ctx.set("Content-Type", "application/json");
-    ctx.body = user;
-  }
-});
+
 module.exports = authRouter;

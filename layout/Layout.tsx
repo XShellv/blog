@@ -140,7 +140,7 @@ const CustomLayout: React.FC<any> = ({ children, router }) => {
               }
             })}
           </Menu>
-          <div className="log-options">{renderLog}</div>
+          {/* <div className="log-options">{renderLog}</div> */}
         </div>
         {/* <div className="search">
       <Input

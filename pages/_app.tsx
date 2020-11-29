@@ -82,13 +82,13 @@ MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   list.push(
     api.request({ method: "POST", url: "/topTags", data: { top: 10 } }, ctx)
   );
-  if (ctx.store.getState().isAdmin) {
-    list.push(api.request({ url: "/user/info" }, ctx));
-    // const resp: any = await api.request({ url: "/user/info" }, ctx);
-    // ctx.store.dispatch(setUserInfo(resp.data));
-  } else {
-    ctx.store.dispatch(setUserInfo(null));
-  }
+  // if (ctx.store.getState().isAdmin) {
+  //   list.push(api.request({ url: "/user/info" }, ctx));
+  //   // const resp: any = await api.request({ url: "/user/info" }, ctx);
+  //   // ctx.store.dispatch(setUserInfo(resp.data));
+  // } else {
+  //   ctx.store.dispatch(setUserInfo(null));
+  // }
   const resp: any = await Promise.all(list);
   ctx.store.dispatch(setTopTags(resp[0].data.data));
   if (resp[1]) {

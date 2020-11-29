@@ -66,34 +66,10 @@ module.exports = (server) => {
   server.use(async (ctx, next) => {
     const path = ctx.path;
     const method = ctx.method;
-    if (path === "/logout" && method === "GET") {
-      const { url } = ctx.query;
-      ctx.session = null;
-      ctx.redirect(url || "/");
-    } else {
-      await next();
-    }
-  });
-
-  server.use(async (ctx, next) => {
-    const path = ctx.path;
-    const method = ctx.method;
     if (path === "/prepare-auth" && method === "GET") {
       const { url } = ctx.query;
       ctx.session.urlBeforeOAuth = url;
       ctx.redirect(config.github.GET_OAUTH_URL());
-    } else {
-      await next();
-    }
-  });
-
-  server.use(async (ctx, next) => {
-    const path = ctx.path;
-    const method = ctx.method;
-    if (path === "/user/info" && method === "GET") {
-      const user = ctx.session.userInfo;
-      ctx.set("Content-Type", "application/json");
-      ctx.body = user;
     } else {
       await next();
     }

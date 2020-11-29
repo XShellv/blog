@@ -11,6 +11,7 @@ const initdb = require("./mysql");
 const { isAdmin } = require("./util/util");
 const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
+const adminRouter = require("./routes/admin");
 const commonRouter = require("./routes/common");
 const auth = require("./config/auth");
 const Store = require("./config/store");
@@ -44,7 +45,9 @@ app
     server.keys = ["xshellv is a programmer"];
     const SESSION_CONFIG = {
       key: sess_key,
+      httpOnly: false,
       store: new Store(),
+      maxAge: 60000,
     };
     server.use(session(SESSION_CONFIG, server));
 
@@ -61,17 +64,17 @@ app
       await next();
     });
 
-    server.use(async (ctx, next) => {
-      const path = ctx.path;
-      const method = ctx.method;
-      if (path === "/user/info" && method === "GET") {
-        const user = ctx.session.userInfo;
-        ctx.set("Content-Type", "application/json");
-        ctx.body = user;
-      } else {
-        await next();
-      }
-    });
+    // server.use(async (ctx, next) => {
+    //   const path = ctx.path;
+    //   const method = ctx.method;
+    //   if (path === "/user/info" && method === "GET") {
+    //     const user = ctx.session.userInfo;
+    //     ctx.set("Content-Type", "application/json");
+    //     ctx.body = user;
+    //   } else {
+    //     await next();
+    //   }
+    // });
 
     // 配置处理github OAuth的登录
     auth(server);
@@ -96,6 +99,7 @@ app
       postRouter,
       aboutRouter,
       commonRouter,
+      adminRouter,
       nextRouter
     );
     server.use(router());
