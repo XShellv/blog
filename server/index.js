@@ -56,10 +56,14 @@ app
         const cookie = ctx.cookies.get(sess_key);
         const store = new Store();
         const values = await store.get(cookie);
-        if (values && isAdmin(values.userInfo)) {
+        if (ctx.session.admin) {
           ctx.state.isAdmin = true;
-          // ctx.session.userInfo = values.userInfo;
         }
+        console.log(values, "322222222222222222222222222222222222");
+        // if (values && isAdmin(values.userInfo)) {
+        //   ctx.state.isAdmin = true;
+        //   // ctx.session.userInfo = values.userInfo;
+        // }
       }
       await next();
     });
