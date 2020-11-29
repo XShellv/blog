@@ -47,7 +47,7 @@ app
       key: sess_key,
       httpOnly: false,
       store: new Store(),
-      maxAge: 60000,
+      maxAge: 15 * 24 * 60 * 60 * 1000,
     };
     server.use(session(SESSION_CONFIG, server));
 
@@ -59,7 +59,6 @@ app
         if (ctx.session.admin) {
           ctx.state.isAdmin = true;
         }
-        console.log(values, "322222222222222222222222222222222222");
         // if (values && isAdmin(values.userInfo)) {
         //   ctx.state.isAdmin = true;
         //   // ctx.session.userInfo = values.userInfo;
