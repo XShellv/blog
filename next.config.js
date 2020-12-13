@@ -1,8 +1,9 @@
 const withLess = require("@zeit/next-less");
 const withCss = require("@zeit/next-css");
 const withBundleAnalyzer = require("@zeit/next-bundle-analyzer");
-const webpack = require('webpack')
+const webpack = require("webpack");
 const path = require("path");
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = withBundleAnalyzer(
   withCss(
@@ -10,8 +11,10 @@ module.exports = withBundleAnalyzer(
       lessLoaderOptions: {
         javascriptEnabled: true,
       },
+      compress: false,
+      distDir: ".dist",
       images: {
-        domains: ['cdn.xshellv.com'],
+        domains: ["cdn.xshellv.com"],
       },
       webpack: (config, { isServer }) => {
         if (isServer) {
@@ -35,6 +38,9 @@ module.exports = withBundleAnalyzer(
         }
         config.plugins.push(
           new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+        );
+        config.plugins.push(
+          new ProgressBarPlugin()
         );
         config.module.rules.push({
           enforce: "pre",

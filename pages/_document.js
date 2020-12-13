@@ -18,6 +18,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          {/* <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> */}
           <link rel="icon" type="image/png" href="/static/favicon.png" />
           {/* <link
             rel="stylesheet"
