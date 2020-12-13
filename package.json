@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "nodemon server/index.js",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node dist/server/index.js",
-    "pm2": "cross-env NODE_ENV=production pm2 start dist/server/index.js --name next-blog",
+    "start": "cross-env NODE_ENV=production node .dist/server/index.js",
+    "pm2": "cross-env NODE_ENV=production pm2 start .dist/server/index.js --name next-blog",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
-    "scp": "scp -r .\\dist xshellv@119.45.162.84:/xxw/blog"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
