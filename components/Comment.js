@@ -18,7 +18,7 @@ const Comment = () => {
   return (
     <div id="gitalk-container">
       <Head>
-        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" />
       </Head>
     </div>
   );
