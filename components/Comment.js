@@ -1,5 +1,4 @@
 import { withRouter } from "next/router";
-import Head from "next/head";
 import { useEffect } from "react";
 
 const Comment = () => {
@@ -15,13 +14,7 @@ const Comment = () => {
     });
     gitalk.render("gitalk-container");
   }, []);
-  return (
-    <div id="gitalk-container">
-      <Head>
-        <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" />
-      </Head>
-    </div>
-  );
+  return <div id="gitalk-container" />;
 };
 
 export default withRouter(Comment);
