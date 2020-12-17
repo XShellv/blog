@@ -20,10 +20,6 @@ class MyDocument extends Document {
         <Head>
           <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
           <link rel="icon" type="image/png" href="/static/favicon.png" />
-          {/* <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css"
-          /> */}
           {typeof window === "undefined" && (
             <style
               id="holderStyle"

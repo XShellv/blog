@@ -20,13 +20,15 @@
 
     .article-toc {
         font-size: 12px;
+
         ol {
             list-style: none;
         }
+
         li {
             counter-increment: a 1;
         }
-        
+
 
         li:before {
             content: counter(a)". ";
@@ -58,6 +60,11 @@
 .brief-info {
     display        : flex;
     justify-content: center;
+
+    .ant-image {
+        border-radius: 50% !important;
+        overflow     : hidden !important;
+    }
 
     .avatar {
         display        : flex;

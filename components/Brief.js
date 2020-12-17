@@ -1,4 +1,4 @@
-import { Card, List, Row, Col, Avatar, Button, Tooltip } from "antd";
+import { Card, List, Row, Col, Avatar, Button, Tooltip, Image } from "antd";
 import React, { useState, useCallback, useEffect, FC } from "react";
 import { useRouter } from "next/router";
 import MyTp from "./MyTp";
@@ -9,7 +9,12 @@ const Brief = () => {
   return (
     <Card className="brief-info my-card" bordered={false} size="small">
       <div className="avatar">
-        <Avatar size={60} src="https://cdn.xshellv.com/avatar" />
+        <Image
+          width={60}
+          src="https://cdn.xshellv.com/avatar"
+          // style={{ borderRadius: "50%" }}
+        />
+        {/* <Avatar size={60} src="https://cdn.xshellv.com/avatar" /> */}
       </div>
       <div className="me">
         <span>徐小武</span>
