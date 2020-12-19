@@ -5,7 +5,7 @@ const { Header, Footer, Content } = Layout;
 import moment from "moment";
 import { withRouter } from "next/router";
 import { Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, MenuOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "redux/reducer";
 import axios from "axios";
@@ -64,7 +64,7 @@ const gap = () => {
   };
 };
 const CustomLayout = ({ children, router }) => {
-  const { userInfo, isAdmin } = useSelector(state => state);
+  const { userInfo, isAdmin } = useSelector((state) => state);
   const dispatch = useDispatch();
   const menu = (
     <Menu className="login-menu">
@@ -106,51 +106,8 @@ const CustomLayout = ({ children, router }) => {
 
   return (
     <div id="layout">
-      <Header id="header">
-        <Link href="/">
-          <a className="logo">
-            <span className="iconfont">&#xe603;</span>Xshellv Blog
-          </a>
-        </Link>
-        <div className="options">
-          <Menu
-            mode="horizontal"
-            className="menu"
-            theme="dark"
-            selectedKeys={[router.pathname]}
-          >
-            {menuOptions.map((op) => {
-              const renderMenu = (
-                <Menu.Item key={op.key} className="menu-item">
-                  <Link href={op.path}>
-                    <a>
-                      {op.icon}
-                      {op.name}
-                    </a>
-                  </Link>
-                </Menu.Item>
-              );
-              if (op.auth) {
-                if (isAdmin) {
-                  return renderMenu;
-                }
-                return null;
-              } else {
-                return renderMenu;
-              }
-            })}
-          </Menu>
-          {/* <div className="log-options">{renderLog}</div> */}
-        </div>
-        {/* <div className="search">
-      <Input
-        style={{ width: 250 }}
-        placeholder="输入文章标题关键词查询..."
-        allowClear
-      />
-    </div> */}
-    
-      </Header>
+      <Pheader isAdmin={isAdmin} router={router} />
+      <Mheader isAdmin={isAdmin} router={router} />
       <Content id="body">
         <Row gutter={[24, 24]}>
           <Col xs={0} md={0} lg={8} xl={6} xxl={6}>
@@ -158,25 +115,25 @@ const CustomLayout = ({ children, router }) => {
           </Col>
           <Col xs={24} md={24} lg={16} xl={18} xxl={18}>
             {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
-              {children}
-              <Footer id="footer">
-                {/* <p className="time">
+            {children}
+            <Footer id="footer">
+              {/* <p className="time">
           {`🕑 创建于2020年08月16日、已运行${gap().Y}年${gap().M}月${
             gap().D
           }天`}
         </p> */}
-                <p className="support">
-                  托管于腾讯云、使用Ant Design、next.js服务端框架
-                </p>
-                <p className="copyright">
-                  ❤️ Copyright © 2020 developed by Xshellv
-                </p>
-                <p className="icp">
-                  <a target="blank" href="http:www.beian.miit.gov.cn/">
-                    苏ICP备19014278号
-                  </a>
-                </p>
-              </Footer>
+              <p className="support">
+                托管于腾讯云、使用Ant Design、next.js服务端框架
+              </p>
+              <p className="copyright">
+                ❤️ Copyright © 2020 developed by Xshellv
+              </p>
+              <p className="icp">
+                <a target="blank" href="http:www.beian.miit.gov.cn/">
+                  苏ICP备19014278号
+                </a>
+              </p>
+            </Footer>
             {/* </div> */}
           </Col>
         </Row>
@@ -185,4 +142,94 @@ const CustomLayout = ({ children, router }) => {
   );
 };
 
+const Pheader = ({ isAdmin, router }) => {
+  return (
+    <Header id="pheader">
+      <Link href="/">
+        <a className="logo">
+          <span className="iconfont">&#xe603;</span>Xshellv Blog
+        </a>
+      </Link>
+      <div className="options">
+        <Menu
+          mode="horizontal"
+          className="menu"
+          theme="dark"
+          selectedKeys={[router.pathname]}
+        >
+          {menuOptions.map((op) => {
+            const renderMenu = (
+              <Menu.Item key={op.key} className="menu-item">
+                <Link href={op.path}>
+                  <a>
+                    {op.icon}
+                    {op.name}
+                  </a>
+                </Link>
+              </Menu.Item>
+            );
+            if (op.auth) {
+              if (isAdmin) {
+                return renderMenu;
+              }
+              return null;
+            } else {
+              return renderMenu;
+            }
+          })}
+        </Menu>
+        {/* <div className="log-options">{renderLog}</div> */}
+      </div>
+      {/* <div className="search">
+<Input
+  style={{ width: 250 }}
+  placeholder="输入文章标题关键词查询..."
+  allowClear
+/>
+</div> */}
+    </Header>
+  );
+};
+const Mheader = ({ isAdmin, router }) => {
+  const menu = (
+    <Menu>
+      {menuOptions.reverse().map((op) => {
+        const renderMenu = (
+          <Menu.Item key={op.key} className="menu-item">
+            <Link href={op.path}>
+              <a>
+                {op.icon}
+                {op.name}
+              </a>
+            </Link>
+          </Menu.Item>
+        );
+        if (op.auth) {
+          if (isAdmin) {
+            return renderMenu;
+          }
+          return null;
+        } else {
+          return renderMenu;
+        }
+      })}
+    </Menu>
+  );
+  return (
+    <Header id="mheader">
+      <Link href="/">
+        <a className="logo">
+          <span className="iconfont">&#xe603;</span>Xshellv Blog
+        </a>
+      </Link>
+      <div className="options">
+        <Dropdown overlay={menu} className="dropMenu">
+          <a className="menus" onClick={(e) => e.preventDefault()}>
+            <MenuOutlined />
+          </a>
+        </Dropdown>
+      </div>
+    </Header>
+  );
+};
 export default withRouter(CustomLayout);

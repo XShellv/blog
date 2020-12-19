@@ -3,7 +3,7 @@
     min-height    : 100vh;
     flex-direction: column;
 
-    #header {
+    #pheader {
         width           : 100%;
         padding         : 0 80px;
         background-color: #292525;
@@ -20,6 +20,10 @@
 
         @media (min-width: 1600px) {
             padding: 0 200px;
+        }
+
+        @media (max-width: 767px) {
+            display: none;
         }
 
 
@@ -79,19 +83,55 @@
         }
     }
 
+    #mheader {
+        display         : none;
+        padding         : 0 15px;
+        background-color: #292525;
+        justify-content: space-between;
+
+
+        @media (max-width: 767px) {
+            // display: block;
+            display        : flex;
+        }
+
+        .logo {
+            text-align     : center;
+            color          : fade(@white, 70%);
+            font-size      : 18px;
+            text-decoration: none;
+
+            &:hover {
+                color: fade(@white, 90%);
+            }
+
+            .iconfont {
+                font-size    : 24px;
+                padding-right: 5px;
+            }
+        }
+
+        .options {
+            .menus {
+                font-size: 20px;
+                color    : fade(@white, 70%);
+            }
+        }
+    }
+
     #body {
-        position  : relative;
+        position         : relative;
         // min-height: 600px;
-        display       : flex;
+        display          : flex;
         // min-height    : 100vh;
-        flex-direction: column;
+        flex-direction   : column;
 
         @media (min-width: 1200px) {
             margin: 0 100px;
         }
 
         @media (min-width: 1400px) {
-            
+
             margin: 0 200px;
         }
 
@@ -127,6 +167,17 @@
 
         .icp {
             margin-bottom: 0;
+        }
+    }
+}
+
+.ant-dropdown {
+    a {
+        font-size: 14px;
+
+        .iconfont {
+            font-size    : 14px;
+            padding-right: 5px;
         }
     }
 }

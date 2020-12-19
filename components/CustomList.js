@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Card, List, Row, Col, Avatar, Button } from "antd";
+import { Card, List, Row, Col, Avatar, Typography } from "antd";
 import CustomTag from "@/components/CustomTag";
 import { useQuery } from "@/hooks/useQuery";
 import React from "react";
@@ -18,7 +18,7 @@ const CustomList = ({ list }) => {
   const renderContent = list ? (
     <div id="home-wrapper">
       <List
-        style={{ background: "#fff", padding: 20 }}
+        style={{ background: "#fff" }}
         bordered={false}
         size="small"
         loading={loading}
@@ -29,6 +29,7 @@ const CustomList = ({ list }) => {
           </List.Item>
         )}
         pagination={{
+          className: "my-pagination",
           total: list.count,
           showTotal: (total) => `共 ${total} 篇`,
           pageSize: pageSize,
@@ -97,12 +98,17 @@ const ArticleCard = (props) => {
         </div>
         <div className="extra">
           <span className="time">
-            发布于：{moment(new Date(createdAt).valueOf()).format(dateFormat)}
+            时间：{moment(new Date(createdAt).valueOf()).format(dateFormat)}
           </span>
         </div>
       </div>
       {/* <Link href={"/article?id=" + item.id} as={"/article/" + item.id}> */}
-      <p className="home-card-abstract">{abstract}</p>
+      {/* <p className="home-card-abstract">{abstract}</p> */}
+      <Typography.Paragraph
+        ellipsis={{ rows: 3, expandable: true, symbol: "展开" }}
+      >
+        {abstract}
+      </Typography.Paragraph>
     </div>
   );
 };

@@ -82,7 +82,7 @@ const Article = ({ post }) => {
           </div>
           <div className="extra">
             <span className="time">
-              发布于：
+              时间：
               {moment(new Date(post.updatedAt).valueOf()).format(dateFormat)}
             </span>
           </div>
