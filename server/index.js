@@ -12,6 +12,7 @@ const postRouter = require("./routes/post");
 const aboutRouter = require("./routes/about");
 const adminRouter = require("./routes/admin");
 const commonRouter = require("./routes/common");
+const qiniuRouter = require("./qiniu");
 const auth = require("./config/auth");
 const Store = require("./config/store");
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -98,6 +99,7 @@ app
     });
 
     const router = combineRouters(
+      qiniuRouter,
       postRouter,
       aboutRouter,
       commonRouter,
@@ -106,17 +108,19 @@ app
     );
     server.use(router());
 
-    initdb().then(async (result) => {
-      console.log("> sync models successfully...");
-      server.listen(port, () => {
-        console.log(`> Ready on http://localhost:${port}`);
+    initdb()
+      .then(async (result) => {
+        console.log("> sync models successfully...");
+        server.listen(port, () => {
+          console.log(`> Ready on http://localhost:${port}`);
+        });
+        server.on("error", function (err) {
+          console.log(err);
+        });
+      })
+      .catch((e) => {
+        console.log(e);
       });
-      server.on("error", function (err) {
-        console.log(err);
-      });
-    }).catch(e=>{
-      console.log(e)
-    })
   })
   .catch((ex) => {
     console.error(ex.stack);

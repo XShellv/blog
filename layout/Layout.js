@@ -16,16 +16,10 @@ const config = require("../server/config/config");
 
 export const menuOptions = [
   {
-    name: "关于我",
-    path: "/about",
-    key: "/about",
-    icon: <i className="iconfont">&#xe646;</i>,
-  },
-  {
-    name: "归档",
-    path: "/achieve",
-    key: "/achieve",
-    icon: <i className="iconfont">&#xe604;</i>,
+    name: "首页",
+    path: "/",
+    key: "/",
+    icon: <i className="iconfont">&#xe605;</i>,
   },
   {
     name: "笔记",
@@ -34,18 +28,26 @@ export const menuOptions = [
     icon: <i className="iconfont">&#xe62a;</i>,
     auth: true,
   },
+  {
+    name: "归档",
+    path: "/achieve",
+    key: "/achieve",
+    icon: <i className="iconfont">&#xe604;</i>,
+  },
+  {
+    name: "关于我",
+    path: "/about",
+    key: "/about",
+    icon: <i className="iconfont">&#xe646;</i>,
+  },
+
   // {
   //   name: "开发",
   //   path: "/develop",
   //   key: "/develop",
   //   icon: <i className="iconfont">&#xe962;</i>,
   // },
-  {
-    name: "首页",
-    path: "/",
-    key: "/",
-    icon: <i className="iconfont">&#xe605;</i>,
-  },
+
 ];
 
 const gap = () => {
@@ -110,10 +112,10 @@ const CustomLayout = ({ children, router }) => {
       <Mheader isAdmin={isAdmin} router={router} />
       <Content id="body">
         <Row gutter={[24, 24]}>
-          <Col xs={0} md={0} lg={8} xl={6} xxl={6}>
+          <Col xs={0} md={0} lg={8} xl={7} xxl={6}>
             {router.pathname === "/article" ? <Toc /> : <Besides />}
           </Col>
-          <Col xs={24} md={24} lg={16} xl={18} xxl={18}>
+          <Col xs={24} md={24} lg={16} xl={17} xxl={18}>
             {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
             {children}
             <Footer id="footer">
@@ -193,7 +195,7 @@ const Pheader = ({ isAdmin, router }) => {
 const Mheader = ({ isAdmin, router }) => {
   const menu = (
     <Menu>
-      {menuOptions.reverse().map((op) => {
+      {menuOptions.map((op) => {
         const renderMenu = (
           <Menu.Item key={op.key} className="menu-item">
             <Link href={op.path}>
