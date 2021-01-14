@@ -1,10 +1,12 @@
 const qiniu = require("qiniu"); // 需要加载qiniu模块的
 const Router = require("koa-router");
 const { bucket, accessKey, secretKey } = require("../config/qiniu");
+const { url, header } = require("../config/baidu");
 const router = new Router();
 const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
 const config = new qiniu.conf.Config();
 const bucketManager = new qiniu.rs.BucketManager(mac, config);
+const axios = require("axios");
 
 router.post("/token", async (ctx, next) => {
   let options = {
@@ -22,6 +24,32 @@ router.post("/token", async (ctx, next) => {
     ctx.body = {
       success: false,
       messahe: "fetch uploadToken error",
+    };
+  }
+});
+
+router.post("/reportService", async (ctx, next) => {
+  const result = await axios({
+    method: "POST",
+    url,
+    data: {
+      header,
+      body: {
+        site_id: "15918927",
+        start_date: "20201215",
+        end_date: "20300101",
+        metrics: "pv_count,visitor_count,ip_count",
+        method: "source/all/a",
+      },
+    },
+    headers: {
+      Accept: "application/json",
+    },
+  });
+  if (result.status === 200 && result.data) {
+    ctx.body = {
+      success: true,
+      body: result.data,
     };
   }
 });

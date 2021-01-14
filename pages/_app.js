@@ -11,6 +11,7 @@ import {
   setStatus,
   initStatus,
   setTopTags,
+  setBaiduInfo
 } from "../redux/actions";
 import { wrapper } from "../redux/store";
 import Error from "./error";
@@ -76,7 +77,8 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
   initialize(ctx);
   let list = [];
   list.push(
-    api.request({ method: "POST", url: "/topTags", data: { top: 10 } }, ctx)
+    api.request({ method: "POST", url: "/topTags", data: { top: 10 } }, ctx),
+    api.request({ method: "POST", url: "/reportService" }, ctx)
   );
   // if (ctx.store.getState().isAdmin) {
   //   list.push(api.request({ url: "/user/info" }, ctx));
@@ -87,8 +89,9 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
   // }
   const resp = await Promise.all(list);
   ctx.store.dispatch(setTopTags(resp[0].data.data));
-  if (resp[1]) {
-    ctx.store.dispatch(setUserInfo(resp[1].data));
+  // console.log(resp[1].data)
+  if (resp[1] && resp[1].data.success) {
+    ctx.store.dispatch(setBaiduInfo(resp[1].data.body.body.data[0].result));
   }
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);

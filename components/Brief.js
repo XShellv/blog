@@ -1,10 +1,24 @@
-import { Card, List, Row, Col, Avatar, Button, Tooltip, Image } from "antd";
+import {
+  Card,
+  List,
+  Row,
+  Col,
+  Avatar,
+  Button,
+  Tooltip,
+  Image,
+  Typography,
+} from "antd";
 import React, { useState, useCallback, useEffect, FC } from "react";
 import { useRouter } from "next/router";
 import MyTp from "./MyTp";
+import { useSelector } from "react-redux";
+
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
 const Brief = () => {
+  const { baiduInfo } = useSelector((state) => state);
+
   const router = useRouter();
   return (
     <Card className="brief-info my-card" bordered={false} size="small">
@@ -30,6 +44,23 @@ const Brief = () => {
       >
         关注我
       </Button>
+      <div className="baiduInfo">
+        <h5>
+          访问量
+          <br />
+          {baiduInfo["sum"][0][0]}
+        </h5>
+        <h5>
+          访客数
+          <br />
+          {baiduInfo["sum"][0][1]}
+        </h5>
+        <h5>
+          IP
+          <br />
+          {baiduInfo["sum"][0][2]}
+        </h5>
+      </div>
       <div className="options">
         <MyTp title="CSDN">
           <a target="blank" href="https://blog.csdn.net/weixin_40774527">

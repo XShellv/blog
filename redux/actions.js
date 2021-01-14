@@ -7,6 +7,7 @@ export const actionTypes = {
   SET_STATUS: "SET_STATUS",
   SET_STATUS: "SET_STATUS",
   INIT_STATUS: "INIT_STATUS",
+  SET_BAIDUINFO: "SET_BAIDUINFO",
 };
 
 export function failure(error) {
@@ -22,6 +23,9 @@ export function setUserInfo(data) {
 
 export function setTopTags(data) {
   return { type: actionTypes.SET_TOPTAGS, payload: data };
+}
+export function setBaiduInfo(data) {
+  return { type: actionTypes.SET_BAIDUINFO, payload: data };
 }
 
 export function authAdmin(data) {
