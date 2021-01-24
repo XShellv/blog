@@ -18,3 +18,11 @@ npm run build
 
 ## 三、部署
 目前部署在nginx上，和博客管理页面（基于React）共同部署同一域名站点。
+
+
+# 项目迁移
+
+## mysql数据库的安装及编码设置、倒入sql文件
+server -> Data Import -> 选择包含sql文件的文件夹
+
+## redis数据库的安装、并运行
