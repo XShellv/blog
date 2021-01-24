@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setUserInfo,
   setLoading,
-  setStatus,
+  setTotal,
   initStatus,
   setTopTags,
   setBaiduInfo
@@ -78,20 +78,19 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
   let list = [];
   list.push(
     api.request({ method: "POST", url: "/topTags", data: { top: 10 } }, ctx),
-    api.request({ method: "POST", url: "/reportService" }, ctx)
+    api.request({ method: "POST", url: "/reportService" }, ctx),
+    api.request({ url: "/total" }, ctx),
   );
-  // if (ctx.store.getState().isAdmin) {
-  //   list.push(api.request({ url: "/user/info" }, ctx));
-  //   // const resp: any = await api.request({ url: "/user/info" }, ctx);
-  //   // ctx.store.dispatch(setUserInfo(resp.data));
-  // } else {
-  //   ctx.store.dispatch(setUserInfo(null));
-  // }
+
   const resp = await Promise.all(list);
-  ctx.store.dispatch(setTopTags(resp[0].data.data));
-  // console.log(resp[1].data)
+  if(resp[0] && resp[0].data.data){
+    ctx.store.dispatch(setTopTags(resp[0].data.data));
+  }
   if (resp[1] && resp[1].data.success) {
     ctx.store.dispatch(setBaiduInfo(resp[1].data.body.body.data[0].result));
+  }
+  if(resp[2] && resp[2].data.data){
+    ctx.store.dispatch(setTotal(resp[2].data.data));
   }
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);

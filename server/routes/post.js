@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Router = require("koa-router");
-const apiRouter = new Router();
+const router = new Router();
 const model = require("../mysql/models");
 const Sequelize = require("sequelize");
 const sequelize = require("../mysql/util/database");
@@ -80,7 +80,7 @@ const queryPostOrDraft = async (ctx, next, { status }) => {
 /**
  * 创建文章
  */
-apiRouter.post("/post", async (ctx, next) => {
+router.post("/post", async (ctx, next) => {
   const body = ctx.request.body;
   const findArticle = await model.Post.findOne({
     where: {
@@ -109,21 +109,21 @@ apiRouter.post("/post", async (ctx, next) => {
 /**
  * 根据主键查找文章及关联的标签
  */
-apiRouter.get("/post/:id", (ctx, next) =>
+router.get("/post/:id", (ctx, next) =>
   queryPostOrDraft(ctx, next, { status: "post" })
 );
 
 /**
  * 根据主键查找草稿及关联的标签
  */
-apiRouter.get("/draft/:id", (ctx, next) =>
+router.get("/draft/:id", (ctx, next) =>
   queryPostOrDraft(ctx, next, { status: "draft" })
 );
 
 /**
  * 删除文章及关联的标签
  */
-apiRouter.delete("/post/:id", async (ctx, next) => {
+router.delete("/post/:id", async (ctx, next) => {
   const id = ctx.params.id;
   const findPost = await model.Post.findByPk(id);
   if (!findPost) {
@@ -145,10 +145,46 @@ apiRouter.delete("/post/:id", async (ctx, next) => {
   }
 });
 
+
+
+/**
+ * 获取文章数量
+ */
+
+// router.use(async (ctx, next) => {
+//   const { state } = ctx;
+//   let where = { status: "post" };
+//   if (!state || !state.isAdmin) {
+//     where.auth = 0;
+//   }
+//   return model.Post.count({
+//     where,
+//   });
+// });
+
+async function totalPost(ctx) {
+  const { state } = ctx;
+  let where = { status: "post" };
+  if (!state || !state.isAdmin) {
+    where.auth = 0;
+  }
+  return model.Post.count({
+    where,
+  });
+}
+
+
+router.get("/total", async (ctx, next) => {
+  ctx.body = {
+    success: true,
+    data: await totalPost(ctx)
+  }
+})
+
 /**
  * 更新文章或关联的标签
  */
-apiRouter.post("/post/:id", async (ctx, next) => {
+router.post("/post/:id", async (ctx, next) => {
   const body = ctx.request.body;
   const id = ctx.params.id;
   const findPost = await model.Post.findByPk(id);
@@ -187,7 +223,7 @@ apiRouter.post("/post/:id", async (ctx, next) => {
 /**
  * 获取所有的标签
  */
-apiRouter.get("/tags", async (ctx, next) => {
+router.get("/tags", async (ctx, next) => {
   const { state } = ctx;
   // 从postTag中找出有效的tagId
   // 分组查询并聚合count数
@@ -223,13 +259,9 @@ apiRouter.get("/tags", async (ctx, next) => {
       sequelize.where(sequelize.fn("COUNT", sequelize.col("name")), ">", 0),
     ],
   });
-  where = { status: "post" };
-  if (!state || !state.isAdmin) {
-    where.auth = 0;
-  }
-  const total = await model.Post.count({
-    where,
-  });
+
+  const total = await totalPost(ctx);
+
   if (ret) {
     ctx.body = {
       success: true,
@@ -247,7 +279,7 @@ apiRouter.get("/tags", async (ctx, next) => {
 /**
  * 分页查询非草稿
  */
-apiRouter.get("/post", async (ctx, next) => {
+router.get("/post", async (ctx, next) => {
   const { pageSize, pageNo, tag, category } = ctx.request.query;
   const { state } = ctx;
   const Op = Sequelize.Op;
@@ -317,7 +349,7 @@ apiRouter.get("/post", async (ctx, next) => {
 /**
  * 分页查询草稿
  */
-apiRouter.get("/draft", async (ctx, next) => {
+router.get("/draft", async (ctx, next) => {
   const { pageSize, pageNo } = ctx.request.query;
   let conditions = {
     attributes: { exclude: ["content"] },
@@ -354,4 +386,4 @@ async function requestHtml(method, url, data) {
   });
 }
 
-module.exports = apiRouter;
+module.exports = router;

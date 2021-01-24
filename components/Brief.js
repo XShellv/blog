@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 export const dateFormat = "YYYY-MM-DD HH:mm:ss";
 
 const Brief = () => {
-  const { baiduInfo } = useSelector((state) => state);
+  const { baiduInfo, total } = useSelector((state) => state);
 
   const router = useRouter();
   return (
@@ -26,7 +26,7 @@ const Brief = () => {
         <Image
           width={60}
           src="https://cdn.xshellv.com/avatar"
-          // style={{ borderRadius: "50%" }}
+        // style={{ borderRadius: "50%" }}
         />
         {/* <Avatar size={60} src="https://cdn.xshellv.com/avatar" /> */}
       </div>
@@ -56,9 +56,9 @@ const Brief = () => {
           {baiduInfo["sum"][0][1]}
         </h5>
         <h5>
-          IP
+          文章数
           <br />
-          {baiduInfo["sum"][0][2]}
+          {total}
         </h5>
       </div>
       <div className="options">

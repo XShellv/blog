@@ -8,6 +8,7 @@ const initialState = {
   isAdmin: false,
   statusCode: 200,
   baiduInfo: null,
+  total:null
 };
 
 function reducer(state = initialState, action) {
@@ -21,6 +22,8 @@ function reducer(state = initialState, action) {
       return { ...state, topTags: action.payload };
     case actionTypes.SET_BAIDUINFO:
       return { ...state, baiduInfo: action.payload };
+    case actionTypes.SET_TOTAL:
+      return { ...state, total: action.payload };
     case actionTypes.SET_LOADING:
       return { ...state, loading: action.payload };
     case actionTypes.AUTH_ADMIN:

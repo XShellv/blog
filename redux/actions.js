@@ -8,6 +8,7 @@ export const actionTypes = {
   SET_STATUS: "SET_STATUS",
   INIT_STATUS: "INIT_STATUS",
   SET_BAIDUINFO: "SET_BAIDUINFO",
+  SET_TOTAL: "SET_TOTAL"
 };
 
 export function failure(error) {
@@ -20,14 +21,15 @@ export function failure(error) {
 export function setUserInfo(data) {
   return { type: actionTypes.SET_USERINFO, payload: data };
 }
-
 export function setTopTags(data) {
   return { type: actionTypes.SET_TOPTAGS, payload: data };
 }
 export function setBaiduInfo(data) {
   return { type: actionTypes.SET_BAIDUINFO, payload: data };
 }
-
+export function setTotal(data) {
+  return { type: actionTypes.SET_TOTAL, payload: data };
+}
 export function authAdmin(data) {
   return { type: actionTypes.AUTH_ADMIN, payload: data };
 }
