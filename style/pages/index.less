@@ -1,24 +1,29 @@
 html,
 body {
-    width           : 100%;
-    height          : 100%;
-    color           : @body-color;
+    width: 100%;
+    height: 100%;
+    color: @body-color;
     background-color: @body-bg  !important;
 }
 
 .time {
-    color          : @gray-500;
-    font-size      : @font-size-xs;
+    color: @gray-500;
+    font-size: @font-size-xs;
     // padding-left: 10px;
 }
 
 #home-wrapper {
-    background-color: #fff;
-    flex-grow       : 1;
-    padding         : 10px 0;
+    background-color: @front-bg;
+    flex-grow: 1;
+    padding: 10px 0;
+    border-radius: 3px;
 
     .ant-list {
-        background-color: #fff;
+
+        // background-color: #313131;
+        .ant-list-item {
+            border-color: @border-line-color;
+        }
     }
 
     .list-item {
@@ -29,19 +34,19 @@ body {
         }
 
         .home-card-extra {
-            display        : flex;
+            display: flex;
             justify-content: space-between;
-            padding-bottom : 8px;
+            padding-bottom: 8px;
         }
 
         .home-card-abstract {
-            text-align        : justify;
-            display           : -webkit-box;
+            text-align: justify;
+            display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 3;
-            font-size         : @font-size-bs;
-            overflow          : hidden;
-            font-size         : @font-size-bs;
+            font-size: @font-size-bs;
+            overflow: hidden;
+            font-size: @font-size-bs;
         }
     }
 }

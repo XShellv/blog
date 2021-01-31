@@ -6,7 +6,7 @@ import MostTags from "./MostTags";
 export default () => (
   <>
     <Brief />
-    <MostTags />
-    <Friends />
+    {/* <MostTags />
+    <Friends /> */}
   </>
 );

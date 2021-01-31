@@ -59,17 +59,6 @@ const Toc = () => {
           <Card size="small" className="my-card" title={<h2>目录</h2>}>
             <div className="article-toc"></div>
           </Card>
-          {/* <Tabs
-            defaultActiveKey="1"
-            onChange={() => {}}
-            style={{ background: "#fff" }}
-          >
-            <TabPane tab="文章目录" key="toc" forceRender={true}>
-            </TabPane>
-            <TabPane tab="博客概览" key="brief" className="brief">
-              <Besides />
-            </TabPane>
-          </Tabs> */}
         </div>
       </div>
     </div>

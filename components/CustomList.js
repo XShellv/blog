@@ -18,7 +18,7 @@ const CustomList = ({ list }) => {
   const renderContent = list ? (
     <div id="home-wrapper">
       <List
-        style={{ background: "#fff" }}
+        className="antd-list"
         bordered={false}
         size="small"
         loading={loading}

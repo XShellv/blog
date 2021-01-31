@@ -108,22 +108,16 @@ const CustomLayout = ({ children, router }) => {
 
   return (
     <div id="layout">
-      <Pheader isAdmin={isAdmin} router={router} />
+      {/* <Pheader isAdmin={isAdmin} router={router} /> */}
       <Mheader isAdmin={isAdmin} router={router} />
       <Content id="body">
         <Row gutter={[24, 24]}>
-          <Col xs={0} md={0} lg={8} xl={7} xxl={6}>
+          <Col xs={0} md={0} lg={8} xl={6} xxl={6}>
             {router.pathname === "/article" ? <Toc /> : <Besides />}
           </Col>
-          <Col xs={24} md={24} lg={16} xl={17} xxl={18}>
-            {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
+          <Col xs={24} md={24} lg={16} xl={18} xxl={18}>
             {children}
-            <Footer id="footer">
-              {/* <p className="time">
-          {`🕑 创建于2020年08月16日、已运行${gap().Y}年${gap().M}月${
-            gap().D
-          }天`}
-        </p> */}
+            {/* <Footer id="footer">
               <p className="support">
                 托管于腾讯云、使用Ant Design、next.js服务端框架
               </p>
@@ -135,8 +129,7 @@ const CustomLayout = ({ children, router }) => {
                   苏ICP备19014278号
                 </a>
               </p>
-            </Footer>
-            {/* </div> */}
+            </Footer> */}
           </Col>
         </Row>
       </Content>
